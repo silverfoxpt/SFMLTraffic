@@ -1,11 +1,17 @@
 #include <SFML/Graphics.hpp>
 
+#include "tile.h"
+
+sf::RenderWindow window(sf::VideoMode(800, 800), "SFML works!");
+
+void Test() {
+    Tile tile(100, 100, 100, 100, 0);
+    tile.myWindow = &window;
+    tile.Debug();    
+}
+
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-
     while (window.isOpen())
     {
         sf::Event event;
@@ -16,7 +22,9 @@ int main()
         }
 
         window.clear();
-        window.draw(shape);
+        
+        Test();
+
         window.display();
     }
 

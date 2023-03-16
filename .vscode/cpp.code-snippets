@@ -1,0 +1,61 @@
+//https://snippet-generator.app/
+{
+	"SFML sample": {
+		"prefix": "sfml",
+		"body": [
+			"#include <SFML/Graphics.hpp>\r",
+			"\r",
+			"int main()\r",
+			"{\r",
+			"    sf::RenderWindow window(sf::VideoMode(200, 200), \"SFML works!\");\r",
+			"    sf::CircleShape shape(100.f);\r",
+			"    shape.setFillColor(sf::Color::Green);\r",
+			"\r",
+			"    while (window.isOpen())\r",
+			"    {\r",
+			"        sf::Event event;\r",
+			"        while (window.pollEvent(event))\r",
+			"        {\r",
+			"            if (event.type == sf::Event::Closed)\r",
+			"                window.close();\r",
+			"        }\r",
+			"\r",
+			"        window.clear();\r",
+			"        window.draw(shape);\r",
+			"        window.display();\r",
+			"    }\r",
+			"\r",
+			"    return 0;\r",
+			"}"
+		],
+		"description": "Create main.cpp for SFML sample"
+	},
+	"CPP Header": {
+		"prefix": "header",
+		"body": [
+		  "#ifndef H_",
+		  "#define H_",
+		  "",
+		  "",
+		  "",
+		  "#endif"
+		],
+		"description": "CPP Header"
+	},
+	"SFML libs": {
+		"prefix": "libs",
+		"body": [
+		  "#include <SFML/Graphics.hpp>",
+		  "",
+		  "#include <iostream>",
+		  "#include <math.h>",
+		  "#include <vector>",
+		  "#include <map>",
+		  "#include <string>",
+		  "#include <random>",
+		  "#include <memory>",
+		  "#include <chrono>"
+		],
+		"description": "SFML libs"
+	}
+}
