@@ -57,5 +57,17 @@
 		  "#include <chrono>"
 		],
 		"description": "SFML libs"
+	},
+	"SFML Line": {
+		"prefix": "line",
+		"body": [
+		  "sf::Vertex line[2] =",
+		  "{",
+		  "    sf::Vertex(sf::Vector2f(x1, y1), color),",
+		  "    sf::Vertex(sf::Vector2f(x2, y2), color)",
+		  "};",
+		  "screen.draw(line , 2, sf::Lines);"
+		],
+		"description": "SFML Line"
 	}
 }

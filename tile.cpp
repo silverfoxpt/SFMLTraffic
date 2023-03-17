@@ -19,7 +19,19 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId) {
     }
 
     //setup connections
-    this->connections = TileInfo::nodeConnectionMapper[this->tileId];
+    std::vector<std::pair<int, int>> tmp = TileInfo::nodeConnectionMapper[this->tileId];
+    for (int i = 0; i < (int) tmp.size(); i++) {
+        int u = tmp[i].first;
+        int v = tmp[i].second;
+
+        if (this->neighbor.find(u) == this->neighbor.end()) {
+            std::vector<int> a; 
+            a.push_back(v);
+            this->neighbor[u] = a;
+        } else {
+            this->neighbor[u].push_back(v);
+        }
+    }
 }
 
 void Tile::Debug() {
@@ -36,6 +48,18 @@ void Tile::Debug() {
         a.push_back(sf::CircleShape(5.0));
     }
 
+    //draw connections
+    for (int u = 0; u < (int) this->nodes.size(); u++) {
+        for (int v : this->neighbor[u]) {
+            sf::Vertex line[2] =
+            {
+                sf::Vertex(sf::Vector2f(this->nodes[u].posX, this->nodes[u].posY), sf::Color::Yellow),
+                sf::Vertex(sf::Vector2f(this->nodes[v].posX, this->nodes[v].posY), sf::Color::Cyan)
+            };
+            this->myWindow->draw(line , 2, sf::Lines);
+        }
+    }
+
     //draw nodes
     int c = 0;
     for (Node x : this->nodes) {
@@ -48,7 +72,7 @@ void Tile::Debug() {
 
         this->myWindow->draw(a[c]);
         c++;
-    }    
+    }   
 }
 
 Node::Node(std::pair<float, float> rel) {

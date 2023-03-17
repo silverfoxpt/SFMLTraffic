@@ -33,7 +33,7 @@ class Tile {
 
         int tileId;
         std::vector<Node> nodes;
-        std::vector<std::pair<int, int>> connections;
+        std::map<int, std::vector<int>> neighbor;
 
         sf::RenderWindow* myWindow;
 
