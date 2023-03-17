@@ -5,7 +5,7 @@
 sf::RenderWindow window(sf::VideoMode(800, 800), "SFML works!");
 
 void Test() {
-    Tile tile(100, 100, 100, 100, 0);
+    Tile tile(100, 100, 100, 100, 1);
     tile.myWindow = &window;
     tile.Debug();    
 }

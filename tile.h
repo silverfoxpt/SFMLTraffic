@@ -12,22 +12,28 @@
 #include <memory>
 #include <chrono>
 
+#include "tileInfo.h"
+
 class Node {
     public:
         std::pair<float, float> relativePos;
         int posX;
         int posY;
+
+        Node(std::pair<float, float> rel);
+        void setPosFromParentPos(int parentPosX, int parentPosY, int parentWidth, int parentHeight);
 };
 
 class Tile {
     public:
         int posX;
         int posY;
-        float width;
-        float height;
+        int width;
+        int height;
 
         int tileId;
         std::vector<Node> nodes;
+        std::vector<std::pair<int, int>> connections;
 
         sf::RenderWindow* myWindow;
 
