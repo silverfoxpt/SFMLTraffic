@@ -18,3 +18,12 @@ std::map<int, std::vector<std::pair<int, int>>> TileInfo::nodeConnectionMapper =
         }
     }
 };
+
+std::map<int, std::vector<std::vector<int>>> TileInfo::nodeNeighborMap = {
+    1, 
+    {
+        {},
+        {1},
+        
+    }
+};
