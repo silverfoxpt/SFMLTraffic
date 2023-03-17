@@ -18,6 +18,7 @@ class TileInfo {
     public:
         static std::map<int, std::vector<std::pair<float, float>>> nodePosMapper;
         static std::map<int, std::vector<std::pair<int, int>>> nodeConnectionMapper;
+        static std::map<int, std::vector<std::vector<int>>> nodeNeighborMap;
 };
 
 #endif

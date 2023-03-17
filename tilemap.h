@@ -12,4 +12,23 @@
 #include <memory>
 #include <chrono>
 
+#include "tile.h"
+
+class Tilemap {
+    public:
+        int xPos;
+        int yPos;
+        int rows;
+        int cols;
+
+        int tileWidth;
+        int tileHeight;
+
+        std::vector<std::vector<Tile>> tilemap;
+        std::vector<std::vector<int>> tileIds;
+        
+        Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tileHeight, sf::RenderWindow* myWindow);
+        void Debug();
+};
+
 #endif

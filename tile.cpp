@@ -34,7 +34,7 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId) {
     }
 }
 
-void Tile::Debug() {
+void Tile::Debug() { //not important, so I won't be refactoring any time soon
     //draw outline
     sf::RectangleShape rect(sf::Vector2f(this->width, this->height));
     rect.setFillColor(sf::Color(0, 0, 0, 0));
