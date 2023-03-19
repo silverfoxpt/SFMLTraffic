@@ -18,7 +18,7 @@ Tilemap::Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tile
         }
     }
 
-    //setup nodes
+    //setup tiles
     for (int i = 0; i < this->rows; i++) {
         this->tilemap.push_back(std::vector<Tile>());
 
@@ -28,11 +28,22 @@ Tilemap::Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tile
                 this->yPos + j * tileHeight,
                 this->tileWidth,
                 this->tileHeight,
-                this->tileIds[i][j]
+                this->tileIds[i][j],
+                this
             );
             newTile.myWindow = myWindow;
 
             this->tilemap[i].push_back(newTile);
+        }
+    }
+
+    //NOTE: TILE CONNECTION SETUP ARE ONLY VIABLE AFTER ALL TILES ARE CREATED
+    //AND FILLED ON TILEMAP
+    
+    //setup tiles connections
+    for (int i = 0; i < this->rows; i++) {
+        for (int j = 0; j < this->cols; j++) {
+            this->tilemap[i][j].SetUpConnection();
         }
     }
 }

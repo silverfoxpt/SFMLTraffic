@@ -14,6 +14,8 @@
 
 #include "tile.h"
 
+class Tile;
+
 class Tilemap {
     public:
         int xPos;

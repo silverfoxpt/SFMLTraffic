@@ -1,6 +1,6 @@
 #include "tile.h"
 
-Tile::Tile(int posX, int posY, int width, int height, int tileId) {
+Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* parentTile) {
     this->posX = posX;
     this->posY = posY;
 
@@ -8,29 +8,19 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId) {
     this->height = height;
 
     this->tileId = tileId;
+    this->parentTilemap = parentTile;
 
-    //set up nodes
-    std::vector<std::pair<float, float>> setup = TileInfo::nodePosMapper[this->tileId];
-    for (int i = 0 ; i < (int) setup.size(); i++) {
-        Node newNode(setup[i]); 
-        newNode.setPosFromParentPos(this->posX, this->posY, this->width, this->height);
-
-        this->nodes.push_back(newNode);
-    }
-
-    //setup connections
-    std::vector<std::pair<int, int>> tmp = TileInfo::nodeConnectionMapper[this->tileId];
-    for (int i = 0; i < (int) tmp.size(); i++) {
-        int u = tmp[i].first;
-        int v = tmp[i].second;
-
-        if (this->neighbor.find(u) == this->neighbor.end()) {
-            std::vector<int> a; 
-            a.push_back(v);
-            this->neighbor[u] = a;
-        } else {
-            this->neighbor[u].push_back(v);
-        }
+    //set up road
+    this->roads = TileInfo::roadInTileMap[this->tileId];
+    std::vector<RoadInfo> info = TileInfo::roadInterConnection[this->tileId];
+    
+    for (int i = 0; i < (int) this->roads.size(); i++) {
+        RoadInfo c = info[i];
+        //set up size
+        this->roads[i].setAllPosOfNodeFromParentPos(
+            this->parentTilemap->xPos, this->parentTilemap->yPos,
+            this->parentTilemap->tileWidth, this->parentTilemap->tileHeight
+        );
     }
 }
 
@@ -39,11 +29,11 @@ void Tile::Debug() { //not important, so I won't be refactoring any time soon
     sf::RectangleShape rect(sf::Vector2f(this->width, this->height));
     rect.setFillColor(sf::Color(0, 0, 0, 0));
     rect.setOutlineColor(sf::Color::Red);
-    rect.setOutlineThickness(1.5);
+    rect.setOutlineThickness(1);
     rect.setPosition(sf::Vector2f(this->posX, this->posY));
     this->myWindow->draw(rect);
 
-    std::vector<sf::CircleShape> a;
+    /*std::vector<sf::CircleShape> a;
     for (int i = 0; i < (int) this->nodes.size(); i++) {
         a.push_back(sf::CircleShape(5.0));
     }
@@ -72,7 +62,11 @@ void Tile::Debug() { //not important, so I won't be refactoring any time soon
 
         this->myWindow->draw(a[c]);
         c++;
-    }   
+    }   */
+}
+
+void Tile::SetUpConnection() {
+    
 }
 
 Node::Node(std::pair<float, float> rel) {
@@ -82,4 +76,23 @@ Node::Node(std::pair<float, float> rel) {
 void Node::setPosFromParentPos(int parentPosX, int parentPosY, int parentWidth, int parentHeight) {
     this->posX = parentPosX + parentWidth * this->relativePos.first;
     this->posY = parentPosY + parentHeight * this->relativePos.second;
+}
+
+
+void Road::setInputRoad(std::shared_ptr<Road> road) {
+    this->inputRoad = road;
+}
+
+void Road::setOutputRoad(std::shared_ptr<Road> road) {
+    this->outputRoad = road;
+}
+
+void Road::setAllPosOfNodeFromParentPos(int parentPosX, int parentPosY, int parentWidth, int parentHeight) {
+    for (int i = 0; i < (int) this->nodes.size(); i++) {
+        this->nodes[i].setPosFromParentPos(parentPosX, parentPosY, parentWidth, parentHeight);
+    }
+}
+
+Road::Road(std::vector<Node> nodes) {
+    this->nodes = nodes;
 }

@@ -1,29 +1,26 @@
 #include "tileInfo.h"
 
-std::map<int, std::vector<std::pair<float, float>>> TileInfo::nodePosMapper = {
+std::map<int, std::vector<Road>> TileInfo::roadInTileMap = {
     {
         1,
         {
-            std::pair<float, float>(0.0, 0.5),  //middle left
-            std::pair<float, float>(1.0, 0.5)   //middle right
+            Road({
+                Node(std::pair<float, float>(0.0, 0.5)),
+                Node(std::pair<float, float>(1.0, 0.5))
+            })
         }
     }
 };
 
-std::map<int, std::vector<std::pair<int, int>>> TileInfo::nodeConnectionMapper = {
+std::map<int, std::vector<RoadInfo>> TileInfo::roadInterConnection = {
     {
-        1,
+        1, 
         {
-            std::pair<int, int>(0, 1)
+            RoadInfo(
+                true, true,
+                1, 1,
+                3, 1
+            )
         }
-    }
-};
-
-std::map<int, std::vector<std::vector<int>>> TileInfo::nodeNeighborMap = {
-    1, 
-    {
-        {},
-        {1},
-        
     }
 };
