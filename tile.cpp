@@ -1,6 +1,6 @@
 #include "tile.h"
 
-Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* parentTile) {
+Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* parentTile, int rowIdx, int colIdx) {
     this->posX = posX;
     this->posY = posY;
 
@@ -10,12 +10,13 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* paren
     this->tileId = tileId;
     this->parentTilemap = parentTile;
 
+    this->rowIdx = rowIdx;
+    this->colIdx = colIdx;
+
     //set up road
     this->roads = TileInfo::roadInTileMap[this->tileId];
-    std::vector<RoadInfo> info = TileInfo::roadInterConnection[this->tileId];
-    
+
     for (int i = 0; i < (int) this->roads.size(); i++) {
-        RoadInfo c = info[i];
         //set up size
         this->roads[i].setAllPosOfNodeFromParentPos(
             this->parentTilemap->xPos, this->parentTilemap->yPos,
@@ -24,7 +25,8 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* paren
     }
 }
 
-void Tile::Debug() { //not important, so I won't be refactoring any time soon
+
+void Tile::Debug() { //this just draw stuffs, not important, so I won't be refactoring any time soon
     //draw outline
     sf::RectangleShape rect(sf::Vector2f(this->width, this->height));
     rect.setFillColor(sf::Color(0, 0, 0, 0));
@@ -65,8 +67,101 @@ void Tile::Debug() { //not important, so I won't be refactoring any time soon
     }   */
 }
 
-void Tile::SetUpConnection() {
-    
+//only used in initialization, so idc if it's slow
+std::shared_ptr<Road> Tile::GetRoad(int side, int idx, bool isInputRoad) {
+    std::vector<RoadInfo> info = TileInfo::roadInterConnection[this->tileId];
+
+    for (int i = 0; i < (int) this->roads.size(); i++) {
+        //handling input
+        if (isInputRoad) {
+            if (info[i].inputId == idx && info[i].extraSideIn == side) { //checking
+                return std::make_shared<Road>(this->roads[i]);
+            }
+        } else { //handling output
+            if (info[i].outputId == idx && info[i].extraSideOut == side) { //checking
+                return std::make_shared<Road>(this->roads[i]);
+            }
+        }
+    }
+    return nullptr;
+}
+
+void Tile::SetUpRoadConnection() {
+    std::vector<RoadInfo> info = TileInfo::roadInterConnection[this->tileId];
+
+    //up, right, down, left
+    int dx[4]           = {-1, 0, +1, 0}; 
+    int dy[4]           = {0, +1, 0, -1};
+    int opposite[4]     = {2, 3, 0, 1};
+
+    for (int i = 0; i < (int) this->roads.size(); i++) {
+        RoadInfo c = info[i];
+
+        //set up inputs 
+        if (c.inputFromOtherTile) {
+            int side = c.extraSideIn;
+            int connector = c.inputId;
+            
+            if (this->parentTilemap->TileExist(this->rowIdx + dx[side], this->colIdx + dy[side])) {
+                Tile* myTile = this->parentTilemap->GetTile(this->rowIdx + dx[side], this->colIdx + dy[side]).get();
+                std::cout << "year";
+                //calculate the opposite tile side
+                int sideOut = opposite[side];
+
+                //get da road
+                std::shared_ptr<Road> myRoad = myTile->GetRoad(sideOut, connector, false); //search for output road
+                if (myRoad != nullptr) { //the road exist
+                    this->roads[i].addInputRoad(myRoad); //which means, an OUTPUT ROAD from ANOTHER TILE is the INPUT to THIS road
+                }
+                std::cout << "year2";
+            }
+        }
+        else {
+            int side = -1; //same tile
+            int connector = c.inputId;
+            
+            //calculate the opposite tile side
+            int sideOut = -1; //same tile
+
+            //get da road
+            std::shared_ptr<Road> myRoad = this->GetRoad(sideOut, connector, false); //search for output road
+            if (myRoad != nullptr) { //the road exist
+                this->roads[i].addInputRoad(myRoad); //which means, an OUTPUT ROAD from THIS TILE is the INPUT to THIS road
+            }
+        }
+
+        //set up outputs.
+        /*if (c.outputToOtherTile) {
+            int side = c.extraSideOut;
+            int connector = c.outputId;
+            
+            if (this->parentTilemap->TileExist(this->rowIdx + dx[side], this->colIdx + dy[side])) {
+                Tile* myTile = this->parentTilemap->GetTile(this->rowIdx + dx[side], this->colIdx + dy[side]).get();
+                
+                //calculate the opposite tile side
+                int sideOut = opposite[side];
+
+                //get da road
+                std::shared_ptr<Road> myRoad = myTile->GetRoad(sideOut, connector, true); //search for input road
+                if (myRoad != nullptr) { //the road exist
+                    this->roads[i].addOutputRoad(myRoad); //which means, an INPUT ROAD from ANOTHER TILE is the OUTPUT to THIS road
+                }
+            }
+        }
+        else {
+            int side = -1; //same tile
+            int connector = c.inputId;
+            
+            //calculate the opposite tile side
+            int sideOut = -1; //same tile
+
+            //get da road
+            std::shared_ptr<Road> myRoad = this->GetRoad(sideOut, connector, true); //search for input road
+            if (myRoad != nullptr) { //the road exist
+                this->roads[i].addOutputRoad(myRoad); //which means, an INPUT ROAD from THIS TILE is the OUTPUT to THIS road
+            }
+        }*/
+    }
 }
 
 Node::Node(std::pair<float, float> rel) {
@@ -79,12 +174,12 @@ void Node::setPosFromParentPos(int parentPosX, int parentPosY, int parentWidth, 
 }
 
 
-void Road::setInputRoad(std::shared_ptr<Road> road) {
-    this->inputRoad = road;
+void Road::addInputRoad(std::shared_ptr<Road> road) {
+    this->inputRoads.push_back(road);
 }
 
-void Road::setOutputRoad(std::shared_ptr<Road> road) {
-    this->outputRoad = road;
+void Road::addOutputRoad(std::shared_ptr<Road> road) {
+    this->outputRoads.push_back(road);
 }
 
 void Road::setAllPosOfNodeFromParentPos(int parentPosX, int parentPosY, int parentWidth, int parentHeight) {
@@ -95,4 +190,6 @@ void Road::setAllPosOfNodeFromParentPos(int parentPosX, int parentPosY, int pare
 
 Road::Road(std::vector<Node> nodes) {
     this->nodes = nodes;
+
+    this->inputRoads.clear();
 }

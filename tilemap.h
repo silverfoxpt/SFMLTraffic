@@ -31,6 +31,9 @@ class Tilemap {
         
         Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tileHeight, sf::RenderWindow* myWindow);
         void Debug();
+
+        bool TileExist(int row, int col);
+        std::shared_ptr<Tile> GetTile(int row, int col);
 };
 
 #endif

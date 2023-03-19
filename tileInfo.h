@@ -18,8 +18,8 @@ class Road;
 
 struct RoadInfo {
     public:
-        bool inputFromRoad; 
-        bool outputToRoad;
+        bool inputFromOtherTile; 
+        bool outputToOtherTile;
         int inputId;
         int outputId;
         int extraSideIn;
@@ -29,8 +29,8 @@ struct RoadInfo {
             bool inputId, bool outputId, 
             int extraSideIn, int extraSideOut) 
         {
-            this->inputFromRoad = inputFromRoad;
-            this->outputToRoad = outputToRoad;
+            this->inputFromOtherTile = inputFromRoad;
+            this->outputToOtherTile = outputToRoad;
 
             this->inputId = inputId;
             this->outputId = outputId;
@@ -41,7 +41,7 @@ struct RoadInfo {
 
         /*
         Explaination:
-        If the road takes input from road, the inputId refers to the input number of the TILE,  (1)
+        If the road takes input from road from OTHER TILE, the inputId refers to the input number of the TILE,  (1)
         else, the inputId refers to the id number of the other ROAD (that lead to this road)    (2)
 
         Same with outputId.

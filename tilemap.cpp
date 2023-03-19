@@ -29,7 +29,9 @@ Tilemap::Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tile
                 this->tileWidth,
                 this->tileHeight,
                 this->tileIds[i][j],
-                this
+                this,
+                i, 
+                j
             );
             newTile.myWindow = myWindow;
 
@@ -39,11 +41,18 @@ Tilemap::Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tile
 
     //NOTE: TILE CONNECTION SETUP ARE ONLY VIABLE AFTER ALL TILES ARE CREATED
     //AND FILLED ON TILEMAP
-    
-    //setup tiles connections
+
+    /*//set up tiles input output connections
     for (int i = 0; i < this->rows; i++) {
         for (int j = 0; j < this->cols; j++) {
-            this->tilemap[i][j].SetUpConnection();
+            this->tilemap[i][j].SetUpTileInputOutputConnection();
+        }
+    }*/
+
+    //setup roads connections
+    for (int i = 0; i < this->rows; i++) {
+        for (int j = 0; j < this->cols; j++) {
+            this->tilemap[i][j].SetUpRoadConnection();
         }
     }
 }
@@ -54,4 +63,19 @@ void Tilemap::Debug() {
             this->tilemap[i][j].Debug();
         }
     }
+}
+
+bool Tilemap::TileExist(int row, int col) {
+    if (row < 0 || col < 0 || row >= this->rows || col >= this->cols) {
+        return false;
+    }
+    return true;
+}
+
+std::shared_ptr<Tile> Tilemap::GetTile(int row, int col) {
+    if (!this->TileExist(row, col)) {
+        std::cout << "ERROR: TILE DOESN'T EXIST.";
+    }
+    std::shared_ptr<Tile> tilePtr = std::make_shared<Tile>(tilemap[row][col]);
+    return tilePtr;
 }
