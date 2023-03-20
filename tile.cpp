@@ -75,11 +75,13 @@ std::shared_ptr<Road> Tile::GetRoad(int side, int idx, bool isInputRoad) {
         //handling input
         if (isInputRoad) {
             if (info[i].inputId == idx && info[i].extraSideIn == side) { //checking
-                return std::make_shared<Road>(this->roads[i]);
+                return std::shared_ptr<Road>(&this->roads[i]);
+                //return nullptr;
             }
         } else { //handling output
             if (info[i].outputId == idx && info[i].extraSideOut == side) { //checking
-                return std::make_shared<Road>(this->roads[i]);
+                return std::shared_ptr<Road>(&this->roads[i]);
+                //return nullptr;
             }
         }
     }
@@ -101,19 +103,20 @@ void Tile::SetUpRoadConnection() {
         if (c.inputFromOtherTile) {
             int side = c.extraSideIn;
             int connector = c.inputId;
-            
+            std::cout << "test0";
             if (this->parentTilemap->TileExist(this->rowIdx + dx[side], this->colIdx + dy[side])) {
-                Tile* myTile = this->parentTilemap->GetTile(this->rowIdx + dx[side], this->colIdx + dy[side]).get();
-                std::cout << "year";
+                std::cout << "test1";
+                std::shared_ptr<Tile> myTile = this->parentTilemap->GetTile(this->rowIdx + dx[side], this->colIdx + dy[side]);
+
                 //calculate the opposite tile side
                 int sideOut = opposite[side];
 
                 //get da road
-                std::shared_ptr<Road> myRoad = myTile->GetRoad(sideOut, connector, false); //search for output road
+                std::shared_ptr<Road> myRoad = myTile.get()->GetRoad(sideOut, connector, false); //search for output road
                 if (myRoad != nullptr) { //the road exist
                     this->roads[i].addInputRoad(myRoad); //which means, an OUTPUT ROAD from ANOTHER TILE is the INPUT to THIS road
                 }
-                std::cout << "year2";
+                std::cout << "test2";
             }
         }
         else {

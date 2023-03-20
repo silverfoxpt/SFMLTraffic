@@ -69,13 +69,14 @@ bool Tilemap::TileExist(int row, int col) {
     if (row < 0 || col < 0 || row >= this->rows || col >= this->cols) {
         return false;
     }
-    return true;
+    else {
+        return true;
+    }
 }
 
 std::shared_ptr<Tile> Tilemap::GetTile(int row, int col) {
     if (!this->TileExist(row, col)) {
         std::cout << "ERROR: TILE DOESN'T EXIST.";
     }
-    std::shared_ptr<Tile> tilePtr = std::make_shared<Tile>(tilemap[row][col]);
-    return tilePtr;
+    return std::shared_ptr<Tile>(&this->tilemap[row][col]);
 }

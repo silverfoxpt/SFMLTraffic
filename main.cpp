@@ -6,7 +6,7 @@
 sf::RenderWindow window(sf::VideoMode(800, 800), "SFML works!");
 
 void Test() {
-    Tilemap tilemap(5, 5, 100, 100, 100, 100, &window);
+    Tilemap tilemap(4, 4, 100, 100, 100, 100, &window);
     tilemap.Debug();
 }
 
