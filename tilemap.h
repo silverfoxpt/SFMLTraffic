@@ -33,7 +33,7 @@ class Tilemap {
         void Debug();
 
         bool TileExist(int row, int col);
-        std::shared_ptr<Tile> GetTile(int row, int col);
+        Tile* GetTile(int row, int col);
 };
 
 #endif

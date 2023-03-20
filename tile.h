@@ -30,11 +30,11 @@ class Node {
 class Road {
     public:
         std::vector<Node> nodes;
-        std::vector<std::shared_ptr<Road>> inputRoads;
-        std::vector<std::shared_ptr<Road>> outputRoads;
+        std::vector<Road*> inputRoads;
+        std::vector<Road*> outputRoads;
 
-        void addInputRoad(std::shared_ptr<Road> road);
-        void addOutputRoad(std::shared_ptr<Road> road);
+        void addInputRoad(Road* road);
+        void addOutputRoad(Road* road);
 
         void setAllPosOfNodeFromParentPos(int parentPosX, int parentPosY, int parentWidth, int parentHeight);
 
@@ -61,7 +61,7 @@ class Tile {
         void Debug();
         void SetUpRoadConnection(); 
 
-        std::shared_ptr<Road> GetRoad(int side, int idx, bool isInputRoad);
+        Road* GetRoad(int side, int idx, bool isInputRoad);
 };
 
 #endif
