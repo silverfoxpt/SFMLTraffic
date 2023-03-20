@@ -38,7 +38,7 @@ void Tile::Debug() { //this just draw stuffs, not important, so I won't be refac
     //draw connections
     for (int i = 0; i < (int) this->roads.size(); i++) {
         std::pair<float, float> prev(-100, -100);
-        for (int j = 0; j < (int) this->roads[i].nodes.size(); i++) {
+        for (int j = 0; j < (int) this->roads[i].nodes.size(); j++) {
             Node tmp = this->roads[i].nodes[j];
             if (j == 0) {
                 prev = std::pair<float, float>(tmp.posX, tmp.posY);
