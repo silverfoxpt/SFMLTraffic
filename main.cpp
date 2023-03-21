@@ -13,7 +13,6 @@ int main()
 {
     Tilemap tilemap(5, 5, 100, 100, 100, 100, &window);
     
-    
     while (window.isOpen())
     {
         sf::Event event;

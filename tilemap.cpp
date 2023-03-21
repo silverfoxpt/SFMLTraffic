@@ -64,6 +64,17 @@ void Tilemap::Debug() {
             this->tilemap[i][j].Debug(c);
         }
     }
+
+    int a = 1, b = 0;
+    while(true) {
+        std::cout << a << " " << b << '\n';
+        Road* myRoad = &this->tilemap[a][b].roads[0];
+        if (myRoad->outputRoads.size() > 0) {
+            
+        }
+
+
+    }
 }
 
 bool Tilemap::TileExist(int row, int col) {
