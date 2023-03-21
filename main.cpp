@@ -6,12 +6,14 @@
 sf::RenderWindow window(sf::VideoMode(800, 800), "SFML works!");
 
 void Test() {
-    Tilemap tilemap(5, 5, 100, 100, 100, 100, &window);
-    tilemap.Debug();
+    
 }
 
 int main()
 {
+    Tilemap tilemap(5, 5, 100, 100, 100, 100, &window);
+    
+    
     while (window.isOpen())
     {
         sf::Event event;
@@ -24,6 +26,7 @@ int main()
         window.clear();
         
         Test();
+        tilemap.Debug();    
 
         window.display();
     }

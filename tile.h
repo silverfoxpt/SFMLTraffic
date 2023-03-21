@@ -58,7 +58,7 @@ class Tile {
         sf::RenderWindow* myWindow;
 
         Tile(int posX, int posY, int width, int height, int tileId, Tilemap* parentTile, int rowIdx, int colIdx);
-        void Debug();
+        void Debug(int &c);
         void SetUpRoadConnection(); 
 
         Road* GetRoad(int side, int idx, bool isInputRoad);

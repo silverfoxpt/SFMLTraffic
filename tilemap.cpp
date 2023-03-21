@@ -58,9 +58,10 @@ Tilemap::Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tile
 }
 
 void Tilemap::Debug() {
+    int c = 0;
     for (int i = 0 ; i < this->rows; i++) {
         for (int j = 0; j < this->cols; j++) {
-            this->tilemap[i][j].Debug();
+            this->tilemap[i][j].Debug(c);
         }
     }
 }

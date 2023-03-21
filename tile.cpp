@@ -19,14 +19,14 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* paren
     for (int i = 0; i < (int) this->roads.size(); i++) {
         //set up size
         this->roads[i].setAllPosOfNodeFromParentPos(
-            this->parentTilemap->xPos, this->parentTilemap->yPos,
+            this->posX, this->posY,
             this->parentTilemap->tileWidth, this->parentTilemap->tileHeight
         );
     }
 }
 
 
-void Tile::Debug() { //this just draw stuffs, not important, so I won't be refactoring any time soon
+void Tile::Debug(int &c) { //this just draw stuffs, not important, so I won't be refactoring any time soon
     //draw outline
     sf::RectangleShape rect(sf::Vector2f(this->width, this->height));
     rect.setFillColor(sf::Color(0, 0, 0, 0));
@@ -38,12 +38,14 @@ void Tile::Debug() { //this just draw stuffs, not important, so I won't be refac
     //draw connections
     for (int i = 0; i < (int) this->roads.size(); i++) {
         std::pair<float, float> prev(-100, -100);
+
         for (int j = 0; j < (int) this->roads[i].nodes.size(); j++) {
             Node tmp = this->roads[i].nodes[j];
             if (j == 0) {
                 prev = std::pair<float, float>(tmp.posX, tmp.posY);
                 continue;
-            }        
+            }
+
             sf::Vertex line[2] =
             {
                 sf::Vertex(sf::Vector2f(prev.first, prev.second), sf::Color::Green),
