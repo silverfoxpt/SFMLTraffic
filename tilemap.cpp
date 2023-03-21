@@ -70,7 +70,8 @@ void Tilemap::Debug() {
         std::cout << a << " " << b << '\n';
         Road* myRoad = &this->tilemap[a][b].roads[0];
         if (myRoad->outputRoads.size() > 0) {
-            
+            Road* otherRoad = myRoad->outputRoads[0];
+            a = otherRoad.
         }
 
 
