@@ -25,7 +25,6 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* paren
     }
 }
 
-
 void Tile::Debug(int &c) { //this just draw stuffs, not important, so I won't be refactoring any time soon
     //draw outline
     sf::RectangleShape rect(sf::Vector2f(this->width, this->height));
