@@ -29,6 +29,7 @@ class Node {
 
 class Road {
     public:
+        int rowIdx, colIdx; //debug purpose
         std::vector<Node> nodes;
         std::vector<Road*> inputRoads;
         std::vector<Road*> outputRoads;

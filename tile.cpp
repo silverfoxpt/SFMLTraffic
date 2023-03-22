@@ -22,6 +22,10 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* paren
             this->posX, this->posY,
             this->parentTilemap->tileWidth, this->parentTilemap->tileHeight
         );
+
+        //set up idx for debug
+        this->roads[i].colIdx = this->colIdx;
+        this->roads[i].rowIdx = this->rowIdx;
     }
 }
 

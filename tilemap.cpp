@@ -65,17 +65,19 @@ void Tilemap::Debug() {
         }
     }
 
-    int a = 1, b = 0;
+    //test connection -> COMPLETE
+    /*int a = 1, b = 0;
     while(true) {
         std::cout << a << " " << b << '\n';
         Road* myRoad = &this->tilemap[a][b].roads[0];
         if (myRoad->outputRoads.size() > 0) {
             Road* otherRoad = myRoad->outputRoads[0];
-            a = otherRoad.
+            a = otherRoad->rowIdx;
+            b = otherRoad->colIdx;
+        }  else {
+            break;
         }
-
-
-    }
+    }*/
 }
 
 bool Tilemap::TileExist(int row, int col) {

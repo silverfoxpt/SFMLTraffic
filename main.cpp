@@ -3,16 +3,16 @@
 #include "tile.h"
 #include "tilemap.h"
 
+//public variables
 sf::RenderWindow window(sf::VideoMode(800, 800), "SFML works!");
+Tilemap tilemap(5, 5, 100, 100, 100, 100, &window);
 
 void Test() {
-    
+    tilemap.Debug();
 }
 
 int main()
 {
-    Tilemap tilemap(5, 5, 100, 100, 100, 100, &window);
-    
     while (window.isOpen())
     {
         sf::Event event;
@@ -24,8 +24,7 @@ int main()
 
         window.clear();
         
-        Test();
-        tilemap.Debug();    
+        Test(); 
 
         window.display();
     }
