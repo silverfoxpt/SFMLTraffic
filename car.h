@@ -14,15 +14,17 @@
 
 #include "gameobject.h"
 
-class Car : GameObject {
+class Car : public GameObject {
     public:
         Car(int width, int height) : GameObject(width, height) {
-            this->speed = 0;
-            this->acceleration = 0;
+            this->velocity = 0;
+            this->acceleration = 0.01;
         }
 
-        float speed;
+        float velocity;
         float acceleration;
+
+        void Advance();
 };
 
 #endif

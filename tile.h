@@ -14,6 +14,7 @@
 
 #include "tileInfo.h"
 #include "tilemap.h"
+#include "car.h"
 
 class Tilemap;
 
@@ -33,6 +34,8 @@ class Road {
         std::vector<Node> nodes;
         std::vector<Road*> inputRoads;
         std::vector<Road*> outputRoads;
+
+        std::vector<Car*> currentCars; //must be deleted when reused for other projects
 
         void addInputRoad(Road* road);
         void addOutputRoad(Road* road);
