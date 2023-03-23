@@ -2,6 +2,8 @@
 
 #include "tile.h"
 #include "tilemap.h"
+#include "gameManager.h"
+#include "gameobject.h"
 
 //public variables
 sf::RenderWindow window(sf::VideoMode(800, 800), "SFML works!");
@@ -13,6 +15,7 @@ void Test() {
 
 int main()
 {
+    GameManager::Initialize(&window);
     while (window.isOpen())
     {
         sf::Event event;

@@ -12,6 +12,8 @@
 #include <memory>
 #include <chrono>
 
+#include "gameManager.h"
+
 class GameObject {
     public:
         sf::Vector2f position;
@@ -27,7 +29,7 @@ class GameObject {
         void SetColor(sf::Color color);
 
         void Rotate(float eulerAngle);
-        void MapToVector(sf::Vector2f vec);
+        void RotateToVector(sf::Vector2f vec);
 
     private:
         sf::RectangleShape user;
