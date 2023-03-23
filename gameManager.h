@@ -20,7 +20,6 @@ class GameManager {
 
         static sf::Vector2f convertWorldToScreen(sf::Vector2f world);
         static sf::Vector2f convertScreenToWorld(sf::Vector2f screen);
-        static void Initialize(sf::RenderWindow *rend);
 };
 
 #endif
