@@ -31,6 +31,7 @@ class Tilemap {
         
         Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tileHeight, sf::RenderWindow* myWindow);
         void Debug();
+        void Update();
 
         bool TileExist(int row, int col);
         Tile* GetTile(int row, int col);

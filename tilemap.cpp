@@ -95,3 +95,11 @@ Tile* Tilemap::GetTile(int row, int col) {
     }
     return &this->tilemap[row][col];
 }
+
+void Tilemap::Update() {
+    for (auto& v: this->tilemap) {
+        for (Tile& tile: v) {
+            tile.Update();
+        }
+    }
+}

@@ -26,6 +26,7 @@ class Node {
 
         Node(std::pair<float, float> rel);
         void setPosFromParentPos(int parentPosX, int parentPosY, int parentWidth, int parentHeight);
+        void Update();
 };
 
 class Road {
@@ -41,8 +42,11 @@ class Road {
         void addOutputRoad(Road* road);
 
         void setAllPosOfNodeFromParentPos(int parentPosX, int parentPosY, int parentWidth, int parentHeight);
+        void acceptCar(Car* newCar);
+        void removeCar();
 
         Road(std::vector<Node> nodes);
+        void Update();
 };
 
 class Tile {
@@ -63,6 +67,7 @@ class Tile {
 
         Tile(int posX, int posY, int width, int height, int tileId, Tilemap* parentTile, int rowIdx, int colIdx);
         void Debug(int &c);
+        void Update();
         void SetUpRoadConnection(); 
 
         Road* GetRoad(int side, int idx, bool isInputRoad);

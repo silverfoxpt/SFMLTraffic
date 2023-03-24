@@ -174,6 +174,13 @@ void Tile::SetUpRoadConnection() {
     }
 }
 
+void Tile::Update() {
+    for (Road &road: this->roads) {
+        road.Update();
+    }
+}
+
+
 Node::Node(std::pair<float, float> rel) {
     this->relativePos = rel;
 }
@@ -181,6 +188,10 @@ Node::Node(std::pair<float, float> rel) {
 void Node::setPosFromParentPos(int parentPosX, int parentPosY, int parentWidth, int parentHeight) {
     this->posX = parentPosX + parentWidth * this->relativePos.first;
     this->posY = parentPosY + parentHeight * this->relativePos.second;
+}
+
+void Node::Update() {
+
 }
 
 
@@ -202,4 +213,19 @@ Road::Road(std::vector<Node> nodes) {
     this->nodes = nodes;
 
     this->inputRoads.clear();
+}
+
+void Road::acceptCar(Car* car) { //will need to be updated for traffic stopping
+    this->currentCars.insert(this->currentCars.begin(), car);    
+}
+
+void Road::removeCar() {
+
+} 
+
+void Road::Update() {
+    for (Node &node: this->nodes) {
+        node.Update();
+    }
+    this->removeCar();
 }

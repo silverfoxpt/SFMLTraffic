@@ -28,6 +28,7 @@ void Initialize() {
 
 void Test() {
     tilemap.Debug();
+    tilemap.Update();
 
     //window.draw(car.user);
     //car.Rotate(0.01);
