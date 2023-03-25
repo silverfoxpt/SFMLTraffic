@@ -7,7 +7,7 @@
 //public variables
 sf::RenderWindow window(sf::VideoMode(800, 800), "SFML works!");
 Tilemap tilemap(5, 5, 100, 100, 100, 100, &window);
-Car car(25, 50);
+Car car(5, 10);
 
 sf::Texture carTex;
 
@@ -24,11 +24,14 @@ void Initialize() {
     //get some tex
     //carTex.loadFromFile("carTop.png");
     //car.SetTexture(&carTex);
+
+    tilemap.GetTile(0, 0)->roads[0].acceptCar(&car);
 }
 
 void Test() {
     tilemap.Debug();
     tilemap.Update();
+     
 
     //window.draw(car.user);
     //car.Rotate(0.01);

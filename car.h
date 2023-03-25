@@ -20,15 +20,18 @@ class Car : public GameObject {
             this->velocity = 0;
             this->acceleration = 0.01;
             this->maxVelocity = 1;
+            this->currentDisplacement = 0;
         }
 
         float velocity;
         float acceleration;
 
         float maxVelocity;
+        float currentDisplacement;
 
         void SetAcceleration(float acc);
         void Advance();
+        void ResetCurrentDisplacement();
 };
 
 #endif

@@ -13,6 +13,7 @@
 #include <chrono>
 
 #include "gameManager.h"
+#include "math.h"
 
 class GameObject {
     public:

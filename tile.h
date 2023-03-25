@@ -15,6 +15,7 @@
 #include "tileInfo.h"
 #include "tilemap.h"
 #include "car.h"
+#include "gameManager.h"
 
 class Tilemap;
 
@@ -37,6 +38,9 @@ class Road {
         std::vector<Road*> outputRoads;
 
         std::vector<Car*> currentCars; //must be deleted when reused for other projects
+        std::vector<int> carOnNode;
+
+        sf::Vector2f getVectorBetweenTwoNodes(int startNodeIdx);
 
         void addInputRoad(Road* road);
         void addOutputRoad(Road* road);
@@ -44,6 +48,7 @@ class Road {
         void setAllPosOfNodeFromParentPos(int parentPosX, int parentPosY, int parentWidth, int parentHeight);
         void acceptCar(Car* newCar);
         void removeCar();
+        void updateCars();
 
         Road(std::vector<Node> nodes);
         void Update();

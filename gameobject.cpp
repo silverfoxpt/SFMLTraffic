@@ -1,18 +1,5 @@
 #include "gameobject.h"
 
-
-float DotProd(sf::Vector2f a, sf::Vector2f b) {
-    return a.x * b.x + a.y * b.y;
-}
-
-float Determinant(sf::Vector2f a, sf::Vector2f b) {
-    return a.x * b.y - a.y * b.x;
-}
-
-float Length(sf::Vector2f a) {
-    return std::sqrt(a.x * a.x + a.y * a.y);
-}
-
 GameObject::GameObject(int width, int height) {
     this->position = sf::Vector2f(0, 0);
     this->rotation = 0;
@@ -62,7 +49,7 @@ void GameObject::RotateToVector(sf::Vector2f toVec) {
     sf::Vector2f myVec(std::cos(toRad), std::sin(toRad));
 
     float pi = 3.1412;
-    float angle = std::fmod(atan2(Determinant(myVec, toVec), DotProd(myVec, toVec)), 2*pi); //counterclockwise
+    float angle = std::fmod(atan2(Math::Determinant(myVec, toVec), Math::DotProd(myVec, toVec)), 2*pi); //counterclockwise
     
     this->Rotate(360 - (angle * 180 / pi)); //clockwise
 }
@@ -76,7 +63,7 @@ sf::Vector2f GameObject::GetNormalizeRotationVector() {
     float toRad = degAng * 0.017453; //convert to rad
     sf::Vector2f myVec(std::cos(toRad), std::sin(toRad));
 
-    float len = Length(myVec);
+    float len = Math::Length(myVec);
     myVec.x /= len;
     myVec.y /= len;
 

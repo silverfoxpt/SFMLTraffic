@@ -215,17 +215,52 @@ Road::Road(std::vector<Node> nodes) {
     this->inputRoads.clear();
 }
 
+sf::Vector2f Road::getVectorBetweenTwoNodes(int startNodeIdx) {
+    float first = this->nodes[startNodeIdx+1].posX - this->nodes[startNodeIdx].posX;
+    float second = this->nodes[startNodeIdx+1].posY - this->nodes[startNodeIdx].posY;
+
+    //sketchy
+    return GameManager::convertScreenToWorld(sf::Vector2f(first, second));
+}
+
 void Road::acceptCar(Car* car) { //will need to be updated for traffic stopping
-    this->currentCars.insert(this->currentCars.begin(), car);    
+    this->currentCars.insert(this->currentCars.begin(), car);   
+    this->carOnNode.insert(this->carOnNode.begin(), 0); 
 }
 
 void Road::removeCar() {
+    this->currentCars.pop_back();
+    this->carOnNode.pop_back();
+}
 
-} 
+void Road::updateCars() {
+    int c = 0;
+    for (Car* myCar: this->currentCars) {
+        int nodeIdx = this->carOnNode[c];
+        
+        //if reached end of 2 nodes' path
+        if (myCar->currentDisplacement >= Math::Length(this->getVectorBetweenTwoNodes(nodeIdx))) {
+            if (nodeIdx == this->nodes.size()-2) { //if reached last pair of nodes
+                //input into next road, remove from this road
+                //need revising later
+                this->outputRoads[0]->acceptCar(myCar);
+
+                //remove authority from this road
+                this->removeCar();
+            } else { //just move it to next pairs of node
+                this->carOnNode[c] = nodeIdx++;
+                myCar->ResetCurrentDisplacement();
+            }
+        } else { //not reached end, then just keep swimmin'
+            myCar->Advance();
+        }
+        c++;
+    }
+}
 
 void Road::Update() {
     for (Node &node: this->nodes) {
         node.Update();
     }
-    this->removeCar();
+    this->updateCars();
 }

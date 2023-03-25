@@ -5,6 +5,7 @@ void Car::Advance() {
     currentVelocity = std::max(currentVelocity, this->maxVelocity);
 
     float displacement = this->velocity * GameManager::deltaTime + 0.5 * this->acceleration * GameManager::deltaTime * GameManager::deltaTime;
+    this->currentDisplacement += displacement;
     this->velocity = currentVelocity;
 
     //calculate new position
@@ -17,4 +18,8 @@ void Car::Advance() {
 
 void Car::SetAcceleration(float acc) {
     this->acceleration = acc;
+}
+
+void Car::ResetCurrentDisplacement() {
+    this->currentDisplacement = 0;
 }
