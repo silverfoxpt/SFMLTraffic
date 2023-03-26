@@ -19,7 +19,6 @@ float GameManager::deltaTime = 1/60.0;
 
 void Initialize() {
     car.SetColor(sf::Color::Red);
-    car.SetPosition(sf::Vector2f(100, -100));
 
     //get some tex
     //carTex.loadFromFile("carTop.png");
@@ -33,7 +32,7 @@ void Test() {
     tilemap.Update();
      
 
-    //window.draw(car.user);
+    window.draw(car.user);
     //car.Rotate(0.01);
     //car.Advance();
 }

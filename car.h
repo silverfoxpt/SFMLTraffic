@@ -30,6 +30,7 @@ class Car : public GameObject {
         float currentDisplacement;
 
         void SetAcceleration(float acc);
+        void SetVelocity(float velocity);
         void Advance();
         void ResetCurrentDisplacement();
 };

@@ -15,7 +15,7 @@ GameObject::GameObject(int width, int height) {
     this->user.setRotation(this->rotation);
 }
 
-void GameObject::SetPosition(sf::Vector2f position) {
+void GameObject::SetWorldPosition(sf::Vector2f position) {
     this->position = position;
     this->user.setPosition(GameManager::convertWorldToScreen(this->position));
 }

@@ -60,20 +60,21 @@ void Tile::Debug(int &c) { //this just draw stuffs, not important, so I won't be
         }
     }
 
-    /*
+    
     //draw nodes
-    int c = 0;
-    for (Node x : this->nodes) {
-        int xPos = x.posX;
-        int yPos = x.posY;
+    for (Road &road: this->roads) {
+        for (Node x : road.nodes) {
+            int xPos = x.posX;
+            int yPos = x.posY;
 
-        a[c].setOrigin(sf::Vector2f(5, 5));
-        a[c].setPosition(xPos, yPos);
-        a[c].setFillColor(sf::Color::Green);
+            sf::CircleShape a(3);
+            a.setOrigin(sf::Vector2f(3, 3));
+            a.setPosition(xPos, yPos);
+            a.setFillColor(sf::Color::Red);
 
-        this->myWindow->draw(a[c]);
-        c++;
-    }   */
+            this->myWindow->draw(a);
+        }
+    }   
 }
 
 //only used in initialization, so idc if it's slow
@@ -224,8 +225,15 @@ sf::Vector2f Road::getVectorBetweenTwoNodes(int startNodeIdx) {
 }
 
 void Road::acceptCar(Car* car) { //will need to be updated for traffic stopping
+    std::cout << this->rowIdx << " " << this->colIdx << '\n';
+
     this->currentCars.insert(this->currentCars.begin(), car);   
     this->carOnNode.insert(this->carOnNode.begin(), 0); 
+
+    car->ResetCurrentDisplacement();
+
+    car->SetWorldPosition(GameManager::convertScreenToWorld(sf::Vector2f(this->nodes[0].posX, this->nodes[0].posY)));
+    car->RotateToVector(this->getVectorBetweenTwoNodes(0));
 }
 
 void Road::removeCar() {
@@ -240,18 +248,31 @@ void Road::updateCars() {
         
         //if reached end of 2 nodes' path
         if (myCar->currentDisplacement >= Math::Length(this->getVectorBetweenTwoNodes(nodeIdx))) {
-            if (nodeIdx == this->nodes.size()-2) { //if reached last pair of nodes
-                //input into next road, remove from this road
-                //need revising later
+            if (nodeIdx == (int) this->nodes.size()-2) { //if reached last pair of nodes
+
+                //no road left
+                if (outputRoads.size() == 0) {
+                    myCar->SetAcceleration(0);
+                    myCar->SetVelocity(0);
+                    break;
+                }
+
+                //input into next road, remove from this road, need revising later
                 this->outputRoads[0]->acceptCar(myCar);
 
                 //remove authority from this road
                 this->removeCar();
-            } else { //just move it to next pairs of node
-                this->carOnNode[c] = nodeIdx++;
+                break;
+            } 
+            
+            else { //just move it to next pairs of node
+                this->carOnNode[c] = nodeIdx+1;
+
                 myCar->ResetCurrentDisplacement();
+                myCar->SetWorldPosition(GameManager::convertScreenToWorld(sf::Vector2f(this->nodes[nodeIdx+1].posX, this->nodes[nodeIdx+1].posY)));
+                myCar->RotateToVector(this->getVectorBetweenTwoNodes(nodeIdx+1));
             }
-        } else { //not reached end, then just keep swimmin'
+        } else { //not reached end, then just keep swimmin'. This needs to be move into a CarManager in the future for Update()
             myCar->Advance();
         }
         c++;

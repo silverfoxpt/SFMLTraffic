@@ -13,11 +13,15 @@ void Car::Advance() {
     sf::Vector2f heading = this->GetNormalizeRotationVector();
 
     pos += heading * displacement;
-    this->SetPosition(pos);
+    this->SetWorldPosition(pos);
 }
 
 void Car::SetAcceleration(float acc) {
     this->acceleration = acc;
+}
+
+void Car::SetVelocity(float velocity) {
+    this->velocity = velocity;
 }
 
 void Car::ResetCurrentDisplacement() {

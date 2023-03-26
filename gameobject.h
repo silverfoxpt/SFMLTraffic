@@ -25,7 +25,7 @@ class GameObject {
         int width, height;
 
         GameObject(int width, int height);
-        void SetPosition(sf::Vector2f position);
+        void SetWorldPosition(sf::Vector2f position);
         void SetScale(sf::Vector2f scale);
         void SetRotation(float rotation);
         void SetColor(sf::Color color);
