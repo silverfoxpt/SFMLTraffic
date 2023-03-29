@@ -14,7 +14,7 @@ Tilemap::Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tile
     for (int i = 0; i < this->rows; i++) {
         this->tileIds.push_back(std::vector<int>());
         for (int j = 0; j < this->cols; j++) {
-            this->tileIds[i].push_back(2);
+            this->tileIds[i].push_back(1);
         }
     }
 
@@ -24,8 +24,8 @@ Tilemap::Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tile
 
         for (int j = 0; j < this->cols; j++) {
             Tile newTile(
-                this->xPos + i * tileWidth,
-                this->yPos + j * tileHeight,
+                this->xPos + j * tileWidth,
+                this->yPos + i * tileHeight,
                 this->tileWidth,
                 this->tileHeight,
                 this->tileIds[i][j],

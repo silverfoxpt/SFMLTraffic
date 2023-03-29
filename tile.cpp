@@ -155,6 +155,7 @@ void Tile::SetUpRoadConnection() {
                 //get da road
                 Road* myRoad = myTile->GetRoad(sideOut, connector, true); //search for input road
                 if (myRoad != nullptr) { //the road exist
+                    //std::cout << this->rowIdx << " " << this->colIdx << " ; " << myRoad->rowIdx << " " << myRoad->colIdx << '\n';
                     this->roads[i].addOutputRoad(myRoad); //which means, an INPUT ROAD from ANOTHER TILE is the OUTPUT to THIS road
                 }
             }
@@ -225,7 +226,7 @@ sf::Vector2f Road::getVectorBetweenTwoNodes(int startNodeIdx) {
 }
 
 void Road::acceptCar(Car* car) { //will need to be updated for traffic stopping
-    std::cout << this->rowIdx << " " << this->colIdx << '\n';
+    //std::cout << this->rowIdx << " " << this->colIdx << '\n';
 
     this->currentCars.insert(this->currentCars.begin(), car);   
     this->carOnNode.insert(this->carOnNode.begin(), 0); 
@@ -233,6 +234,7 @@ void Road::acceptCar(Car* car) { //will need to be updated for traffic stopping
     car->ResetCurrentDisplacement();
 
     car->SetWorldPosition(GameManager::convertScreenToWorld(sf::Vector2f(this->nodes[0].posX, this->nodes[0].posY)));
+    //std::cout << this->nodes[0].posX << " " << this->nodes[0].posY << '\n';
     car->RotateToVector(this->getVectorBetweenTwoNodes(0));
 }
 
