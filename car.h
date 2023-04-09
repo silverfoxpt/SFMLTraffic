@@ -13,6 +13,7 @@
 #include <chrono>
 
 #include "gameobject.h"
+#include "carInfo.h"
 
 class Car : public GameObject {
     public:
@@ -33,6 +34,12 @@ class Car : public GameObject {
         void SetVelocity(float velocity);
         void Advance();
         void ResetCurrentDisplacement();
+
+        float getCarTop();
+        float getCarBottom();
+        float getDifferenceInPos(Car* behind, Car* forward);
+
+
 };
 
 #endif

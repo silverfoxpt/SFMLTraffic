@@ -213,8 +213,23 @@ void Road::setAllPosOfNodeFromParentPos(int parentPosX, int parentPosY, int pare
 
 Road::Road(std::vector<Node> nodes) {
     this->nodes = nodes;
+    this->outputBlocked = false;
+    this->inputJammed = false;
 
     this->inputRoads.clear();
+
+    //calculate road length
+    this->roadLength = 0;
+    int c = 0;
+    sf::Vector2f prevNodePos;
+    for (auto &node: this->nodes) {
+        if (c == 0) {
+            prevNodePos = sf::Vector2f(node.posX, node.posY);
+            continue;
+        }
+        this->roadLength += Math::Length(sf::Vector2f(node.posX, node.posY) - prevNodePos);
+        prevNodePos = sf::Vector2f(node.posX, node.posY);
+    }
 }
 
 sf::Vector2f Road::getVectorBetweenTwoNodes(int startNodeIdx) {
@@ -281,9 +296,28 @@ void Road::updateCars() {
     }
 }
 
+void Road::blockOutput() {
+    for (Car* car : this->currentCars) {
+        float lengthLeft = this->roadLength - car->getCarTop();
+
+        //slow all car in slowdown zone
+        if (lengthLeft <= CarInfo::lockSlowdownLength) {
+            car->acceleration = car->acceleration * CarInfo::slowDownFactor;
+        }
+
+        if (lengthLeft <= CarInfo::lockStopLength) {
+            car->acceleration = car->velocity / CarInfo::desiredVelocity * (-CarInfo::comfortDecel);
+        }
+    }
+}
+
+void Road::CheckIfOutputBlocked() {
+    
+}
+
 void Road::Update() {
     for (Node &node: this->nodes) {
         node.Update();
     }
     this->updateCars();
-}
+}   

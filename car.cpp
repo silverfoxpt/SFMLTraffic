@@ -27,3 +27,16 @@ void Car::SetVelocity(float velocity) {
 void Car::ResetCurrentDisplacement() {
     this->currentDisplacement = 0;
 }
+
+
+float Car::getCarTop() {
+    return this->currentDisplacement + CarInfo::carHalfLength;
+}
+
+float Car::getCarBottom() {
+    return this->currentDisplacement - CarInfo::carHalfLength;
+}
+
+float Car::getDifferenceInPos(Car* behind, Car* front) {
+    return front->currentDisplacement - behind->currentDisplacement;
+}

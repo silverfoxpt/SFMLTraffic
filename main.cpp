@@ -3,11 +3,12 @@
 #include "tile.h"
 #include "tilemap.h"
 #include "car.h"
+#include "carInfo.h"
 
 //public variables
-sf::RenderWindow window(sf::VideoMode(800, 800), "SFML works!");
+sf::RenderWindow window(sf::VideoMode(800, 800), "Traffic Simulation 2D");
 Tilemap tilemap(5, 5, 100, 100, 100, 100, &window);
-Car car(5, 10);
+Car car(5, CarInfo::carLength); //car length is same as height
 
 sf::Texture carTex;
 

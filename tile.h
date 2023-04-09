@@ -16,6 +16,7 @@
 #include "tilemap.h"
 #include "car.h"
 #include "gameManager.h"
+#include "carInfo.h"
 
 class Tilemap;
 
@@ -33,6 +34,11 @@ class Node {
 class Road {
     public:
         int rowIdx, colIdx; //debug purpose
+        float roadLength;
+
+        bool outputBlocked = false;
+        bool inputJammed = false;
+
         std::vector<Node> nodes;
         std::vector<Road*> inputRoads;
         std::vector<Road*> outputRoads;
@@ -49,6 +55,9 @@ class Road {
         void acceptCar(Car* newCar);
         void removeCar();
         void updateCars();
+
+        void blockOutput();
+        void CheckIfOutputBlocked();
 
         Road(std::vector<Node> nodes);
         void Update();
