@@ -12,6 +12,6 @@ float CarInfo::reactionTime = 1.5; //seconds;
 float CarInfo::maxAccel = 0.73; //m^2/sec
 float CarInfo::comfortDecel = 1.67; //m^2/sec
 
-float CarInfo::slowDownFactor = 0.7; // alpha < 1
-float CarInfo::lockSlowdownLength = 11;
-float CarInfo::lockStopLength = 5;
+float CarInfo::slowDownFactor = 1; // alpha < 1
+float CarInfo::lockSlowdownLength = 0;
+float CarInfo::lockStopLength = 0;
