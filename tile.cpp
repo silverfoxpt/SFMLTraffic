@@ -302,8 +302,8 @@ void Road::blockOutput() {
         float lengthLeft = this->roadLength - car->getCarTop();
 
         //slow all car in slowdown zone
-        if (lengthLeft <= CarInfo::lockStopLength) {
-            car->acceleration = car->velocity / CarInfo::desiredVelocity * (-CarInfo::comfortDecel);
+        if (lengthLeft <= CarInfo::lockStopLength) { //found the bug
+            //car->acceleration = car->velocity / CarInfo::desiredVelocity * (-CarInfo::comfortDecel);
         }
 
         else if (lengthLeft <= CarInfo::lockSlowdownLength) {
