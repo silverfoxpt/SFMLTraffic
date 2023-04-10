@@ -300,6 +300,7 @@ void Road::updateCars() {
 void Road::blockOutput() {
     for (Car* car : this->currentCars) {
         float lengthLeft = this->roadLength - car->getCarTop();
+        std::cout << lengthLeft << '\n';
 
         //slow all car in slowdown zone
         if (lengthLeft <= CarInfo::lockStopLength) { //found the bug
