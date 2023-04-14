@@ -60,6 +60,7 @@ class Road {
         void CheckIfOutputBlocked();
 
         Road(std::vector<Node> nodes);
+        void CalculateRoadLength();
         void Update();
 };
 

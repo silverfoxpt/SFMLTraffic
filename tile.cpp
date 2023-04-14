@@ -22,6 +22,9 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* paren
             this->posX, this->posY,
             this->parentTilemap->tileWidth, this->parentTilemap->tileHeight
         );
+        
+        //calculate length
+        this->roads[i].CalculateRoadLength();
 
         //set up idx for debug
         this->roads[i].colIdx = this->colIdx;
@@ -217,20 +220,26 @@ Road::Road(std::vector<Node> nodes) {
     this->inputJammed = false;
 
     this->inputRoads.clear();
+}
 
+void Road::CalculateRoadLength() {
     //calculate road length
     this->roadLength = 0;
     int c = 0;
-    sf::Vector2f prevNodePos;
-    for (auto &node: this->nodes) {
-        if (c == 0) {
+
+    sf::Vector2f prevNodePos(0, 0);
+    for (Node node: this->nodes) {
+        //std::cout << node.posX << " " << node.posY << '\n';
+        if (c == 0) { 
+            c++;
             prevNodePos = sf::Vector2f(node.posX, node.posY);
             continue;
         }
         this->roadLength += Math::Length(sf::Vector2f(node.posX, node.posY) - prevNodePos);
         prevNodePos = sf::Vector2f(node.posX, node.posY);
+        c++;
     }
-    std::cout << this->roadLength << '\n';
+    //std::cout << (int) this->roadLength << '\n';
 }
 
 sf::Vector2f Road::getVectorBetweenTwoNodes(int startNodeIdx) {
@@ -300,11 +309,11 @@ void Road::updateCars() {
 void Road::blockOutput() {
     for (Car* car : this->currentCars) {
         float lengthLeft = this->roadLength - car->getCarTop();
-        std::cout << lengthLeft << '\n';
+        //std::cout << lengthLeft << " " <<  this->roadLength << " " << car->getCarTop() << '\n';
 
         //slow all car in slowdown zone
         if (lengthLeft <= CarInfo::lockStopLength) { //found the bug
-            //car->acceleration = car->velocity / CarInfo::desiredVelocity * (-CarInfo::comfortDecel);
+            car->acceleration = car->velocity / CarInfo::desiredVelocity * (-CarInfo::comfortDecel);
         }
 
         else if (lengthLeft <= CarInfo::lockSlowdownLength) {
