@@ -268,6 +268,7 @@ void Road::removeCar() {
     this->carOnNode.pop_back();
 }
 
+//NEED REVISITING FOR ROAD OUTPUT LATER
 void Road::updateCars() {
     int c = 0;
     for (Car* myCar: this->currentCars) {
@@ -284,7 +285,7 @@ void Road::updateCars() {
                     break;
                 }
 
-                //input into next road, remove from this road, need revising later
+                //input into next road, remove from this road, NEED REVISITING LATER
                 this->outputRoads[0]->acceptCar(myCar);
 
                 //remove authority from this road
