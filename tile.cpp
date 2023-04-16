@@ -341,10 +341,23 @@ void Road::CheckIfOutputBlocked() {
     this->blockOutput();
 }
 
+//ON WORK
+// NEED UPDATEs
+void Road::UpdateCarVelocity() {
+    for (int i = this->currentCars.size() - 1; i >= 1; i--) {
+        Car* ahead = this->currentCars[i];
+        Car* behind = this->currentCars[i-1];
+
+        float distance = ahead->currentDisplacement - behind->currentDisplacement - CarInfo::carLength;
+        //float velocityDiff = l
+    }
+}
+
 void Road::Update() {
     for (Node &node: this->nodes) {
         node.Update();
     }
     this->updateCars();
+    this->UpdateCarVelocity();
     this->CheckIfOutputBlocked();
 }   

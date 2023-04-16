@@ -58,6 +58,7 @@ class Road {
 
         void blockOutput();
         void CheckIfOutputBlocked();
+        void UpdateCarVelocity();
 
         Road(std::vector<Node> nodes);
         void CalculateRoadLength();

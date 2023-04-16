@@ -20,7 +20,7 @@ class Car : public GameObject {
         Car(int width, int height) : GameObject(width, height) {
             this->velocity = 0;
             this->acceleration = 0.01;
-            this->maxVelocity = 1;
+            this->maxVelocity = CarInfo::desiredVelocity;
             this->currentDisplacement = 0;
         }
 

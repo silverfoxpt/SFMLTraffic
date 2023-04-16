@@ -1,18 +1,23 @@
 #include "car.h"
 
 void Car::Advance() {
-    float currentVelocity = this->velocity + this->acceleration * GameManager::deltaTime;
-    currentVelocity = std::max(currentVelocity, this->maxVelocity);
+    float currentVelocity       = std::min(this->velocity + this->acceleration * GameManager::deltaTime, this->maxVelocity);
+    float currentDisplacement   = this->velocity * GameManager::deltaTime + 0.5 * this->acceleration * GameManager::deltaTime * GameManager::deltaTime;
 
-    float displacement = this->velocity * GameManager::deltaTime + 0.5 * this->acceleration * GameManager::deltaTime * GameManager::deltaTime;
-    this->currentDisplacement += displacement;
-    this->velocity = currentVelocity;
+    if (currentVelocity < 0) {
+        currentDisplacement = -0.5 * (this->velocity * this->velocity / this->acceleration);
+        currentVelocity = 0;
+    } 
+
+    
+    this->currentDisplacement   += currentDisplacement;
+    this->velocity              = currentVelocity;
 
     //calculate new position
-    sf::Vector2f pos = this->GetPosition();
-    sf::Vector2f heading = this->GetNormalizeRotationVector();
+    sf::Vector2f pos        = this->GetPosition();
+    sf::Vector2f heading    = this->GetNormalizeRotationVector();
 
-    pos += heading * displacement;
+    pos                     += heading * currentDisplacement;
     this->SetWorldPosition(pos);
 }
 
