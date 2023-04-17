@@ -314,7 +314,8 @@ void Road::blockOutput() {
 
         //slow all car in slowdown zone
         if (lengthLeft <= CarInfo::lockStopLength) { //found the bug
-            car->acceleration = car->velocity / CarInfo::desiredVelocity * (-CarInfo::comfortDecel);
+            car->acceleration = (car->velocity / CarInfo::desiredVelocity) * (-CarInfo::comfortDecel);
+            //car->acceleration = -CarInfo::comfortDecel;
         }
 
         else if (lengthLeft <= CarInfo::lockSlowdownLength) {
@@ -345,11 +346,29 @@ void Road::CheckIfOutputBlocked() {
 // NEED UPDATEs
 void Road::UpdateCarVelocity() {
     for (int i = this->currentCars.size() - 1; i >= 1; i--) {
+        //std::cout << "WTF?";
+
         Car* ahead = this->currentCars[i];
         Car* behind = this->currentCars[i-1];
 
         float distance = ahead->currentDisplacement - behind->currentDisplacement - CarInfo::carLength;
-        //float velocityDiff = l
+        float velocityDiff = behind->velocity - ahead->velocity;
+
+        //calculate sstar
+        float sstar = CarInfo::minDesiredDistance 
+                        + behind->velocity * CarInfo::reactionTime
+                        + behind->velocity * velocityDiff / 
+                            (2 * std::sqrt(CarInfo::maxAccel * CarInfo::comfortDecel));
+
+        //calculate new accel
+        float newAcceleration = CarInfo::maxAccel * (
+            1 - 
+            std::pow(behind->velocity / CarInfo::desiredVelocity, CarInfo::accelExponent) - 
+            std::pow(sstar / distance, 2)
+        );
+
+        //update
+        behind->SetAcceleration(newAcceleration);
     }
 }
 
@@ -357,7 +376,9 @@ void Road::Update() {
     for (Node &node: this->nodes) {
         node.Update();
     }
+
+    //this->CheckIfOutputBlocked();
     this->updateCars();
-    this->UpdateCarVelocity();
+    //this->UpdateCarVelocity();
     this->CheckIfOutputBlocked();
 }   

@@ -8,8 +8,8 @@ void Car::Advance() {
         currentDisplacement = -0.5 * (this->velocity * this->velocity / this->acceleration);
         currentVelocity = 0;
     } 
+    std::cout << currentVelocity << '\n';
 
-    
     this->currentDisplacement   += currentDisplacement;
     this->velocity              = currentVelocity;
 
