@@ -314,8 +314,11 @@ void Road::blockOutput() {
 
         //slow all car in slowdown zone
         if (lengthLeft <= CarInfo::lockStopLength) { 
-            car->acceleration = (car->velocity / CarInfo::desiredVelocity) * (-CarInfo::comfortDecel);
+            //car->acceleration = (car->velocity / CarInfo::desiredVelocity) * (-CarInfo::comfortDecel);
             //car->acceleration = -CarInfo::comfortDecel;
+
+            if (lengthLeft <= 0.00001) { continue; }    
+            car->acceleration = (-car->velocity * car->velocity) / (2 * (lengthLeft));
         }
 
         else if (lengthLeft <= CarInfo::lockSlowdownLength) {
