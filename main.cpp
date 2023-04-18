@@ -10,8 +10,11 @@ sf::RenderWindow window(sf::VideoMode(800, 800), "Traffic Simulation 2D");
 Tilemap tilemap(5, 7, 50, 50, 100, 100, &window);
 Car car(5, CarInfo::carLength); //car length is same as height
 
-//more test
+//more testsssssssss
 Car car2(5, CarInfo::carLength); //car length is same as height
+Car car3(5, CarInfo::carLength); //car length is same as height
+Car car4(5, CarInfo::carLength); //car length is same as height
+
 int c = 0;
 sf::Clock testClock;
 
@@ -40,11 +43,23 @@ void Test() {
      
 
     window.draw(car.user);
-    window.draw(car2.user);
 
-    if (testClock.getElapsedTime().asSeconds() >= 2 && c == 0) {
+    //moreeeeeeeeeee testssssssssss
+    window.draw(car2.user);
+    window.draw(car3.user);
+    window.draw(car4.user);
+
+    if (testClock.getElapsedTime().asSeconds() >= 0.3 && c == 0) {
         tilemap.GetTile(0, 0)->roads[0].acceptCar(&car2);
-        c = 1; //stop da test
+        c = 1; 
+    }
+    if (testClock.getElapsedTime().asSeconds() >= 0.6 && c == 1) {
+        tilemap.GetTile(0, 0)->roads[0].acceptCar(&car3);
+        c = 2; 
+    }
+    if (testClock.getElapsedTime().asSeconds() >= 0.9 && c == 2) {
+        tilemap.GetTile(0, 0)->roads[0].acceptCar(&car4);
+        c = 3; 
     }
 }
 

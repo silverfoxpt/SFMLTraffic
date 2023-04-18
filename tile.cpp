@@ -308,7 +308,7 @@ void Road::updateCars() {
 }
 
 void Road::blockOutput() {
-    for (Car* car : this->currentCars) {
+    /*for (Car* car : this->currentCars) {
         float lengthLeft = this->roadLength - car->getCarTop();
         //std::cout << lengthLeft << " " <<  this->roadLength << " " << car->getCarTop() << '\n';
 
@@ -324,6 +324,24 @@ void Road::blockOutput() {
         else if (lengthLeft <= CarInfo::lockSlowdownLength) {
             car->velocity = car->velocity * CarInfo::slowDownFactor;
         }        
+    }*/
+    if (this->currentCars.size() == 0) {return;}
+    
+    Car* car = this->currentCars.back();
+    float lengthLeft = this->roadLength - car->getCarTop();
+
+    //stop car
+    if (lengthLeft <= CarInfo::lockStopLength) { 
+        //car->acceleration = (car->velocity / CarInfo::desiredVelocity) * (-CarInfo::comfortDecel);
+        //car->acceleration = -CarInfo::comfortDecel;
+
+        if (lengthLeft <= 0.00001) { return; } //no devide by 0   
+        car->acceleration = (-car->velocity * car->velocity) / (2 * (lengthLeft));
+    }
+
+    //slow car
+    else if (lengthLeft <= CarInfo::lockSlowdownLength) {
+        car->velocity = car->velocity * CarInfo::slowDownFactor;
     }
 }
 
@@ -360,7 +378,7 @@ void Road::UpdateCarVelocity() {
         //calculate sstar
         float sstar = CarInfo::minDesiredDistance 
                         + behind->velocity * CarInfo::reactionTime
-                        + behind->velocity * velocityDiff / 
+                        + (behind->velocity * velocityDiff) / 
                             (2 * std::sqrt(CarInfo::maxAccel * CarInfo::comfortDecel));
 
         //calculate new accel
