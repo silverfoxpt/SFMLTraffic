@@ -317,7 +317,7 @@ void Road::blockOutput() {
             //car->acceleration = (car->velocity / CarInfo::desiredVelocity) * (-CarInfo::comfortDecel);
             //car->acceleration = -CarInfo::comfortDecel;
 
-            if (lengthLeft <= 0.00001) { continue; }    
+            if (lengthLeft <= 0.00001) { continue; } //no devide by 0   
             car->acceleration = (-car->velocity * car->velocity) / (2 * (lengthLeft));
         }
 
@@ -382,6 +382,6 @@ void Road::Update() {
 
     //this->CheckIfOutputBlocked();
     this->updateCars();
-    //this->UpdateCarVelocity();
+    this->UpdateCarVelocity();
     this->CheckIfOutputBlocked();
 }   
