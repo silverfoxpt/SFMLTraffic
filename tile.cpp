@@ -313,13 +313,13 @@ void Road::blockOutput() {
         //std::cout << lengthLeft << " " <<  this->roadLength << " " << car->getCarTop() << '\n';
 
         //slow all car in slowdown zone
-        if (lengthLeft <= CarInfo::lockStopLength) { //found the bug
+        if (lengthLeft <= CarInfo::lockStopLength) { 
             car->acceleration = (car->velocity / CarInfo::desiredVelocity) * (-CarInfo::comfortDecel);
             //car->acceleration = -CarInfo::comfortDecel;
         }
 
         else if (lengthLeft <= CarInfo::lockSlowdownLength) {
-            car->acceleration = car->acceleration * CarInfo::slowDownFactor;
+            car->velocity = car->velocity * CarInfo::slowDownFactor;
         }        
     }
 }
