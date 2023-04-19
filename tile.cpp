@@ -65,7 +65,7 @@ void Tile::Debug(int &c) { //this just draw stuffs, not important, so I won't be
 
     
     //draw nodes
-    for (Road &road: this->roads) {
+    /*for (Road &road: this->roads) {
         for (Node x : road.nodes) {
             int xPos = x.posX;
             int yPos = x.posY;
@@ -77,7 +77,7 @@ void Tile::Debug(int &c) { //this just draw stuffs, not important, so I won't be
 
             this->myWindow->draw(a);
         }
-    }   
+    }*/   
 }
 
 //only used in initialization, so idc if it's slow
