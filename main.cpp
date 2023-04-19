@@ -24,7 +24,7 @@ sf::Texture carTex;
 sf::RenderWindow* GameManager::rend = &window;
 float GameManager::windowWidth = window.getSize().x;
 float GameManager::windowHeight = window.getSize().y;
-float GameManager::deltaTime = 1/150.0;
+float GameManager::deltaTime = 1/300.0;
 
 void Initialize() {
     car.SetColor(sf::Color::Red);
@@ -49,15 +49,15 @@ void Test() {
     window.draw(car3.user);
     window.draw(car4.user);
 
-    if (testClock.getElapsedTime().asSeconds() >= 0.3 && c == 0) {
+    if (testClock.getElapsedTime().asSeconds() >= 2 && c == 0) {
         tilemap.GetTile(0, 0)->roads[0].acceptCar(&car2);
         c = 1; 
     }
-    if (testClock.getElapsedTime().asSeconds() >= 0.6 && c == 1) {
+    if (testClock.getElapsedTime().asSeconds() >= 4 && c == 1) {
         tilemap.GetTile(0, 0)->roads[0].acceptCar(&car3);
         c = 2; 
     }
-    if (testClock.getElapsedTime().asSeconds() >= 0.9 && c == 2) {
+    if (testClock.getElapsedTime().asSeconds() >= 6 && c == 2) {
         tilemap.GetTile(0, 0)->roads[0].acceptCar(&car4);
         c = 3; 
     }
