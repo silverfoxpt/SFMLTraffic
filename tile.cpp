@@ -328,6 +328,7 @@ void Road::blockOutput() {
     }
 }
 
+//probably finished
 void Road::CheckIfOutputBlocked() {
     if (this->outputRoads.size() == 0) {
         this->outputBlocked = true;
@@ -354,6 +355,7 @@ void Road::CheckIfOutputBlocked() {
     this->blockOutput();
 }
 
+//probably finished
 void Road::CheckIfInputJammed() {   
     if (currentCars.size() == 0) {return;}
 
@@ -368,7 +370,7 @@ void Road::CheckIfInputJammed() {
     }
 }
 
-//Probably finished
+//probably finished
 void Road::UpdateCarVelocity() {
     for (int i = this->currentCars.size() - 1; i >= 1; i--) {
         //std::cout << "WTF?";
