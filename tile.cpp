@@ -268,7 +268,7 @@ void Road::removeCar() {
     this->carOnNode.pop_back();
 }
 
-//NEED REVISITING FOR ROAD OUTPUT LATER
+//NEED REVISITING FOR RANDOMLY SELECTING ROAD OUTPUT LATER
 void Road::updateCars() {
     int c = 0;
     for (Car* myCar: this->currentCars) {
@@ -308,23 +308,6 @@ void Road::updateCars() {
 }
 
 void Road::blockOutput() {
-    /*for (Car* car : this->currentCars) {
-        float lengthLeft = this->roadLength - car->getCarTop();
-        //std::cout << lengthLeft << " " <<  this->roadLength << " " << car->getCarTop() << '\n';
-
-        //slow all car in slowdown zone
-        if (lengthLeft <= CarInfo::lockStopLength) { 
-            //car->acceleration = (car->velocity / CarInfo::desiredVelocity) * (-CarInfo::comfortDecel);
-            //car->acceleration = -CarInfo::comfortDecel;
-
-            if (lengthLeft <= 0.00001) { continue; } //no devide by 0   
-            car->acceleration = (-car->velocity * car->velocity) / (2 * (lengthLeft));
-        }
-
-        else if (lengthLeft <= CarInfo::lockSlowdownLength) {
-            car->velocity = car->velocity * CarInfo::slowDownFactor;
-        }        
-    }*/
     if (this->currentCars.size() == 0) {return;}
     
     Car* car = this->currentCars.back();
@@ -349,12 +332,20 @@ void Road::CheckIfOutputBlocked() {
     if (this->outputRoads.size() == 0) {
         this->outputBlocked = true;
         this->blockOutput();
+        return;
     }
 
     //check if all output roads' inputs are jammed
     for (Road* road: this->outputRoads) {
         if (!road->inputJammed) {
             this->outputBlocked = false;
+            
+            //accelerate top car
+            if (currentCars.size() > 0) {
+                Car* car = this->currentCars.back();
+                car->SetAcceleration(CarInfo::maxAccel);
+            }
+
             return;
         }
     }
@@ -363,8 +354,21 @@ void Road::CheckIfOutputBlocked() {
     this->blockOutput();
 }
 
-//ON WORK
-// NEED UPDATEs
+void Road::CheckIfInputJammed() {   
+    if (currentCars.size() == 0) {return;}
+
+    Car* bottomCar = this->currentCars[0];
+    if (bottomCar->getCarBottom() <= CarInfo::safetyInputJammedRoad) 
+    {
+        this->inputJammed = true;
+    } 
+    else 
+    {
+        this->inputJammed = false;
+    }
+}
+
+//Probably finished
 void Road::UpdateCarVelocity() {
     for (int i = this->currentCars.size() - 1; i >= 1; i--) {
         //std::cout << "WTF?";
@@ -398,8 +402,8 @@ void Road::Update() {
         node.Update();
     }
 
-    //this->CheckIfOutputBlocked();
     this->updateCars();
     this->UpdateCarVelocity();
     this->CheckIfOutputBlocked();
+    this->CheckIfInputJammed();
 }   

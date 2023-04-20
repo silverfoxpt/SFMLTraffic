@@ -29,6 +29,8 @@ class CarInfo {
         static float slowDownFactor;
         static float lockSlowdownLength;
         static float lockStopLength;
+
+        static float safetyInputJammedRoad;
 };
 
 #endif
