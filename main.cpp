@@ -4,6 +4,10 @@
 #include "tilemap.h"
 #include "car.h"
 #include "carInfo.h"
+#include "randomsfml.h"
+
+//really early stuff
+Rand Randomize::rand;
 
 //public variables
 sf::RenderWindow window(sf::VideoMode(800, 800), "Traffic Simulation 2D");
@@ -19,14 +23,13 @@ sf::Texture carTex;
 sf::RenderWindow* GameManager::rend = &window;
 float GameManager::windowWidth = window.getSize().x;
 float GameManager::windowHeight = window.getSize().y;
-float GameManager::deltaTime = 1/60.0;
+float GameManager::deltaTime = 1/300.0;
 
 void Initialize() {
     //get some tex
     //carTex.loadFromFile("carTop.png");
     //car.SetTexture(&carTex);
 
-    //tilemap.GetTile(0, 0)->roads[0].acceptCar(&car);
     testClock.restart();
     for (int i = 0; i < 30; i++) {
         Car newCar(5, CarInfo::carLength);

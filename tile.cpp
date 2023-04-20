@@ -286,7 +286,14 @@ void Road::updateCars() {
                 }
 
                 //input into next road, remove from this road, NEED REVISITING LATER
-                this->outputRoads[0]->acceptCar(myCar);
+                std::vector<Road*> freeRoads;
+                for (Road* road: this->outputRoads) {
+                    if (!road->inputJammed) {
+                        freeRoads.push_back(road);
+                    }
+                }
+                Road* randomRoad = freeRoads[Randomize::rand.RandomInt(0, freeRoads.size()-1)]; 
+                randomRoad->acceptCar(myCar);
 
                 //remove authority from this road
                 this->removeCar();

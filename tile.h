@@ -17,6 +17,7 @@
 #include "car.h"
 #include "gameManager.h"
 #include "carInfo.h"
+#include "randomsfml.h"
 
 class Tilemap;
 
