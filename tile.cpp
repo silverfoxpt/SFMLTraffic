@@ -292,6 +292,10 @@ void Road::updateCars() {
                         freeRoads.push_back(road);
                     }
                 }
+
+                if (freeRoads.size() == 0) {
+                    break;
+                }
                 Road* randomRoad = freeRoads[Randomize::rand.RandomInt(0, freeRoads.size()-1)]; 
                 randomRoad->acceptCar(myCar);
 
