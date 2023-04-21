@@ -45,13 +45,20 @@ void Test() {
      
     //moreeeeeeeeeee testssssssssss
     int counter = 0;
+    Tile* tile = tilemap.GetTile(0, 0);
 
     for (auto &car: cars) {
         window.draw(car.user);
 
-        if (testClock.getElapsedTime().asSeconds() >= c * 0.3 && c == counter) {
-            tilemap.GetTile(0, 0)->roads[0].acceptCar(&car);
-            c++;
+        if (testClock.getElapsedTime().asSeconds() >= c * 0.2 && c == counter) {
+            if (c % 2 == 0 && !tile->roads[0].inputJammed) {
+                tile->roads[0].acceptCar(&car);
+                c++;
+            } else if (!tile->roads[1].inputJammed) {
+                tile->roads[1].acceptCar(&car);
+                c++;
+            }
+            
         }
         counter++;
     }

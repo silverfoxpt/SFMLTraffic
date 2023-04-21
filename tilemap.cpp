@@ -17,6 +17,7 @@ Tilemap::Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tile
             this->tileIds[i].push_back(1);
         }
     }
+    this->tileIds[0][0] = 3;
 
     //setup tiles
     for (int i = 0; i < this->rows; i++) {

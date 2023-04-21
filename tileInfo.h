@@ -44,7 +44,7 @@ struct RoadInfo {
         If the road takes input from road from OTHER TILE, the inputId refers to the input number of the TILE,  (1)
         else, the inputId refers to the id number of the other ROAD (that lead to this road)    (2)
 
-        Same with outputId.
+        Same with outputId, except that if receive input from OTHER ROAD(s) (case 2.5), id can be safely set to -1
 
         The `extraSideIn`, `extraSideOut` refers to the side which the inputId take from, 
             0 for up,

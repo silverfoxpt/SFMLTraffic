@@ -27,6 +27,23 @@ std::map<int, std::vector<Road>> TileInfo::roadInTileMap = {
                 Node(std::pair<float, float>(1.0, 0.3)),
             })
         }
+    },
+    {
+        3, 
+        {
+            Road({
+                Node(std::pair<float, float>(0.0, 0.3)),
+                Node(std::pair<float, float>(0.5, 0.5)),
+            }),
+            Road({
+                Node(std::pair<float, float>(0.0, 0.7)),
+                Node(std::pair<float, float>(0.5, 0.5)),
+            }),
+            Road({
+                Node(std::pair<float, float>(0.5, 0.5)),
+                Node(std::pair<float, float>(1.0, 0.5)),
+            })
+        }
     }
 };
 
@@ -36,7 +53,7 @@ std::map<int, std::vector<RoadInfo>> TileInfo::roadInterConnection = {
         {
             RoadInfo(
                 true, true,
-                1, 1,
+                5, 5, //input at 0.5, output at 0.5 -> 5, 5
                 3, 1
             )
         }
@@ -49,6 +66,27 @@ std::map<int, std::vector<RoadInfo>> TileInfo::roadInterConnection = {
                 true, true,
                 1, 1,
                 3, 1
+            )
+        }
+        
+    },
+    {
+        3, 
+        {
+            RoadInfo(
+                true, false,
+                3, 2,
+                3, -1
+            ),
+            RoadInfo(
+                true, false,
+                7, 2,
+                3, -1
+            ),
+            RoadInfo(
+                false, true,
+                -1, 5,
+                -1, 1
             )
         }
         

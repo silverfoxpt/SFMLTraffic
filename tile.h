@@ -39,6 +39,7 @@ class Road {
 
         bool outputBlocked = false;
         bool inputJammed = false;
+        //bool inputAcquired = false;
 
         std::vector<Node> nodes;
         std::vector<Road*> inputRoads;
