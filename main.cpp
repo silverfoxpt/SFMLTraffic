@@ -50,15 +50,16 @@ void Test() {
     for (auto &car: cars) {
         window.draw(car.user);
 
-        if (testClock.getElapsedTime().asSeconds() >= c * 0.2 && c == counter) {
+        if (testClock.getElapsedTime().asSeconds() >= 0.2 && c == counter) {
             if (c % 2 == 0 && !tile->roads[0].inputJammed) {
                 tile->roads[0].acceptCar(&car);
+                testClock.restart();
                 c++;
-            } else if (!tile->roads[1].inputJammed) {
+            } else if (c % 2 == 1 && !tile->roads[1].inputJammed) {
                 tile->roads[1].acceptCar(&car);
+                testClock.restart();
                 c++;
             }
-            
         }
         counter++;
     }

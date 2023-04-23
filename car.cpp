@@ -19,6 +19,9 @@ void Car::Advance() {
 
     pos                     += heading * currentDisplacement;
     this->SetWorldPosition(pos);
+
+    //this is very, VERY FISHY
+    //this->acceleration = CarInfo::maxAccel;
 }
 
 void Car::SetAcceleration(float acc) {

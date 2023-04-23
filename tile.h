@@ -27,9 +27,13 @@ class Node {
         int posX;
         int posY;
 
+        bool isSharedNode = false;
+        Car* carAcquired = nullptr;
+
         Node(std::pair<float, float> rel);
         void setPosFromParentPos(int parentPosX, int parentPosY, int parentWidth, int parentHeight);
         void Update();
+        sf::Vector2f getPos();
 };
 
 class Road {

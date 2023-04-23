@@ -30,6 +30,30 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* paren
         this->roads[i].colIdx = this->colIdx;
         this->roads[i].rowIdx = this->rowIdx;
     }
+
+    //set up road intersection
+    sf::Vector2i nullRoad(-99999, -99999);
+    for (int i = 0; i < (int) this->roads.size() - 1; i++) {
+        Road* first = &this->roads[i];
+        for (int j = i+1; j < (int) this->roads.size(); j++) {
+            Road* second = &this->roads[j];
+
+            //find all the nodes
+            for (int a = 0; a < (int) first->nodes.size()-1; a++) {
+                Node a1 = first->nodes[a], a2 = first->nodes[a+1];
+                for (int b = 0; b < (int) second->nodes.size()-1; b++) {
+                    Node b1 = second->nodes[b], b2 = second->nodes[b+1];
+
+                    sf::Vector2i intersect = Math::Intersect(a1.getPos(), a2.getPos(), b1.getPos(), b2.getPos());
+                    if (intersect == nullRoad) {
+                        continue;
+                    }
+
+                    std::cout << "Intersection found: " << rowIdx << " " << colIdx << '\n';
+                }
+            }
+        }
+    }
 }
 
 void Tile::Debug(int &c) { //this just draw stuffs, not important, so I won't be refactoring any time soon
@@ -199,6 +223,9 @@ void Node::Update() {
 
 }
 
+sf::Vector2f Node::getPos() {
+    return sf::Vector2f(this->posX, this->posY);
+}
 
 void Road::addInputRoad(Road* road) {
     this->inputRoads.push_back(road);
