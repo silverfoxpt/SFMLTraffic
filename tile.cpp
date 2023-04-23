@@ -39,6 +39,8 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* paren
             Road* second = &this->roads[j];
 
             //find all the nodes
+            std::vector<std::pair<int, Node>> firstAddNode, secondAddNode;
+
             for (int a = 0; a < (int) first->nodes.size()-1; a++) {
                 Node a1 = first->nodes[a], a2 = first->nodes[a+1];
                 for (int b = 0; b < (int) second->nodes.size()-1; b++) {
@@ -48,8 +50,15 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* paren
                     if (intersect == nullRoad) {
                         continue;
                     }
+                    
+                    //debug
+                    //std::cout << "Intersection found: " << rowIdx << " " << colIdx << '\n';
 
-                    std::cout << "Intersection found: " << rowIdx << " " << colIdx << '\n';
+                    //imma stop here, and leave this to future me
+
+                    //Node newNode(intersect);
+                    //firstAddNode.push_back(std::pair<int, Node>(a, newNode));
+                    //secondAddNode.push_back(std::pair<int, Node>(a, newNode));
                 }
             }
         }
@@ -105,28 +114,30 @@ void Tile::Debug(int &c) { //this just draw stuffs, not important, so I won't be
 }
 
 //only used in initialization, so idc if it's slow
-Road* Tile::GetRoad(int side, int idx, bool isInputRoad) {
-    std::vector<RoadInfo> info = TileInfo::roadInterConnection[this->tileId];
+std::vector<Road*> Tile::GetInterRoad(int side, int idx, bool isInputRoad) {
+    std::vector<RoadInterInfo> info = TileInfo::roadInterConnection[this->tileId];
+    std::vector<Road*> result;
 
     for (int i = 0; i < (int) this->roads.size(); i++) {
         //handling input
         if (isInputRoad) {
             if (info[i].inputId == idx && info[i].extraSideIn == side) { //checking
-                return &this->roads[i];
-                //return nullptr;
+                result.push_back(&this->roads[i]);
             }
-        } else { //handling output
+        } 
+        
+        //handling output
+        else { 
             if (info[i].outputId == idx && info[i].extraSideOut == side) { //checking
-                return &this->roads[i];
-                //return nullptr;
+                result.push_back(&this->roads[i]);
             }
         }
     }
-    return nullptr;
+    return result;
 }
 
 void Tile::SetUpRoadConnection() {
-    std::vector<RoadInfo> info = TileInfo::roadInterConnection[this->tileId];
+    std::vector<RoadInterInfo> info = TileInfo::roadInterConnection[this->tileId];
 
     //up, right, down, left
     int dx[4]           = {-1, 0, +1, 0}; 
@@ -134,9 +145,9 @@ void Tile::SetUpRoadConnection() {
     int opposite[4]     = {2, 3, 0, 1};
 
     for (int i = 0; i < (int) this->roads.size(); i++) {
-        RoadInfo c = info[i];
+        RoadInterInfo c = info[i];
 
-        //set up inputs 
+        //set up inputs from other tile
         if (c.inputFromOtherTile) {
             int side = c.extraSideIn;
             int connector = c.inputId;
@@ -148,27 +159,17 @@ void Tile::SetUpRoadConnection() {
                 int sideOut = opposite[side];
 
                 //get da road
-                Road* myRoad = myTile->GetRoad(sideOut, connector, false); //search for output road
-                if (myRoad != nullptr) { //the road exist
-                    this->roads[i].addInputRoad(myRoad); //which means, an OUTPUT ROAD from ANOTHER TILE is the INPUT to THIS road
+                std::vector<Road*> myRoad = myTile->GetInterRoad(sideOut, connector, false); //search for output road
+                for (Road* road: myRoad) { //the road exist
+                    this->roads[i].addInputRoad(road); //which means, an OUTPUT ROAD from ANOTHER TILE is the INPUT to THIS road
                 }
             }
         }
         else {
-            //int side = -1; //same tile
-            int connector = c.inputId;
-            
-            //calculate the opposite tile side
-            int sideOut = -1; //same tile
-
-            //get da road
-            Road* myRoad = this->GetRoad(sideOut, connector, false); //search for output road
-            if (myRoad != nullptr) { //the road exist
-                this->roads[i].addInputRoad(myRoad); //which means, an OUTPUT ROAD from THIS TILE is the INPUT to THIS road
-            }
+            //idc
         }
 
-        //set up outputs.
+        //set up outputs from other tiles
         if (c.outputToOtherTile) {
             int side = c.extraSideOut;
             int connector = c.outputId;
@@ -180,27 +181,23 @@ void Tile::SetUpRoadConnection() {
                 int sideOut = opposite[side];
 
                 //get da road
-                Road* myRoad = myTile->GetRoad(sideOut, connector, true); //search for input road
-                if (myRoad != nullptr) { //the road exist
-                    //std::cout << this->rowIdx << " " << this->colIdx << " ; " << myRoad->rowIdx << " " << myRoad->colIdx << '\n';
-                    this->roads[i].addOutputRoad(myRoad); //which means, an INPUT ROAD from ANOTHER TILE is the OUTPUT to THIS road
+                std::vector<Road*> myRoad = myTile->GetInterRoad(sideOut, connector, true); //search for input road
+                for (Road* road: myRoad) { //the road exist
+                    this->roads[i].addOutputRoad(road); //which means, an INPUT ROAD from ANOTHER TILE is the OUTPUT to THIS road
                 }
             }
         }
         else {
-            // int side = -1; //same tile
-            int connector = c.inputId;
-            
-            //calculate the opposite tile side
-            int sideOut = -1; //same tile
-
-            //get da road
-            Road* myRoad = this->GetRoad(sideOut, connector, true); //search for input road
-            if (myRoad != nullptr) { //the road exist
-                this->roads[i].addOutputRoad(myRoad); //which means, an INPUT ROAD from THIS TILE is the OUTPUT to THIS road
-            }
-        }
+            //idc
+        } 
     }
+
+    //set up road intra-connections (connections between roads in 1 tile)
+    std::vector<std::pair<int, int>> info2 = TileInfo::roadIntraConnection[this->tileId];
+    for (std::pair<int, int> p: info2) {
+        this->roads[p.first].addOutputRoad(&this->roads[p.second]);
+        this->roads[p.second].addInputRoad(&this->roads[p.first]);
+    } 
 }
 
 void Tile::Update() {
@@ -212,6 +209,11 @@ void Tile::Update() {
 
 Node::Node(std::pair<float, float> rel) {
     this->relativePos = rel;
+}
+
+Node::Node(sf::Vector2i actualPos) {
+    this->posX = actualPos.x;
+    this->posY = actualPos.y;
 }
 
 void Node::setPosFromParentPos(int parentPosX, int parentPosY, int parentWidth, int parentHeight) {
@@ -226,6 +228,7 @@ void Node::Update() {
 sf::Vector2f Node::getPos() {
     return sf::Vector2f(this->posX, this->posY);
 }
+
 
 void Road::addInputRoad(Road* road) {
     this->inputRoads.push_back(road);

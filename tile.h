@@ -31,6 +31,7 @@ class Node {
         Car* carAcquired = nullptr;
 
         Node(std::pair<float, float> rel);
+        Node(sf::Vector2i actualPos);
         void setPosFromParentPos(int parentPosX, int parentPosY, int parentWidth, int parentHeight);
         void Update();
         sf::Vector2f getPos();
@@ -93,7 +94,7 @@ class Tile {
         void Update();
         void SetUpRoadConnection(); 
 
-        Road* GetRoad(int side, int idx, bool isInputRoad);
+        std::vector<Road*> GetInterRoad(int side, int idx, bool isInputRoad);
 };
 
 #endif

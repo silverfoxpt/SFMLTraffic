@@ -16,7 +16,7 @@
 
 class Road;
 
-struct RoadInfo {
+struct RoadInterInfo {
     public:
         bool inputFromOtherTile; 
         bool outputToOtherTile;
@@ -25,7 +25,7 @@ struct RoadInfo {
         int extraSideIn;
         int extraSideOut;
 
-        RoadInfo(bool inputFromRoad, bool outputToRoad, 
+        RoadInterInfo(bool inputFromRoad, bool outputToRoad, 
             bool inputId, bool outputId, 
             int extraSideIn, int extraSideOut) 
         {
@@ -41,10 +41,8 @@ struct RoadInfo {
 
         /*
         Explaination:
-        If the road takes input from road from OTHER TILE, the inputId refers to the input number of the TILE,  (1)
-        else, the inputId refers to the id number of the other ROAD (that lead to this road)    (2)
-
-        Same with outputId, except that if receive input from OTHER ROAD(s) (case 2.5), id can be safely set to -1
+        If the road takes input from road from OTHER TILE, the inputId refers to the input number of the TILE.
+        Same with outputId.
 
         The `extraSideIn`, `extraSideOut` refers to the side which the inputId take from, 
             0 for up,
@@ -53,15 +51,15 @@ struct RoadInfo {
             3 for left
         in case (1).
 
-        In case (2) `extraSideIn` can be safely set to -1. 
-        Same with `extraSideOut`
+        Else, inputId, outputId, extraSideIn, extraSideOut can be safely set to -1, cause it doesn't matter
         */
 };
 
 class TileInfo {
     public:
         static std::map<int, std::vector<Road>> roadInTileMap;
-        static std::map<int, std::vector<RoadInfo>> roadInterConnection;
+        static std::map<int, std::vector<RoadInterInfo>> roadInterConnection;
+        static std::map<int, std::vector<std::pair<int, int>>> roadIntraConnection;
 };
 
 #endif
