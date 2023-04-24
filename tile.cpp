@@ -33,13 +33,24 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* paren
 
     //set up road intersection
     sf::Vector2i nullRoad(-99999, -99999);
+    std::vector<std::pair<int, int>> roadIntraCon = TileInfo::roadIntraConnection[this->tileId];
+
     for (int i = 0; i < (int) this->roads.size() - 1; i++) {
         Road* first = &this->roads[i];
         for (int j = i+1; j < (int) this->roads.size(); j++) {
             Road* second = &this->roads[j];
 
+            //check if two roads are already pushing into each other (in roadIntraConection)
+            bool already = false;
+            for (auto x : roadIntraCon) {
+                //if (this->tileId == 3) {std::cout << i << " " << j << '\n';}
+                if (x.first == i && x.second == j) {already = true; break;}
+                if (x.first == j && x.second == i) {already = true; break;}
+            }
+            if (already) {continue;}
+
             //find all the nodes
-            std::vector<std::pair<int, Node>> firstAddNode, secondAddNode;
+            std::vector<std::pair<std::pair<int, int>, sf::Vector2i>> addIntersectNode;
 
             for (int a = 0; a < (int) first->nodes.size()-1; a++) {
                 Node a1 = first->nodes[a], a2 = first->nodes[a+1];
@@ -52,14 +63,32 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* paren
                     }
                     
                     //debug
-                    //std::cout << "Intersection found: " << rowIdx << " " << colIdx << '\n';
+                    std::cout << "Intersection found: " << rowIdx << " " << colIdx << " " << i << " " << j 
+                        << " " << intersect.x << " " << intersect.y << '\n';
 
-                    //imma stop here, and leave this to future me
-
-                    //Node newNode(intersect);
-                    //firstAddNode.push_back(std::pair<int, Node>(a, newNode));
-                    //secondAddNode.push_back(std::pair<int, Node>(a, newNode));
+                    //damn future me
+                    addIntersectNode.push_back(std::pair<std::pair<int, int>, sf::Vector2i>(std::pair<int, int>(a, b), intersect));
                 }
+            }
+
+            //find displacement of intersection
+            for (std::pair<std::pair<int, int>, sf::Vector2i> inter: addIntersectNode) {
+                //first road
+                float displace1 = 0;
+                for (int i = 0; i < inter.first.first; i++) {
+                    displace1 += Math::Length(first->nodes[i+1].getPos() - first->nodes[i].getPos());
+                }
+                displace1 += Math::Length(first->nodes[inter.first.first].getPos() - sf::Vector2f(inter.second.x, inter.second.y));
+                
+                //second road
+                float displace2 = 0;
+                for (int i = 0; i < inter.first.second; i++) {
+                    displace2 += Math::Length(second->nodes[i+1].getPos() - second->nodes[i].getPos());
+                }
+                displace2 += Math::Length(second->nodes[inter.first.second].getPos() - sf::Vector2f(inter.second.x, inter.second.y));
+                
+                IntersectNode newIntersection(inter.second, displace1, displace2);
+                IntersectManager::addNode(newIntersection);
             }
         }
     }

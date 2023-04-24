@@ -69,10 +69,10 @@ class Math {
 
             //check if in both segments (previously we check for line)
             int mini = std::min(a1.x, a2.x), maxi = std::max(a1.x, a2.x);
-            if (x < mini && x > maxi) { return nullRoad; }
+            if (x < mini || x > maxi) { return nullRoad; }
 
             mini = std::min(b1.x, b2.x), maxi = std::max(b1.x, b2.x);
-            if (x < mini && x > maxi) { return nullRoad; }
+            if (x < mini || x > maxi) { return nullRoad; }
 
             //return
             return sf::Vector2i(x, y);

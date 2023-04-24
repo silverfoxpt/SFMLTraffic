@@ -5,9 +5,11 @@
 #include "car.h"
 #include "carInfo.h"
 #include "randomsfml.h"
+#include "intersectnode.h"
 
-//really early stuff
+//really early stuff initialization
 Rand Randomize::rand;
+std::vector<IntersectNode> IntersectManager::intersections;
 
 //public variables
 sf::RenderWindow window(sf::VideoMode(800, 800), "Traffic Simulation 2D");
@@ -23,7 +25,7 @@ sf::Texture carTex;
 sf::RenderWindow* GameManager::rend = &window;
 float GameManager::windowWidth = window.getSize().x;
 float GameManager::windowHeight = window.getSize().y;
-float GameManager::deltaTime = 1/300.0;
+float GameManager::deltaTime = 1/60.0;
 
 void Initialize() {
     //get some tex

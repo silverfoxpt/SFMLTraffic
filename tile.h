@@ -19,16 +19,16 @@
 #include "carInfo.h"
 #include "randomsfml.h"
 
+#include "intersectnode.h"
+
 class Tilemap;
+class IntersectNode;
 
 class Node {
     public:
         std::pair<float, float> relativePos;
         int posX;
         int posY;
-
-        bool isSharedNode = false;
-        Car* carAcquired = nullptr;
 
         Node(std::pair<float, float> rel);
         Node(sf::Vector2i actualPos);
