@@ -1,20 +1,26 @@
 #include <SFML/Graphics.hpp>
 
-#include "tile.h"
-#include "tilemap.h"
-#include "car.h"
-#include "carInfo.h"
-#include "randomsfml.h"
-#include "intersectnode.h"
+#include "Simulation/tile.h"
+#include "Simulation/tilemap.h"
+#include "Simulation/car.h"
+#include "Simulation/carInfo.h"
+#include "Simulation/randomsfml.h"
+#include "Simulation/intersectnode.h"
+
+#include "IMGui Stuffs/imgui.h"
+#include "IMGui Stuffs/imgui-SFML.h"
 
 //really early stuff initialization
 Rand Randomize::rand;
 std::vector<IntersectNode> IntersectManager::intersections;
 
+
 //public variables
 sf::RenderWindow window(sf::VideoMode(800, 800), "Traffic Simulation 2D");
+sf::RenderWindow mapmaker(sf::VideoMode(400, 400), "Map 2D");
 Tilemap tilemap(5, 7, 50, 50, 100, 100, &window);
 
+//test variables
 std::vector<Car> cars;
 int c = 0;
 sf::Clock testClock;
@@ -67,10 +73,19 @@ void Test() {
     }
 }
 
+void SFMLUpdate() {
+    ImGui::Begin("Input");
+    ImGui::Text("Graph manipulation");
+    ImGui::End();
+}
+
 int main()
 {
+    ImGui::SFML::Init(mapmaker);
     Initialize();
-    while (window.isOpen())
+
+    sf::Clock deltaTime;
+    while (window.isOpen() && mapmaker.isOpen())
     {
         sf::Event event;
         while (window.pollEvent(event))
@@ -78,13 +93,23 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+        while(mapmaker.pollEvent(event)) {
+            ImGui::SFML::ProcessEvent(mapmaker, event);
+            if (event.type == sf::Event::Closed)
+                mapmaker.close();
+        }
 
+        ImGui::SFML::Update(mapmaker, deltaTime.restart());
         window.clear();
+        mapmaker.clear();
         
         Test(); 
+        SFMLUpdate();
 
+        ImGui::SFML::Render(mapmaker);
         window.display();
+        mapmaker.display();
     }
-
+    ImGui::SFML::Shutdown();
     return 0;
 }
