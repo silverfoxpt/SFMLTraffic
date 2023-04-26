@@ -57,6 +57,7 @@ class Road {
 
         void addInputRoad(Road* road);
         void addOutputRoad(Road* road);
+        void addNode(Node node);
 
         void setAllPosOfNodeFromParentPos(int parentPosX, int parentPosY, int parentWidth, int parentHeight);
         void acceptCar(Car* newCar);
@@ -69,6 +70,8 @@ class Road {
         void UpdateCarVelocity();
 
         Road(std::vector<Node> nodes);
+        Road() { } //default constructor
+
         void CalculateRoadLength();
         void Update();
 };

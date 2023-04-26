@@ -17,28 +17,31 @@ Rand Randomize::rand;
 std::vector<IntersectNode> IntersectManager::intersections;
 
 //public variables
-sf::RenderWindow window(sf::VideoMode(800, 800), "Traffic Simulation 2D");
-sf::RenderWindow mapmaker(sf::VideoMode(400, 400), "Map 2D");
-Tilemap tilemap(5, 7, 50, 50, 100, 100, &window);
-Map map(&mapmaker);
-
-//test variables
-std::vector<Car> cars;
-int c = 0;
-sf::Clock testClock;
-
-sf::Texture carTex;
+sf::RenderWindow    window(sf::VideoMode(800, 800), "Traffic Simulation 2D");
+sf::RenderWindow    mapmaker(sf::VideoMode(400, 400), "Map 2D");
 
 //initialize some static vars
 sf::RenderWindow* GameManager::rend = &window;
 float GameManager::windowWidth = window.getSize().x;
 float GameManager::windowHeight = window.getSize().y;
 float GameManager::deltaTime = 1/60.0;
+int GameManager::tileSize = 100;
+
+Tilemap             tilemap(5, 7, 50, 50, GameManager::tileSize, GameManager::tileSize, &window);
+Map                 editor(&mapmaker);
+    
+//test variables
+std::vector<Car>    cars;
+int                 c = 0;
+sf::Clock           testClock;
+
+sf::Texture         carTex;
 
 void Initialize() {
     //get some tex
     //carTex.loadFromFile("carTop.png");
     //car.SetTexture(&carTex);
+    editor.Initialize();
 
     testClock.restart();
     for (int i = 0; i < 30; i++) {
@@ -76,8 +79,8 @@ void Test() {
 }
 
 void SFMLUpdate() {
-    ImGui::Begin("Input");
-    ImGui::Text("Graph manipulation");
+    ImGui::Begin("Map editor");
+    ImGui::InputInt("Draw status", editor.getStatus());
     ImGui::End();
 }
 
@@ -97,6 +100,8 @@ int main()
         }
         while(mapmaker.pollEvent(event)) {
             ImGui::SFML::ProcessEvent(mapmaker, event);
+            editor.Input(event);
+
             if (event.type == sf::Event::Closed)
                 mapmaker.close();
         }
@@ -107,11 +112,13 @@ int main()
         
         Test(); 
         SFMLUpdate();
-        map.Update();
+        editor.Update();
 
         ImGui::SFML::Render(mapmaker);
         window.display();
         mapmaker.display();
+
+        //std::cout << 1.0 / deltaTime.getElapsedTime().asSeconds() << '\n';
     }
     ImGui::SFML::Shutdown();
     return 0;

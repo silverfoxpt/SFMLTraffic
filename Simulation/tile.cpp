@@ -258,6 +258,9 @@ sf::Vector2f Node::getPos() {
     return sf::Vector2f(this->posX, this->posY);
 }
 
+void Road::addNode(Node node) {
+    this->nodes.push_back(node);
+}
 
 void Road::addInputRoad(Road* road) {
     this->inputRoads.push_back(road);

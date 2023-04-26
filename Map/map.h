@@ -12,6 +12,10 @@
 #include <memory>
 #include <chrono>
 
+#include "drawmap.h"
+
+class Drawmap;
+
 class Map {
     public:
         sf::RenderWindow* rend;
@@ -19,13 +23,20 @@ class Map {
         int size = 200;
         sf::Vector2f offset = sf::Vector2f(50, 50);
 
+        //child class
+        Drawmap myDrawmap;
+
         void Initialize();
         void Update();
-        void Input();
+        void Input(sf::Event event);
+
+        int* getStatus(); 
 
         Map(sf::RenderWindow *rend) {
             this->rend = rend;   
+            this->myDrawmap = Drawmap(rend, this);
         }
+        Map() {} //default
 
     private:
         sf::RectangleShape rect;
