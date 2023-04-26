@@ -7,3 +7,7 @@ void Map::Initialize() {
 
     this->rect.setPosition(this->offset);
 }
+
+void Map::Update() {
+    this->rend->draw(rect);
+}

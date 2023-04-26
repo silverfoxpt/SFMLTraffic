@@ -7,6 +7,8 @@
 #include "Simulation/randomsfml.h"
 #include "Simulation/intersectnode.h"
 
+#include "Map/map.h"
+
 #include "IMGui Stuffs/imgui.h"
 #include "IMGui Stuffs/imgui-SFML.h"
 
@@ -14,11 +16,11 @@
 Rand Randomize::rand;
 std::vector<IntersectNode> IntersectManager::intersections;
 
-
 //public variables
 sf::RenderWindow window(sf::VideoMode(800, 800), "Traffic Simulation 2D");
 sf::RenderWindow mapmaker(sf::VideoMode(400, 400), "Map 2D");
 Tilemap tilemap(5, 7, 50, 50, 100, 100, &window);
+Map map(&mapmaker);
 
 //test variables
 std::vector<Car> cars;
@@ -105,6 +107,7 @@ int main()
         
         Test(); 
         SFMLUpdate();
+        map.Update();
 
         ImGui::SFML::Render(mapmaker);
         window.display();
