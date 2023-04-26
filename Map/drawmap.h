@@ -12,22 +12,23 @@
 #include <memory>
 #include <chrono>
 
-#include "../Simulation/tile.h"
 #include "map.h"
+#include "nodes.h"
 
 class Map;
 
 class Drawmap {
     public:
-        bool isDrawing;
-        std::vector<Node> nodes;
+        std::vector<SaveNode> nodes;
 
         sf::RenderWindow* myRend;
         Map* parent;
 
         Drawmap(sf::RenderWindow* rend, Map* par);
         Drawmap() {} //default constructor
+
         void Input(sf::Event event);
+        void Visualize();
 };
 
 #endif

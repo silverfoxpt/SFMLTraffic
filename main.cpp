@@ -1,13 +1,13 @@
 #include <SFML/Graphics.hpp>
 
+#include "Map/map.h"
+
 #include "Simulation/tile.h"
 #include "Simulation/tilemap.h"
 #include "Simulation/car.h"
 #include "Simulation/carInfo.h"
 #include "Simulation/randomsfml.h"
 #include "Simulation/intersectnode.h"
-
-#include "Map/map.h"
 
 #include "IMGui Stuffs/imgui.h"
 #include "IMGui Stuffs/imgui-SFML.h"
@@ -113,6 +113,7 @@ int main()
         Test(); 
         SFMLUpdate();
         editor.Update();
+        editor.Visualize();
 
         ImGui::SFML::Render(mapmaker);
         window.display();

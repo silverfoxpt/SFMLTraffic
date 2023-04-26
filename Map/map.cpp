@@ -8,6 +8,8 @@ void Map::Initialize() {
     this->rect.setOutlineThickness(2);
 
     this->rect.setPosition(this->offset);
+
+    this->myDrawmap = Drawmap(rend, this);
 }
 
 void Map::Update() {
@@ -19,6 +21,10 @@ void Map::Input(sf::Event event) {
     if (this->drawStatus == 0) {
         this->myDrawmap.Input(event);
     }
+}
+
+void Map::Visualize() {
+    this->myDrawmap.Visualize();
 }
 
 int* Map::getStatus() {
