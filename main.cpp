@@ -28,6 +28,8 @@ float GameManager::deltaTime = 1/60.0;
 int GameManager::tileSize = 100;
 
 Tilemap             tilemap(5, 7, 50, 50, GameManager::tileSize, GameManager::tileSize, &window);
+
+Drawmap             editorDrawmap(&mapmaker);
 Map                 editor(&mapmaker);
     
 //test variables
@@ -38,11 +40,10 @@ sf::Clock           testClock;
 sf::Texture         carTex;
 
 void Initialize() {
-    //get some tex
-    //carTex.loadFromFile("carTop.png");
-    //car.SetTexture(&carTex);
-    editor.Initialize();
+    editorDrawmap.Initialize(&editor);
+    editor.Initialize(&editorDrawmap);
 
+    //test
     testClock.restart();
     for (int i = 0; i < 30; i++) {
         Car newCar(5, CarInfo::carLength);
@@ -113,7 +114,7 @@ int main()
         Test(); 
         SFMLUpdate();
         editor.Update();
-        editor.Visualize();
+        editor.Visualize(event);
 
         ImGui::SFML::Render(mapmaker);
         window.display();

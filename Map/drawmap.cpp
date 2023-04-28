@@ -1,14 +1,29 @@
 #include "drawmap.h"
 
-Drawmap::Drawmap(sf::RenderWindow* rend, Map* par) {
-    this->parent = par;
+Drawmap::Drawmap() {  //default constructor
+     
+}
 
+Drawmap::Drawmap(sf::RenderWindow* rend) {
     this->myRend = rend;
+}
+
+void Drawmap::Initialize(Map* map) {
+    this->parent = map;
 }
 
 void Drawmap::Input(sf::Event event) {
     if (event.type == sf::Event::MouseButtonPressed) {
         if (event.mouseButton.button == sf::Mouse::Left) {
+            //check if node in box
+            if (event.mouseButton.x < this->parent->offset.x || event.mouseButton.y < this->parent->offset.y ||
+                event.mouseButton.x > this->parent->offset.x + this->parent->size || 
+                event.mouseButton.y > this->parent->offset.y + this->parent->size
+            ) 
+            {
+                return;
+            }
+            //create node
             sf::Vector2f relativePos((event.mouseButton.x - this->parent->offset.x) / GameManager::tileSize, (event.mouseButton.y - this->parent->offset.y) / GameManager::tileSize);
             sf::Vector2f actualPos(event.mouseButton.x, event.mouseButton.y);
 
@@ -21,7 +36,7 @@ void Drawmap::Input(sf::Event event) {
     }
 }
 
-void Drawmap::Visualize() {
+void Drawmap::Visualize(sf::Event event) {
     if (!this->nodes.empty()) {
         //draw lines between all the nodes
         for (int i = 0; i < (int) this->nodes.size()-1; i++) {
@@ -32,5 +47,23 @@ void Drawmap::Visualize() {
             };
             this->myRend->draw(line , 2, sf::Lines);
         }
+
+        //draw lines between last node and mouse if mouse in map
+        if (event.mouseButton.x < this->parent->offset.x || event.mouseButton.y < this->parent->offset.y ||
+                event.mouseButton.x > this->parent->offset.x + this->parent->size || 
+                event.mouseButton.y > this->parent->offset.y + this->parent->size
+            ) 
+        {
+            return;
+        }
+
+        sf::Vertex line[2] =
+        {
+            sf::Vertex(sf::Vector2f(this->nodes[this->nodes.size() - 1].mapPos.x, this->nodes[this->nodes.size() - 1].mapPos.y), sf::Color::Red),
+            sf::Vertex(sf::Vector2f(event.mouseButton.x, event.mouseButton.y), sf::Color::Red)
+        };
+        this->myRend->draw(line , 2, sf::Lines);
+
+        
     }
 }

@@ -24,11 +24,12 @@ class Drawmap {
         sf::RenderWindow* myRend;
         Map* parent;
 
-        Drawmap(sf::RenderWindow* rend, Map* par);
-        Drawmap() {} //default constructor
+        Drawmap(sf::RenderWindow* rend);
+        Drawmap();
 
         void Input(sf::Event event);
-        void Visualize();
+        void Visualize(sf::Event event);
+        void Initialize(Map* map);
 };
 
 #endif

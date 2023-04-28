@@ -1,6 +1,14 @@
 #include "map.h"
 
-void Map::Initialize() {
+Map::Map(sf::RenderWindow* rend)  {
+    this->rend = rend;   
+}
+
+Map::Map() {
+
+}
+
+void Map::Initialize(Drawmap* myDrawmap) {
     this->rect = sf::RectangleShape(sf::Vector2f(this->size, this->size));
 
     this->rect.setFillColor(sf::Color(255, 255, 255, 0));
@@ -9,7 +17,7 @@ void Map::Initialize() {
 
     this->rect.setPosition(this->offset);
 
-    this->myDrawmap = Drawmap(rend, this);
+    this->myDrawmap = myDrawmap;
 }
 
 void Map::Update() {
@@ -19,12 +27,12 @@ void Map::Update() {
 void Map::Input(sf::Event event) {
     // drawing
     if (this->drawStatus == 0) {
-        this->myDrawmap.Input(event);
+        this->myDrawmap->Input(event);
     }
 }
 
-void Map::Visualize() {
-    this->myDrawmap.Visualize();
+void Map::Visualize(sf::Event event) {
+    this->myDrawmap->Visualize(event);
 }
 
 int* Map::getStatus() {
