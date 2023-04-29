@@ -27,9 +27,9 @@ class Drawmap {
         Drawmap(sf::RenderWindow* rend);
         Drawmap();
 
-        void Input(sf::Event event);
-        void Visualize(sf::Event event);
-        void Initialize(Map* map);
+        virtual void Input(sf::Event event);
+        virtual void Visualize(sf::Event event);
+        virtual void Initialize(Map* map);
 };
 
 #endif

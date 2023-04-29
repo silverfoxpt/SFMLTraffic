@@ -24,7 +24,7 @@ class Map {
         //initialize
         sf::RenderWindow* rend;
         int drawStatus          = 0;
-        int size                = 200;
+        int size                = 400;
         sf::Vector2f offset     = sf::Vector2f(50, 50);
 
         //child class
@@ -39,6 +39,7 @@ class Map {
         void Visualize(sf::Event event);
 
         int* getStatus(); 
+        void addRoad(SaveRoad road);
 
         Map(sf::RenderWindow *rend);
         Map();

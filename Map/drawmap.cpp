@@ -39,7 +39,10 @@ void Drawmap::Input(sf::Event event) {
     //stop the drawing, add to main map
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Escape) {
+            SaveRoad newRoad;
+            newRoad.nodes = this->nodes; this->nodes.clear();
 
+            this->parent->addRoad(newRoad);
         }
     }
 }
@@ -59,7 +62,7 @@ void Drawmap::Visualize(sf::Event event) {
         //draw lines between last node and mouse if mouse in map
         sf::Vector2i p = sf::Mouse::getPosition(*this->myRend);
         sf::Vector2f pos(p.x, p.y);
-        
+
         if (pos.x < this->parent->offset.x || pos.y < this->parent->offset.y ||
                 pos.x > this->parent->offset.x + this->parent->size || 
                 pos.y > this->parent->offset.y + this->parent->size

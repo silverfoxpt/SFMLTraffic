@@ -18,7 +18,7 @@ std::vector<IntersectNode> IntersectManager::intersections;
 
 //public variables
 sf::RenderWindow    window(sf::VideoMode(800, 800), "Traffic Simulation 2D");
-sf::RenderWindow    mapmaker(sf::VideoMode(400, 400), "Map 2D");
+sf::RenderWindow    mapmaker(sf::VideoMode(600, 600), "Map 2D");
 
 //initialize some static vars
 sf::RenderWindow* GameManager::rend = &window;
@@ -42,6 +42,9 @@ sf::Texture         carTex;
 void Initialize() {
     editorDrawmap.Initialize(&editor);
     editor.Initialize(&editorDrawmap);
+
+    window.setPosition(sf::Vector2i(150, 150));
+    mapmaker.setPosition(sf::Vector2i(1000, 150));
 
     //test
     testClock.restart();
