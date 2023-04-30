@@ -63,3 +63,25 @@ int* Map::getStatus() {
 void Map::addRoad(SaveRoad road) {
     this->roads.push_back(road);
 }
+
+SaveNode Map::getSaveNodeFromMousePos(sf::Vector2f mousePos) {
+    //create node
+    sf::Vector2f relativePos((mousePos.x - this->offset.x) / GameManager::tileSize, (mousePos.y - this->offset.y) / GameManager::tileSize);
+    sf::Vector2f actualPos(mousePos.x, mousePos.y);
+
+    SaveNode newNode;
+    newNode.mapPos = actualPos;
+    newNode.relativePos = relativePos;
+}
+
+bool Map::checkInMapFromActualPos(sf::Vector2f actualPos) {
+    //check if node in box
+    if (actualPos.x < this->offset.x || actualPos.y < this->offset.y ||
+        actualPos.x > this->offset.x + this->size || 
+        actualPos.y > this->offset.y + this->size
+    ) 
+    {
+        return false;
+    }
+    return true;
+}

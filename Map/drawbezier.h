@@ -16,6 +16,11 @@
 
 class DrawBezier : public Drawmap {
     public:
+        int numPoints = 50;
+        bool clickedFirst = false;
+        bool clickedSecond = false;
+        SaveNode firstNode;
+
         DrawBezier(sf::RenderWindow* rend) : Drawmap(rend) {
             this->myRend = rend;
         }

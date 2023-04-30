@@ -41,6 +41,9 @@ class Map {
         int* getStatus(); 
         void addRoad(SaveRoad road);
 
+        SaveNode getSaveNodeFromMousePos(sf::Vector2f mousePos);
+        bool checkInMapFromActualPos(sf::Vector2f actualPos);
+
         Map(sf::RenderWindow *rend);
         Map();
 
