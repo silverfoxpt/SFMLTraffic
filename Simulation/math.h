@@ -26,6 +26,20 @@ class Math {
             return std::sqrt(a.x * a.x + a.y * a.y);
         }
 
+        static sf::Vector2f Middlepoint(sf::Vector2f a, sf::Vector2f b) {
+            return sf::Vector2f((a.x + b.x) / 2, (a.y + b.y) / 2);
+        }
+
+        static sf::Vector2f Lerp(sf::Vector2f a, sf::Vector2f b, float t) {
+            if (t <= 0) {return a;}
+            if (t >= 1) {return b;}
+
+            float x = a.x + (b.x - a.x) * t;
+            float y = a.y + (b.y - a.y) * t;
+            return sf::Vector2f(x, y);
+        }
+
+        //intersection of *segments*, NOT LINES
         static sf::Vector2i Intersect(sf::Vector2f a1, sf::Vector2f a2, sf::Vector2f b1, sf::Vector2f b2) {
             sf::Vector2i nullRoad(-99999, -99999);
 

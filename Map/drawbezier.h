@@ -14,12 +14,20 @@
 
 #include "drawmap.h"
 
+#include "../Simulation/math.h"
+
 class DrawBezier : public Drawmap {
     public:
+        //for the bezier
         int numPoints = 50;
         bool clickedFirst = false;
         bool clickedSecond = false;
+
+        bool isDraggingNode = false;
+
         SaveNode firstNode;
+        SaveNode secondNode;
+        sf::CircleShape bezierConfigure1;
 
         DrawBezier(sf::RenderWindow* rend) : Drawmap(rend) {
             this->myRend = rend;
