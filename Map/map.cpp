@@ -8,7 +8,7 @@ Map::Map() {
 
 }
 
-void Map::Initialize(Drawmap* myDrawmap) {
+void Map::Initialize(Drawmap* myDrawmap, DrawBezier* myDrawBezier) {
     this->rect = sf::RectangleShape(sf::Vector2f(this->size, this->size));
 
     this->rect.setFillColor(sf::Color(255, 255, 255, 0));
@@ -17,7 +17,9 @@ void Map::Initialize(Drawmap* myDrawmap) {
 
     this->rect.setPosition(this->offset);
 
+    //add children
     this->myDrawmap = myDrawmap;
+    this->myDrawBezier = myDrawBezier;
 }
 
 void Map::Update() {
@@ -28,12 +30,15 @@ void Map::Input(sf::Event event) {
     // drawing
     if (this->drawStatus == 0) {
         this->myDrawmap->Input(event);
+    } else if (this->drawStatus == 1) {
+        this->myDrawBezier->Input(event);
     }
 }
 
 void Map::Visualize(sf::Event event) {
     //visualize for sub-map event
     this->myDrawmap->Visualize(event);
+    this->myDrawBezier->Visualize(event);
 
     //visualize for main
 
@@ -72,6 +77,8 @@ SaveNode Map::getSaveNodeFromMousePos(sf::Vector2f mousePos) {
     SaveNode newNode;
     newNode.mapPos = actualPos;
     newNode.relativePos = relativePos;
+
+    return newNode;
 }
 
 bool Map::checkInMapFromActualPos(sf::Vector2f actualPos) {

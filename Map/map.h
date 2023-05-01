@@ -12,12 +12,14 @@
 #include <memory>
 #include <chrono>
 
+#include "drawbezier.h"
 #include "drawmap.h"
 #include "nodes.h"
 
 #include "../Simulation/gameManager.h"
 
 class Drawmap;
+class DrawBezier;
 
 class Map {
     public:
@@ -29,11 +31,12 @@ class Map {
 
         //child class
         Drawmap* myDrawmap;
+        DrawBezier* myDrawBezier;
 
         //important stuffs
         std::vector<SaveRoad> roads;
 
-        void Initialize(Drawmap * myDrawmap);
+        void Initialize(Drawmap * myDrawmap, DrawBezier* myDrawBezier);
         void Update();
         void Input(sf::Event event);
         void Visualize(sf::Event event);

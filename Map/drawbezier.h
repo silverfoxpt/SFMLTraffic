@@ -12,31 +12,42 @@
 #include <memory>
 #include <chrono>
 
-#include "drawmap.h"
+#include "map.h"
+#include "nodes.h"
 
 #include "../Simulation/math.h"
 
-class DrawBezier : public Drawmap {
+class Map;
+
+class DrawBezier {
     public:
+        //normal stuffs
+        std::vector<SaveNode> nodes;
+
+        sf::RenderWindow* myRend;
+        Map* parent;
+
         //for the bezier
         int numPoints = 50;
         bool clickedFirst = false;
         bool clickedSecond = false;
 
-        bool isDraggingNode = false;
+        bool isDraggingNode1 = false;
 
         SaveNode firstNode;
         SaveNode secondNode;
         sf::CircleShape bezierConfigure1;
 
-        DrawBezier(sf::RenderWindow* rend) : Drawmap(rend) {
+        DrawBezier(sf::RenderWindow* rend) {
             this->myRend = rend;
         }
 
         DrawBezier() {} //default
 
-        void Input(sf::Event event) override;
-        virtual void Visualize(sf::Event event);
+        void Input(sf::Event event);
+        void Visualize(sf::Event event);
+        void Initialize(Map* myMap);
+        //void Dragging();
 };
 
 #endif

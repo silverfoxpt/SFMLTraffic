@@ -29,6 +29,7 @@ int GameManager::tileSize = 100;
 
 Tilemap             tilemap(5, 7, 50, 50, GameManager::tileSize, GameManager::tileSize, &window);
 
+DrawBezier          editorDrawBezier(&mapmaker);
 Drawmap             editorDrawmap(&mapmaker);
 Map                 editor(&mapmaker);
     
@@ -41,7 +42,8 @@ sf::Texture         carTex;
 
 void Initialize() {
     editorDrawmap.Initialize(&editor);
-    editor.Initialize(&editorDrawmap);
+    editorDrawBezier.Initialize(&editor);
+    editor.Initialize(&editorDrawmap, &editorDrawBezier);
 
     window.setPosition(sf::Vector2i(150, 150));
     mapmaker.setPosition(sf::Vector2i(1000, 150));
