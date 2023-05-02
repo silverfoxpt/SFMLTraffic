@@ -33,6 +33,7 @@ class DrawBezier {
         bool clickedSecond = false;
 
         bool isDraggingNode1 = false;
+        //bool isCubic = false;
 
         SaveNode firstNode;
         SaveNode secondNode;

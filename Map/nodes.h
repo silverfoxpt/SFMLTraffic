@@ -27,4 +27,10 @@ class SaveRoad {
         SaveRoad() {}
 };
 
+class SaveIntersectingNode {
+    public:
+        SaveNode posNode;
+        std::vector<SaveRoad> intersectingRoads;
+};
+
 #endif

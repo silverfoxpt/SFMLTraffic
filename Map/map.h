@@ -14,12 +14,14 @@
 
 #include "drawbezier.h"
 #include "drawmap.h"
+#include "intersectmap.h"
 #include "nodes.h"
 
 #include "../Simulation/gameManager.h"
 
 class Drawmap;
 class DrawBezier;
+class IntersectMap;
 
 class Map {
     public:
@@ -32,11 +34,12 @@ class Map {
         //child class
         Drawmap* myDrawmap;
         DrawBezier* myDrawBezier;
+        IntersectMap* myIntersectMap;
 
         //important stuffs
         std::vector<SaveRoad> roads;
 
-        void Initialize(Drawmap * myDrawmap, DrawBezier* myDrawBezier);
+        void Initialize(Drawmap * myDrawmap, DrawBezier* myDrawBezier, IntersectMap* myIntersectMap);
         void Update();
         void Input(sf::Event event);
         void Visualize(sf::Event event);

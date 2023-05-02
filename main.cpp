@@ -29,6 +29,7 @@ int GameManager::tileSize = 100;
 
 Tilemap             tilemap(5, 7, 50, 50, GameManager::tileSize, GameManager::tileSize, &window);
 
+IntersectMap        editorIntersectMap(&mapmaker);
 DrawBezier          editorDrawBezier(&mapmaker);
 Drawmap             editorDrawmap(&mapmaker);
 Map                 editor(&mapmaker);
@@ -41,9 +42,10 @@ sf::Clock           testClock;
 sf::Texture         carTex;
 
 void Initialize() {
+    editorIntersectMap.Initialize(&editor);
     editorDrawmap.Initialize(&editor);
     editorDrawBezier.Initialize(&editor);
-    editor.Initialize(&editorDrawmap, &editorDrawBezier);
+    editor.Initialize(&editorDrawmap, &editorDrawBezier, &editorIntersectMap);
 
     window.setPosition(sf::Vector2i(150, 150));
     mapmaker.setPosition(sf::Vector2i(1000, 150));
