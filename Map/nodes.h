@@ -30,7 +30,8 @@ class SaveRoad {
 class SaveIntersectingNode {
     public:
         SaveNode posNode;
-        std::vector<SaveRoad> intersectingRoads;
+        std::vector<int> intersectingRoadIndex;
+        std::vector<int> startNodeIdx;
 };
 
 #endif

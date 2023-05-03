@@ -42,7 +42,7 @@ void Map::Visualize(sf::Event event) {
     //visualize for sub-map event
     this->myDrawmap->Visualize(event);
     this->myDrawBezier->Visualize(event);
-    this->myIntersectMap->Visualize(event);
+    //this->myIntersectMap->Visualize(event);
 
     //visualize for main
     //draw all road
@@ -62,14 +62,77 @@ void Map::Visualize(sf::Event event) {
             begin = node.mapPos;
         }
     }
+
+    //visualize for sub-map event - postmain for layering purposes
+    this->myIntersectMap->Visualize(event);
 }
 
 int* Map::getStatus() {
     return &(this->drawStatus);
 }
 
-void Map::addRoad(SaveRoad road) {
-    this->roads.push_back(road);
+void Map::addRoad(SaveRoad addRoad) {
+    //find new intersection(s)
+    std::vector<SaveIntersectingNode> newInter;
+    sf::Vector2i nullRoad(-99999, -99999);
+
+    int mainIdx = 0;
+    for (SaveRoad& road: this->roads) {
+        for (int i = 0; i < (int) road.nodes.size()-1; i++) {
+            SaveNode a1 = road.nodes[i], a2 = road.nodes[i+1];
+
+            for (int j = 0; j < (int) addRoad.nodes.size()-1; j++) {
+                SaveNode b1 = addRoad.nodes[j], b2 = addRoad.nodes[j+1];
+
+                auto intersection = Math::Intersect(a1.mapPos, a2.mapPos, b1.mapPos, b2.mapPos);
+                if (intersection == nullRoad) {continue;}
+
+                SaveNode interNode = this->getSaveNodeFromMousePos(Math::convertToFloatVec(intersection));
+
+                SaveIntersectingNode newIntersection;
+                newIntersection.posNode = interNode;
+                newIntersection.intersectingRoadIndex.push_back(mainIdx);
+                newIntersection.intersectingRoadIndex.push_back(road.nodes.size());
+                newIntersection.startNodeIdx.push_back(i);
+                newIntersection.startNodeIdx.push_back(j);
+
+                newInter.push_back(newIntersection);
+            }
+        }   
+        mainIdx++;
+    }
+
+    //merge same intersection
+    std::vector<SaveIntersectingNode> newUniqueInter;
+    for (int i = 0; i < (int) this->intersections.size(); i++) {
+        for (int j = 0; j < (int) newInter.size(); j++) {
+            SaveIntersectingNode n1 = this->intersections[i];
+            SaveIntersectingNode n2 = newInter[j];
+
+            float len = Math::Distance(n1.posNode.mapPos, n2.posNode.mapPos);
+
+            //group da nodes together :v
+            if (len <= Math::Exponent) {
+                for (int k = 0; k < n2.intersectingRoadIndex.size(); k++) {
+                    this->intersections[i].intersectingRoadIndex.push_back(n2.intersectingRoadIndex[k]);
+                    this->intersections[i].startNodeIdx.push_back(n2.startNodeIdx[k]);
+                }
+            } else {
+                newUniqueInter.push_back(n2);
+            }
+        }
+    }
+    if (this->intersections.size() == 0) {
+        newUniqueInter = newInter;
+    }
+
+    //add new unique intersection to map
+    for (SaveIntersectingNode node: newUniqueInter) {
+        this->intersections.push_back(node);
+    }
+
+    //add road
+    this->roads.push_back(addRoad);
 }
 
 SaveNode Map::getSaveNodeFromMousePos(sf::Vector2f mousePos) {

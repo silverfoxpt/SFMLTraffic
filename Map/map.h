@@ -38,6 +38,7 @@ class Map {
 
         //important stuffs
         std::vector<SaveRoad> roads;
+        std::vector<SaveIntersectingNode> intersections;
 
         void Initialize(Drawmap * myDrawmap, DrawBezier* myDrawBezier, IntersectMap* myIntersectMap);
         void Update();

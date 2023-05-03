@@ -14,6 +14,8 @@
 
 class Math {
     public:
+        static constexpr float Exponent = 3;
+
         static float DotProd(sf::Vector2f a, sf::Vector2f b) {
             return a.x * b.x + a.y * b.y;
         }
@@ -24,6 +26,10 @@ class Math {
 
         static float Length(sf::Vector2f a) {
             return std::sqrt(a.x * a.x + a.y * a.y);
+        }
+
+        static float Distance(sf::Vector2f a, sf::Vector2f b) {
+             return std::sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
         }
 
         static sf::Vector2f Middlepoint(sf::Vector2f a, sf::Vector2f b) {
@@ -37,6 +43,10 @@ class Math {
             float x = a.x + (b.x - a.x) * t;
             float y = a.y + (b.y - a.y) * t;
             return sf::Vector2f(x, y);
+        }
+
+        static sf::Vector2f convertToFloatVec(sf::Vector2i a) {
+            return sf::Vector2f(a.x, a.y);
         }
 
         //intersection of *segments*, NOT LINES
@@ -79,10 +89,10 @@ class Math {
             }
 
             //actually calculate stuff
-            int x = (d - b) / (a - c), y = a*x + b;
+            float x = (d - b) / (a - c), y = a*x + b;
 
             //check if in both segments (previously we check for line)
-            int mini = std::min(a1.x, a2.x), maxi = std::max(a1.x, a2.x);
+            float mini = std::min(a1.x, a2.x), maxi = std::max(a1.x, a2.x);
             if (x < mini || x > maxi) { return nullRoad; }
 
             mini = std::min(b1.x, b2.x), maxi = std::max(b1.x, b2.x);
