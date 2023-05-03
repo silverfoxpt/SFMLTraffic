@@ -9,7 +9,9 @@ void IntersectMap::Initialize(Map* myMap) {
 }
 
 void IntersectMap::Input(sf::Event event) {
-
+    if (this->intersectionStatus == 0) {
+        
+    }
 }
 
 void IntersectMap::Visualize(sf::Event event) {

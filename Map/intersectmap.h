@@ -23,12 +23,19 @@ class IntersectMap {
 
         Map* parent;
 
+        //important stuff of THIS class
+        int intersectionStatus = 0;
+
         IntersectMap(sf::RenderWindow* rend);
         IntersectMap() {} //default constructor
 
         void Input(sf::Event event);
         void Visualize(sf::Event event);
         void Initialize(Map* map);
+
+        int* getStatus() {
+            return &this->intersectionStatus;
+        }
 };
 
 #endif

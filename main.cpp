@@ -89,6 +89,12 @@ void Test() {
 void SFMLUpdate() {
     ImGui::Begin("Map editor");
     ImGui::InputInt("Draw status", editor.getStatus());
+
+    //intersection mode
+    if (*editor.getStatus() == 2) {
+        ImGui::InputInt("Intersection status", editorIntersectMap.getStatus());
+    }
+
     ImGui::End();
 }
 
