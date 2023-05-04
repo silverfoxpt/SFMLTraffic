@@ -25,6 +25,14 @@ void Map::Initialize(Drawmap* myDrawmap, DrawBezier* myDrawBezier, IntersectMap*
 
 void Map::Update() {
     this->rend->draw(this->rect);
+
+    //other updates from children
+    this->myIntersectMap->Update();
+}
+
+void Map::LateUpdate() {
+    //late updates from children
+    this->myIntersectMap->LateUpdate();
 }
 
 void Map::Input(sf::Event event) {
@@ -55,8 +63,8 @@ void Map::Visualize(sf::Event event) {
 
             sf::Vertex line[2] =
             {
-                sf::Vertex(sf::Vector2f(begin.x, begin.y), sf::Color::Green),
-                sf::Vertex(sf::Vector2f(node.mapPos.x, node.mapPos.y), sf::Color::Green)
+                sf::Vertex(sf::Vector2f(begin.x, begin.y), sf::Color(0, 255, 0, 100)),
+                sf::Vertex(sf::Vector2f(node.mapPos.x, node.mapPos.y), sf::Color(0, 255, 0, 100))
             };
             this->rend->draw(line , 2, sf::Lines);
             begin = node.mapPos;
@@ -87,7 +95,7 @@ void Map::addRoad(SaveRoad addRoad) {
                     SaveNode interNode = this->getSaveNodeFromMousePos(Math::convertToFloatVec(intersection));
                     SaveIntersectingNode newIntersection = {
                         interNode,
-                        { i, static_cast<int>(road.nodes.size()) },
+                        { i, static_cast<int>(this->roads.size()) },
                         { k, j }
                     };
                     newInter.push_back(newIntersection);

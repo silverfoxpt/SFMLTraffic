@@ -44,6 +44,7 @@ class Map {
         void Update();
         void Input(sf::Event event);
         void Visualize(sf::Event event);
+        void LateUpdate();
 
         int* getStatus(); 
         void addRoad(SaveRoad road);

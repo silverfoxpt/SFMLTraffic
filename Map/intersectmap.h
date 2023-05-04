@@ -14,6 +14,7 @@
 
 #include "nodes.h"
 #include "map.h"
+#include "../dragshape.h"
 
 class Map;
 
@@ -25,6 +26,9 @@ class IntersectMap {
 
         //important stuff of THIS class
         int intersectionStatus = 0;
+        std::vector<sf::CircleShape> circles;
+        std::vector<DragShape> shapes;
+        std::vector<SaveRoad> infoRoad;
 
         IntersectMap(sf::RenderWindow* rend);
         IntersectMap() {} //default constructor
@@ -32,6 +36,8 @@ class IntersectMap {
         void Input(sf::Event event);
         void Visualize(sf::Event event);
         void Initialize(Map* map);
+        void Update();
+        void LateUpdate();
 
         int* getStatus() {
             return &this->intersectionStatus;

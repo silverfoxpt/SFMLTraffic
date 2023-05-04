@@ -124,10 +124,12 @@ int main()
         window.clear();
         mapmaker.clear();
         
-        Test(); 
         SFMLUpdate();
         editor.Update();
         editor.Visualize(event);
+        editor.LateUpdate();
+
+        Test(); 
 
         ImGui::SFML::Render(mapmaker);
         window.display();
