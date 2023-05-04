@@ -108,39 +108,39 @@ void DrawBezier::Input(sf::Event event) {
 }
 
 void DrawBezier::Visualize(sf::Event event) {
-    if (this->nodes.size() != 0) {
-        //draw lines between all the nodes
-        for (int i = 0; i < (int) this->nodes.size()-1; i++) {
-            sf::Vertex line[2] =
-            {
-                sf::Vertex(sf::Vector2f(this->nodes[i].mapPos.x, this->nodes[i].mapPos.y), sf::Color::Red),
-                sf::Vertex(sf::Vector2f(this->nodes[i+1].mapPos.x, this->nodes[i+1].mapPos.y), sf::Color::Red)
+    if (!nodes.empty()) {
+        // Draw lines between all the nodes.
+        for (size_t i = 0; i < nodes.size() - 1; ++i) {
+            sf::Vertex line[] = {
+                sf::Vertex(nodes[i].mapPos, sf::Color::Red),
+                sf::Vertex(nodes[i+1].mapPos, sf::Color::Red)
             };
-            this->myRend->draw(line , 2, sf::Lines);
+            myRend->draw(line, 2, sf::Lines);
         }
 
-        //draw lines between interpos and two anchors
-        sf::Vector2f anchor1 = this->firstNode.mapPos;
-        sf::Vector2f anchor2 = this->secondNode.mapPos;
-        sf::Vector2f interpos = this->bezierConfigure1.getPosition();
+        // Draw lines between interpos and two anchors.
+        const sf::Vector2f anchor1 = firstNode.mapPos;
+        const sf::Vector2f anchor2 = secondNode.mapPos;
+        const sf::Vector2f interpos = bezierConfigure1.getPosition();
 
-        //line 1
-        sf::Vertex line[3] =
-        {
-            sf::Vertex(sf::Vector2f(anchor1.x, anchor1.y), sf::Color::Yellow),
-            sf::Vertex(sf::Vector2f(interpos.x, interpos.y), sf::Color::Yellow),
+        // Line 1.
+        sf::Vertex line1[] = {
+            sf::Vertex(anchor1, sf::Color::Yellow),
+            sf::Vertex(interpos, sf::Color::Yellow)
         };
-        this->myRend->draw(line, 2, sf::Lines);
+        myRend->draw(line1, 2, sf::Lines);
 
-        //line 2
-        line[0] = sf::Vertex(sf::Vector2f(interpos.x, interpos.y), sf::Color::Yellow);
-        line[1] = sf::Vertex(sf::Vector2f(anchor2.x, anchor2.y), sf::Color::Yellow);
-        this->myRend->draw(line, 2, sf::Lines);
+        // Line 2.
+        sf::Vertex line2[] = {
+            sf::Vertex(interpos, sf::Color::Yellow),
+            sf::Vertex(anchor2, sf::Color::Yellow)
+        };
+        myRend->draw(line2, 2, sf::Lines);
     }
 
-    //draw interpos point
-    if (this->clickedFirst && this->clickedSecond) {
-        this->myRend->draw(this->bezierConfigure1);
+    // Draw interpos point.
+    if (clickedFirst && clickedSecond) {
+        myRend->draw(bezierConfigure1);
     }
 }
 

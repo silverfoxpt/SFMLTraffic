@@ -76,59 +76,48 @@ void Map::addRoad(SaveRoad addRoad) {
     std::vector<SaveIntersectingNode> newInter;
     sf::Vector2i nullRoad(-99999, -99999);
 
-    int mainIdx = 0;
-    for (SaveRoad& road: this->roads) {
-        for (int i = 0; i < (int) road.nodes.size()-1; i++) {
-            SaveNode a1 = road.nodes[i], a2 = road.nodes[i+1];
-
-            for (int j = 0; j < (int) addRoad.nodes.size()-1; j++) {
-                SaveNode b1 = addRoad.nodes[j], b2 = addRoad.nodes[j+1];
-
+    for (int i = 0; i < (int) this->roads.size(); i++) {
+        SaveRoad& road = this->roads[i];
+        for (int j = 0; j < (int) addRoad.nodes.size() - 1; j++) {
+            SaveNode b1 = addRoad.nodes[j], b2 = addRoad.nodes[j + 1];
+            for (int k = 0; k < (int) road.nodes.size() - 1; k++) {
+                SaveNode a1 = road.nodes[k], a2 = road.nodes[k + 1];
                 auto intersection = Math::Intersect(a1.mapPos, a2.mapPos, b1.mapPos, b2.mapPos);
-                if (intersection == nullRoad) {continue;}
-
-                SaveNode interNode = this->getSaveNodeFromMousePos(Math::convertToFloatVec(intersection));
-
-                SaveIntersectingNode newIntersection;
-                newIntersection.posNode = interNode;
-                newIntersection.intersectingRoadIndex.push_back(mainIdx);
-                newIntersection.intersectingRoadIndex.push_back(road.nodes.size());
-                newIntersection.startNodeIdx.push_back(i);
-                newIntersection.startNodeIdx.push_back(j);
-
-                newInter.push_back(newIntersection);
-            }
-        }   
-        mainIdx++;
-    }
-
-    //merge same intersection
-    std::vector<SaveIntersectingNode> newUniqueInter;
-    for (int i = 0; i < (int) this->intersections.size(); i++) {
-        for (int j = 0; j < (int) newInter.size(); j++) {
-            SaveIntersectingNode n1 = this->intersections[i];
-            SaveIntersectingNode n2 = newInter[j];
-
-            float len = Math::Distance(n1.posNode.mapPos, n2.posNode.mapPos);
-
-            //group da nodes together :v
-            if (len <= Math::Exponent) {
-                for (int k = 0; k < n2.intersectingRoadIndex.size(); k++) {
-                    this->intersections[i].intersectingRoadIndex.push_back(n2.intersectingRoadIndex[k]);
-                    this->intersections[i].startNodeIdx.push_back(n2.startNodeIdx[k]);
+                if (intersection != nullRoad) {
+                    SaveNode interNode = this->getSaveNodeFromMousePos(Math::convertToFloatVec(intersection));
+                    SaveIntersectingNode newIntersection = {
+                        interNode,
+                        { i, static_cast<int>(road.nodes.size()) },
+                        { k, j }
+                    };
+                    newInter.push_back(newIntersection);
                 }
-            } else {
-                newUniqueInter.push_back(n2);
             }
         }
     }
-    if (this->intersections.size() == 0) {
-        newUniqueInter = newInter;
+
+    // merge same intersections
+    std::vector<SaveIntersectingNode> newUniqueInter;
+    for (const auto& n2 : newInter) {
+        bool found = false;
+        for (auto& n1 : this->intersections) {
+            if (Math::Distance(n1.posNode.mapPos, n2.posNode.mapPos) <= Math::Exponent) {
+                n1.intersectingRoadIndex.insert(n1.intersectingRoadIndex.end(), n2.intersectingRoadIndex.begin(), n2.intersectingRoadIndex.end());
+                n1.startNodeIdx.insert(n1.startNodeIdx.end(), n2.startNodeIdx.begin(), n2.startNodeIdx.end());
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            newUniqueInter.push_back(n2);
+        }
     }
 
-    //add new unique intersection to map
-    for (SaveIntersectingNode node: newUniqueInter) {
-        this->intersections.push_back(node);
+    // add new unique intersections to map
+    if (this->intersections.empty()) {
+        this->intersections = newInter;
+    } else {
+        this->intersections.insert(this->intersections.end(), newUniqueInter.begin(), newUniqueInter.end());
     }
 
     //add road

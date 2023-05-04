@@ -49,58 +49,36 @@ class Math {
             return sf::Vector2f(a.x, a.y);
         }
 
-        //intersection of *segments*, NOT LINES
         static sf::Vector2i Intersect(sf::Vector2f a1, sf::Vector2f a2, sf::Vector2f b1, sf::Vector2f b2) {
-            sf::Vector2i nullRoad(-99999, -99999);
+            const sf::Vector2i nullRoad(-99999, -99999);
 
-            bool line1Up = false, line2Up = false;
-            float a = -1, b = a, c = b, d = c;
+            // calculate slopes and y-intercepts
+            const float slopeA = (a1.x - a2.x) == 0 ? std::numeric_limits<float>::infinity() : (a1.y - a2.y) / (a1.x - a2.x);
+            const float yIntA = a1.y - slopeA * a1.x;
+            const float slopeB = (b1.x - b2.x) == 0 ? std::numeric_limits<float>::infinity() : (b1.y - b2.y) / (b1.x - b2.x);
+            const float yIntB = b1.y - slopeB * b1.x;
 
-            if (a1.x == a2.x) {
-                line1Up = true;
-            } else {
-                a = (a1.y - a2.y) / (a1.x - a2.x);
-                b = a1.y - a * a1.x;
+            // check if the segments are parallel
+            const float epsilon = 1e-6f;
+            if (std::abs(slopeA - slopeB) < epsilon) {
+                return nullRoad;
             }
 
-            if (b1.x == b2.x) {
-                line2Up = true;
-            } else {
-                c = (b1.y - b2.y) / (b1.x - b2.x);
-                d = b1.y - c * b1.x;
-            }
-            
-            //special case when one or both lines is parallel with Oy
-            if (line1Up) {
-                if (line2Up) {
-                    return nullRoad;
-                } else {
-                    return sf::Vector2i(a1.x, c * a1.x + d);
-                }
+            // calculate intersection point
+            const float x = std::isinf(slopeA) ? a1.x : (yIntB - yIntA) / (slopeA - slopeB);
+            const float y = slopeA * x + yIntA;
+
+            // check if intersection point is within both segments
+            const bool inSegmentA = (x >= std::min(a1.x, a2.x)) && (x <= std::max(a1.x, a2.x));
+            const bool inSegmentB = (x >= std::min(b1.x, b2.x)) && (x <= std::max(b1.x, b2.x));
+
+            if (!inSegmentA || !inSegmentB) {
+                return nullRoad;
             }
 
-            if (line2Up) {
-                return sf::Vector2i(b1.x, a * b1.x + b);
-            }
-
-            // check state of line -> parallel or similar
-            if (a == c) {
-                return nullRoad; 
-            }
-
-            //actually calculate stuff
-            float x = (d - b) / (a - c), y = a*x + b;
-
-            //check if in both segments (previously we check for line)
-            float mini = std::min(a1.x, a2.x), maxi = std::max(a1.x, a2.x);
-            if (x < mini || x > maxi) { return nullRoad; }
-
-            mini = std::min(b1.x, b2.x), maxi = std::max(b1.x, b2.x);
-            if (x < mini || x > maxi) { return nullRoad; }
-
-            //return
             return sf::Vector2i(x, y);
         }
+
 };
 
 #endif
