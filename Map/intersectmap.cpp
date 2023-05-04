@@ -26,25 +26,43 @@ void IntersectMap::Update() {
     }
 
     if (this->intersectionStatus == 0) { //only apply if in intersection VIEWING mode
+        int counter = 0;
         for (auto& shape : this->shapes) {
             if (shape.isMouseOver(*this->myRend)) {
                 //if mouse hovering over road, then add the roads to infoRoad vector
 
-                for (auto& intersection : this->parent->intersections) {
-                    for (auto& roadIdx : intersection.intersectingRoadIndex) {
-                        SaveRoad myRoad = this->parent->roads[roadIdx];
-                        if (!myRoad.nodes.empty()) {
-                            this->infoRoad.push_back(myRoad);
-                        }
+                auto intersection = this->parent->intersections[counter];
+                for (auto& roadIdx : intersection.intersectingRoadIndex) {
+                    SaveRoad myRoad = this->parent->roads[roadIdx];
+                    if (!myRoad.nodes.empty()) {
+                        this->infoRoad.push_back(myRoad);
                     }
                 }
             }
+            counter++;
         }
     }
 }
 
 void IntersectMap::Input(sf::Event event) {
-    
+    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+        if (this->intersectionStatus == 0) { //only apply if in intersection VIEWING & MODIFYING mode
+            bool found = false;
+            int counter = 0;
+            for (auto& shape : this->shapes) {
+                if (shape.isMouseOver(*this->myRend)) {
+                    found = true;
+                    break;
+                }
+                counter++;
+            }
+
+            if (found) {
+                //delete choosen node
+                this->parent->intersections.erase(this->parent->intersections.begin() + counter);
+            }
+        }
+    }
 }
 
 void IntersectMap::LateUpdate() {
@@ -67,7 +85,7 @@ void IntersectMap::Visualize(sf::Event event) {
             cur = cur2;
         }
     }
-    
+
     //conditional appearance
     if (this->parent->drawStatus == 2) {
         for (auto& shape: this->shapes) {
