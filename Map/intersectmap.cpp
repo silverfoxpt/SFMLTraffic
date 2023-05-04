@@ -11,6 +11,7 @@ void IntersectMap::Initialize(Map* myMap) {
 void IntersectMap::Update() {
     this->circles.clear();
     this->shapes.clear();
+    this->infoRoad.clear();
 
     for (SaveIntersectingNode &node: this->parent->intersections) {
         sf::CircleShape a(5);
@@ -23,9 +24,7 @@ void IntersectMap::Update() {
         DragShape newShape(&this->circles[this->circles.size()-1]);
         this->shapes.push_back(newShape);
     }
-}
 
-void IntersectMap::Input(sf::Event event) {
     if (this->intersectionStatus == 0) { //only apply if in intersection VIEWING mode
         for (auto& shape : this->shapes) {
             if (shape.isMouseOver(*this->myRend)) {
@@ -44,7 +43,15 @@ void IntersectMap::Input(sf::Event event) {
     }
 }
 
+void IntersectMap::Input(sf::Event event) {
+    
+}
+
 void IntersectMap::LateUpdate() {
+
+}
+
+void IntersectMap::Visualize(sf::Event event) {
     for (auto& myRoad: this->infoRoad) {
         SaveNode cur = myRoad.nodes[0];
         for (int i = 1; i < (int) myRoad.nodes.size(); i++) {
@@ -60,12 +67,7 @@ void IntersectMap::LateUpdate() {
             cur = cur2;
         }
     }
-
-    //clean up
-    this->infoRoad.clear();
-}
-
-void IntersectMap::Visualize(sf::Event event) {
+    
     //conditional appearance
     if (this->parent->drawStatus == 2) {
         for (auto& shape: this->shapes) {

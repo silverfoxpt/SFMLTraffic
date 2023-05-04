@@ -63,8 +63,8 @@ void Map::Visualize(sf::Event event) {
 
             sf::Vertex line[2] =
             {
-                sf::Vertex(sf::Vector2f(begin.x, begin.y), sf::Color(0, 255, 0, 100)),
-                sf::Vertex(sf::Vector2f(node.mapPos.x, node.mapPos.y), sf::Color(0, 255, 0, 100))
+                sf::Vertex(sf::Vector2f(begin.x, begin.y), sf::Color(0, 255, 0, 255)),
+                sf::Vertex(sf::Vector2f(node.mapPos.x, node.mapPos.y), sf::Color(0, 255, 0, 255))
             };
             this->rend->draw(line , 2, sf::Lines);
             begin = node.mapPos;
