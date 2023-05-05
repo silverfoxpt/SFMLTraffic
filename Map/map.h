@@ -15,6 +15,8 @@
 #include "drawbezier.h"
 #include "drawmap.h"
 #include "intersectmap.h"
+#include "intraconnect.h"
+
 #include "nodes.h"
 
 #include "../Simulation/gameManager.h"
@@ -22,6 +24,7 @@
 class Drawmap;
 class DrawBezier;
 class IntersectMap;
+class MapIntraConnect;
 
 class Map {
     public:
@@ -36,12 +39,14 @@ class Map {
         Drawmap* myDrawmap;
         DrawBezier* myDrawBezier;
         IntersectMap* myIntersectMap;
+        MapIntraConnect* myIntraconnectMap;
 
-        //important stuffs
+        //important stuffs - must be updated if anything changes
         std::vector<SaveRoad> roads;
         std::vector<SaveIntersectingNode> intersections;
+        std::vector<SaveIntraConnection> intraConnections;
 
-        void Initialize(Drawmap * myDrawmap, DrawBezier* myDrawBezier, IntersectMap* myIntersectMap);
+        void Initialize(Drawmap * myDrawmap, DrawBezier* myDrawBezier, IntersectMap* myIntersectMap, MapIntraConnect* myIntraconnectMap);
         void Update();
         void Input(sf::Event event);
         void Visualize(sf::Event event);

@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <windows.h>
 
 #include "Map/map.h"
 
@@ -29,6 +30,7 @@ int GameManager::tileSize = 100;
 
 Tilemap             tilemap(5, 7, 50, 50, GameManager::tileSize, GameManager::tileSize, &window);
 
+MapIntraConnect     editorIntraconnectMap(&mapmaker);
 IntersectMap        editorIntersectMap(&mapmaker);
 DrawBezier          editorDrawBezier(&mapmaker);
 Drawmap             editorDrawmap(&mapmaker);
@@ -45,7 +47,8 @@ void Initialize() {
     editorIntersectMap.Initialize(&editor);
     editorDrawmap.Initialize(&editor);
     editorDrawBezier.Initialize(&editor);
-    editor.Initialize(&editorDrawmap, &editorDrawBezier, &editorIntersectMap);
+    editorIntraconnectMap.Initialize(&editor);
+    editor.Initialize(&editorDrawmap, &editorDrawBezier, &editorIntersectMap, &editorIntraconnectMap);
 
     window.setPosition(sf::Vector2i(150, 150));
     mapmaker.setPosition(sf::Vector2i(1000, 150));
@@ -88,11 +91,19 @@ void Test() {
 
 void SFMLUpdate() {
     ImGui::Begin("Map editor");
-    ImGui::InputInt("Draw status", editor.getStatus());
+    ImGui::InputInt("Status", editor.getStatus());
 
     //intersection mode
     if (*editor.getStatus() == 2) {
         ImGui::InputInt("Intersection status", editorIntersectMap.getStatus());
+    }
+
+    //connection mode
+    if (*editor.getStatus() == 3) {
+        ImGui::Text("Connect"); ImGui::SameLine();
+        ImGui::SetNextItemWidth(150); ImGui::InputInt("##connect1", editorIntraconnectMap.getConnect1()); ImGui::SameLine();
+        ImGui::Text("to"); ImGui::SameLine();
+        ImGui::SetNextItemWidth(150); ImGui::InputInt("##connect2", editorIntraconnectMap.getConnect2());
     }
 
     ImGui::End();

@@ -8,7 +8,7 @@ Map::Map() {
 
 }
 
-void Map::Initialize(Drawmap* myDrawmap, DrawBezier* myDrawBezier, IntersectMap* myIntersectMap) {
+void Map::Initialize(Drawmap* myDrawmap, DrawBezier* myDrawBezier, IntersectMap* myIntersectMap, MapIntraConnect* myIntraconnectMap) {
     this->rect = sf::RectangleShape(sf::Vector2f(this->size, this->size));
 
     this->rect.setFillColor(sf::Color(255, 255, 255, 0));
@@ -21,6 +21,7 @@ void Map::Initialize(Drawmap* myDrawmap, DrawBezier* myDrawBezier, IntersectMap*
     this->myDrawmap = myDrawmap;
     this->myDrawBezier = myDrawBezier;
     this->myIntersectMap = myIntersectMap;
+    this->myIntraconnectMap = myIntraconnectMap;
 }
 
 void Map::Update() {
@@ -41,6 +42,8 @@ void Map::Input(sf::Event event) {
         this->myDrawBezier->Input(event);
     } else if (this->drawStatus == 2) {
         this->myIntersectMap->Input(event);
+    } else if (this->drawStatus == 3) {
+        this->myIntraconnectMap->Input(event);
     }
 }
 
@@ -67,6 +70,7 @@ void Map::Visualize(sf::Event event) {
     this->myDrawmap->Visualize(event);
     this->myDrawBezier->Visualize(event);
     //this->myIntersectMap->Visualize(event);
+    this->myIntraconnectMap->Visualize(event);
 
     //visualize for main
     //draw all road

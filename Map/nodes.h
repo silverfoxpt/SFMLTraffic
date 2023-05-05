@@ -34,4 +34,10 @@ class SaveIntersectingNode {
         std::vector<int> startNodeIdx;
 };
 
+class SaveIntraConnection {
+    public:
+        std::vector<int> inputRoadIdx;
+        std::vector<int> outputRoadIdx;
+};
+
 #endif
