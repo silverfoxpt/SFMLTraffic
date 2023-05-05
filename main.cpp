@@ -122,7 +122,7 @@ int main()
 
         ImGui::SFML::Update(mapmaker, deltaTime.restart());
         window.clear();
-        mapmaker.clear();
+        mapmaker.clear(sf::Color(60, 60, 60, 255));
         
         SFMLUpdate();
         editor.Update();

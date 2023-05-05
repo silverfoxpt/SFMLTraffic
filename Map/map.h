@@ -30,6 +30,7 @@ class Map {
         int drawStatus          = 0;
         int size                = 400;
         sf::Vector2f offset     = sf::Vector2f(50, 50);
+        int numGrid             = 20;
 
         //child class
         Drawmap* myDrawmap;

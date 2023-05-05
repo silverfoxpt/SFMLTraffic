@@ -24,8 +24,6 @@ void Map::Initialize(Drawmap* myDrawmap, DrawBezier* myDrawBezier, IntersectMap*
 }
 
 void Map::Update() {
-    this->rend->draw(this->rect);
-
     //other updates from children
     this->myIntersectMap->Update();
 }
@@ -47,6 +45,24 @@ void Map::Input(sf::Event event) {
 }
 
 void Map::Visualize(sf::Event event) {
+    //draw bounding box
+    this->rend->draw(this->rect);
+
+    //draw grid lines
+    int additional = (float) this->size / (this->numGrid + 1);
+    for (int i = 0; i < this->numGrid; i++) {
+        sf::Vertex line[2] =
+        {
+            sf::Vertex(sf::Vector2f(this->offset.x, this->offset.y + (i+1) * additional), sf::Color(0, 0, 0, 100)),
+            sf::Vertex(sf::Vector2f(this->offset.x + this->size, this->offset.y + (i+1) * additional), sf::Color(0, 0, 0, 100))
+        };
+        this->rend->draw(line , 2, sf::Lines);
+
+        line[0] =  sf::Vertex(sf::Vector2f(this->offset.x + (i+1) * additional, this->offset.y), sf::Color(0, 0, 0, 100));
+        line[1] =  sf::Vertex(sf::Vector2f(this->offset.x + (i+1) * additional, this->offset.y + this->size ), sf::Color(0, 0, 0, 100));
+        this->rend->draw(line , 2, sf::Lines);
+    }
+
     //visualize for sub-map event
     this->myDrawmap->Visualize(event);
     this->myDrawBezier->Visualize(event);
