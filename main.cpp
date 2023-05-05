@@ -1,5 +1,13 @@
 #include <SFML/Graphics.hpp>
-#include <windows.h>
+
+#include <iostream>
+#include <math.h>
+#include <vector>
+#include <map>
+#include <string>
+#include <random>
+#include <memory>
+#include <chrono>
 
 #include "Map/map.h"
 
@@ -19,7 +27,7 @@ std::vector<IntersectNode> IntersectManager::intersections;
 
 //public variables
 sf::RenderWindow    window(sf::VideoMode(800, 800), "Traffic Simulation 2D");
-sf::RenderWindow    mapmaker(sf::VideoMode(600, 600), "Map 2D");
+sf::RenderWindow    mapmaker(sf::VideoMode(700, 700), "Map 2D");
 
 //initialize some static vars
 sf::RenderWindow* GameManager::rend = &window;
@@ -100,10 +108,41 @@ void SFMLUpdate() {
 
     //connection mode
     if (*editor.getStatus() == 3) {
+        ImGui::Spacing();
+        ImGui::Text("Intra-connection");
         ImGui::Text("Connect"); ImGui::SameLine();
         ImGui::SetNextItemWidth(150); ImGui::InputInt("##connect1", editorIntraconnectMap.getConnect1()); ImGui::SameLine();
         ImGui::Text("to"); ImGui::SameLine();
         ImGui::SetNextItemWidth(150); ImGui::InputInt("##connect2", editorIntraconnectMap.getConnect2());
+        if (ImGui::Button("Connect")) {
+            editorIntraconnectMap.Submit();
+        }
+
+        ImGui::Spacing();
+
+        //new board for connection status
+        ImGui::Begin("Connection status");
+        ImGui::Spacing();
+        
+        //intra road connection
+        ImGui::Text("Intra-connection");
+    
+        ImGui::BeginChild("ScrollingRegion", ImVec2(0, 100), true, ImGuiWindowFlags_HorizontalScrollbar);
+        int counter = 0;
+        for (auto& intraConnect: editor.intraConnections) {
+            std::string info = "" + std::to_string(intraConnect.inputRoadIdx) + " -> " + std::to_string(intraConnect.outputRoadIdx);
+            ImGui::Selectable(info.c_str(), false, ImGuiSelectableFlags_None, ImVec2(0, 0));
+
+            if (ImGui::IsItemHovered()) {
+                //std::cout << "Hello : " << counter << '\n';
+                editorIntraconnectMap.VisualizeSelectedRoad(counter);
+                ImGui::SetTooltip("Click to merge roads");
+            }
+            counter++;
+        }
+        ImGui::EndChild();
+
+        ImGui::End();
     }
 
     ImGui::End();
@@ -135,12 +174,14 @@ int main()
         window.clear();
         mapmaker.clear(sf::Color(60, 60, 60, 255));
         
-        SFMLUpdate();
+        
         editor.Update();
         editor.Visualize(event);
-        editor.LateUpdate();
 
+        SFMLUpdate();
         Test(); 
+
+        editor.LateUpdate();
 
         ImGui::SFML::Render(mapmaker);
         window.display();

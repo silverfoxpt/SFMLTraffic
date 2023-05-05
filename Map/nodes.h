@@ -36,8 +36,10 @@ class SaveIntersectingNode {
 
 class SaveIntraConnection {
     public:
-        std::vector<int> inputRoadIdx;
-        std::vector<int> outputRoadIdx;
+        int inputRoadIdx;
+        int outputRoadIdx;
+
+        bool isEqual(SaveIntraConnection& other) {return (this->inputRoadIdx == other.inputRoadIdx) && (this->outputRoadIdx == other.outputRoadIdx); }
 };
 
 #endif

@@ -29,11 +29,16 @@ class MapIntraConnect {
         MapIntraConnect() {} //default constructor
 
         void Input(sf::Event event);
-        void Visualize(sf::Event event);
+        void Visualize(sf::Event event = sf::Event());
+        void VisualizeSelectedRoad(int id);
         void Initialize(Map* map);
+        void Submit();
 
         int* getConnect1() {return &this->connectIdx1;}
         int* getConnect2() {return &this->connectIdx2;}
+
+    private: 
+        void drawYellowLine(sf::RenderTarget* target, const sf::Vector2f& point1, const sf::Vector2f& point2);
 
 };
 
