@@ -16,6 +16,7 @@
 #include "drawmap.h"
 #include "intersectmap.h"
 #include "intraconnect.h"
+#include "interconnect.h"
 
 #include "nodes.h"
 
@@ -25,6 +26,7 @@ class Drawmap;
 class DrawBezier;
 class IntersectMap;
 class MapIntraConnect;
+class MapInterConnect;
 
 class Map {
     public:
@@ -40,13 +42,15 @@ class Map {
         DrawBezier* myDrawBezier;
         IntersectMap* myIntersectMap;
         MapIntraConnect* myIntraconnectMap;
+        MapInterConnect* myInterconnectMap;
 
         //important stuffs - must be updated if anything changes
         std::vector<SaveRoad> roads;
         std::vector<SaveIntersectingNode> intersections;
         std::vector<SaveIntraConnection> intraConnections;
+        std::vector<SaveInterConnection> interConnections;
 
-        void Initialize(Drawmap * myDrawmap, DrawBezier* myDrawBezier, IntersectMap* myIntersectMap, MapIntraConnect* myIntraconnectMap);
+        void Initialize(Drawmap * myDrawmap, DrawBezier* myDrawBezier, IntersectMap* myIntersectMap, MapIntraConnect* myIntraconnectMap, MapInterConnect* myInterconnectMap);
         void Update();
         void Input(sf::Event event);
         void Visualize(sf::Event event);
@@ -56,6 +60,7 @@ class Map {
         int* getStatus(); 
         SaveRoad* getRoad(int id);
         SaveIntraConnection* getIntraConnection(int id);
+        SaveInterConnection* getInterConnection(int id);
 
         void addRoad(SaveRoad road);
         void infoVisualizeRoad(int roadId, sf::Color color);

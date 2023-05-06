@@ -21,13 +21,15 @@
 #include "IMGui Stuffs/imgui.h"
 #include "IMGui Stuffs/imgui-SFML.h"
 
+#include "drawshapes.h"
+
 //really early stuff initialization
 Rand Randomize::rand;
 std::vector<IntersectNode> IntersectManager::intersections;
 
 //public variables
 sf::RenderWindow    window(sf::VideoMode(800, 800), "Traffic Simulation 2D");
-sf::RenderWindow    mapmaker(sf::VideoMode(700, 700), "Map 2D");
+sf::RenderWindow    mapmaker(sf::VideoMode(900, 700), "Map 2D");
 
 //initialize some static vars
 sf::RenderWindow* GameManager::rend = &window;
@@ -38,6 +40,7 @@ int GameManager::tileSize = 100;
 
 Tilemap             tilemap(5, 7, 50, 50, GameManager::tileSize, GameManager::tileSize, &window);
 
+MapInterConnect     editorInterconnectMap(&mapmaker);
 MapIntraConnect     editorIntraconnectMap(&mapmaker);
 IntersectMap        editorIntersectMap(&mapmaker);
 DrawBezier          editorDrawBezier(&mapmaker);
@@ -56,10 +59,11 @@ void Initialize() {
     editorDrawmap.Initialize(&editor);
     editorDrawBezier.Initialize(&editor);
     editorIntraconnectMap.Initialize(&editor);
-    editor.Initialize(&editorDrawmap, &editorDrawBezier, &editorIntersectMap, &editorIntraconnectMap);
+    editorInterconnectMap.Initialize(&editor);
+    editor.Initialize(&editorDrawmap, &editorDrawBezier, &editorIntersectMap, &editorIntraconnectMap, &editorInterconnectMap);
 
-    window.setPosition(sf::Vector2i(150, 150));
-    mapmaker.setPosition(sf::Vector2i(1000, 150));
+    window.setPosition(sf::Vector2i(50, 50));
+    mapmaker.setPosition(sf::Vector2i(870, 50));
 
     //test
     testClock.restart();
@@ -98,7 +102,24 @@ void Test() {
 }
 
 void SFMLRoad() {
-    
+    ImGui::Begin("Road status");
+
+    ImGui::BeginChild("ScrollingRegion2", ImVec2(0, 100), true, ImGuiWindowFlags_HorizontalScrollbar);
+    for (int i = 0; i < (int) editor.roads.size(); i++) {
+        std::string info = "Road " + std::to_string(i);
+
+        if (ImGui::Selectable(info.c_str(), false, ImGuiSelectableFlags_None, ImVec2(0, 0))) {
+            //delete road
+        }
+
+        if (ImGui::IsItemHovered()) {
+            editor.infoVisualizeRoad(i, sf::Color::Yellow);
+            ImGui::SetTooltip("Click to delete road");
+        }
+    }
+    ImGui::EndChild();
+
+    ImGui::End();
 }
 
 
@@ -129,7 +150,41 @@ void SFMLConnection() {
     }
     ImGui::EndChild();
 
+    //inter road connection
+    ImGui::Text("Inter-connection");
+
     ImGui::End();
+}
+
+void SFMLInterConnectPort() {
+    int side = *editorInterconnectMap.getConnectSide();
+    int port = *editorInterconnectMap.getConnectPort();
+
+    sf::Vector2f pos;
+    int additional = (float) editor.size / (editor.numGrid + 1);
+
+    switch(side) {
+        case 0: {
+            pos = sf::Vector2f(editor.offset.x + port * additional, editor.offset.y); 
+            DrawUtils::drawCircle(&mapmaker, sf::Vector2f(pos.x, pos.y - 10), 3.5, sf::Color::Yellow);
+            break;
+        } 
+        case 1: {
+            pos = sf::Vector2f(editor.offset.x + editor.size, editor.offset.y + port * additional); 
+            DrawUtils::drawCircle(&mapmaker, sf::Vector2f(pos.x + 10, pos.y), 3.5, sf::Color::Yellow);
+            break;
+        }
+        case 2: {
+            pos = sf::Vector2f(editor.offset.x + port * additional, editor.offset.y + editor.size); 
+            DrawUtils::drawCircle(&mapmaker, sf::Vector2f(pos.x, pos.y + 10), 3.5, sf::Color::Yellow);
+            break;
+        }
+        case 3: {
+            pos = sf::Vector2f(editor.offset.x, editor.offset.y + port * additional); 
+            DrawUtils::drawCircle(&mapmaker, sf::Vector2f(pos.x - 10, pos.y), 3.5, sf::Color::Yellow);
+            break;
+        }
+    }
 }
 
 void SFMLUpdate() {
@@ -146,19 +201,41 @@ void SFMLUpdate() {
         ImGui::Spacing();
         ImGui::Text("Intra-connection");
         ImGui::Text("Connect"); ImGui::SameLine();
-        ImGui::SetNextItemWidth(150); ImGui::InputInt("##connect1", editorIntraconnectMap.getConnect1()); ImGui::SameLine();
+        ImGui::SetNextItemWidth(150); ImGui::InputInt("##intraconnect1", editorIntraconnectMap.getConnect1()); ImGui::SameLine();
         ImGui::Text("to"); ImGui::SameLine();
-        ImGui::SetNextItemWidth(150); ImGui::InputInt("##connect2", editorIntraconnectMap.getConnect2());
+        ImGui::SetNextItemWidth(150); ImGui::InputInt("##intraconnect2", editorIntraconnectMap.getConnect2());
         if (ImGui::Button("Connect")) {
             editorIntraconnectMap.Submit();
         }
 
         ImGui::Spacing();
+        ImGui::Text("Inter-connection");
+        ImGui::Text("Connect"); ImGui::SameLine();
+        ImGui::SetNextItemWidth(150); ImGui::InputInt("##interconnectroad", editorInterconnectMap.getRoadId()); ImGui::SameLine();
+        
+        ImGui::Text("at side"); ImGui::SameLine();
+        const char* sides[] = { "Top", "Right", "Down", "Left" };
+        ImGui::SetNextItemWidth(100); ImGui::Combo("##interconnectside", editorInterconnectMap.getConnectSide(), sides, IM_ARRAYSIZE(sides)); ImGui::SameLine();
+
+        ImGui::Text(", port"); ImGui::SameLine();
+        ImGui::SetNextItemWidth(200); ImGui::SliderInt("##interconnectport", editorInterconnectMap.getConnectPort(), editorInterconnectMap.minPort, editorInterconnectMap.maxPort); 
+        if (ImGui::IsItemHovered()) {
+            SFMLInterConnectPort();
+        }
+        ImGui::SameLine();
+
+        ImGui::Text("as"); ImGui::SameLine();
+        const char* inout[] = { "Input", "Output"};
+        ImGui::SetNextItemWidth(100); ImGui::Combo("##interconnectside", editorInterconnectMap.getInputOrOutput(), inout, IM_ARRAYSIZE(inout)); ImGui::SameLine();
+        if (ImGui::Button("Connect")) {
+            
+        }
     }
 
     ImGui::End();
 
     SFMLConnection();
+    SFMLRoad();
 }
 
 int main()

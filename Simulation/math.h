@@ -45,6 +45,15 @@ class Math {
             return sf::Vector2f(x, y);
         }
 
+        static sf::Vector2f spinPoint(const sf::Vector2f point, const sf::Vector2f center, float angleDegrees) {
+            sf::Transform transform;
+            transform.translate(center);
+            transform.rotate(angleDegrees);
+            transform.translate(-center);
+
+            return transform.transformPoint(point);
+        }
+
         static sf::Vector2f convertToFloatVec(sf::Vector2i a) {
             return sf::Vector2f(a.x, a.y);
         }

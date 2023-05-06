@@ -42,4 +42,14 @@ class SaveIntraConnection {
         bool isEqual(SaveIntraConnection& other) {return (this->inputRoadIdx == other.inputRoadIdx) && (this->outputRoadIdx == other.outputRoadIdx); }
 };
 
+class SaveInterConnection {
+    public:
+        int roadIdx;
+        int portIdx; //counted left to right and top to bottom
+        int sideIdx; // 0 top, 1 right, 2 down, 3 left
+        int inputOrOutput; // 0 for input, 1 for output
+
+        bool isEqual(SaveInterConnection& other) {return (this->roadIdx == other.roadIdx) && (this->inputOrOutput == other.inputOrOutput); }
+};
+
 #endif

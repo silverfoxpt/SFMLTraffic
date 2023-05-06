@@ -12,6 +12,8 @@
 #include <memory>
 #include <chrono>
 
+#include "Simulation/math.h"
+
 class DrawUtils {
 public:
     static void drawLine(sf::RenderWindow* window, sf::Vector2f start, sf::Vector2f end, sf::Color color, float thickness) {
@@ -29,12 +31,11 @@ public:
         window->draw(line, 2, sf::Lines);
     }
 
-    static void drawCircle(sf::RenderWindow* window, sf::Vector2f center, float radius, sf::Color color, float thickness) {
+    static void drawCircle(sf::RenderWindow* window, sf::Vector2f center, float radius, sf::Color color) {
         sf::CircleShape circle(radius);
-        circle.setFillColor(sf::Color::Transparent);
-        circle.setOutlineColor(color);
-        circle.setOutlineThickness(thickness);
-        circle.setPosition(center.x - radius, center.y - radius);
+        circle.setFillColor(color);
+        circle.setOrigin(sf::Vector2f(radius, radius));
+        circle.setPosition(center.x, center.y);
 
         window->draw(circle);
     }
@@ -48,6 +49,7 @@ public:
 
         window->draw(rectangle);
     }
+
 };
 
 #endif

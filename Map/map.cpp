@@ -8,7 +8,7 @@ Map::Map() {
 
 }
 
-void Map::Initialize(Drawmap* myDrawmap, DrawBezier* myDrawBezier, IntersectMap* myIntersectMap, MapIntraConnect* myIntraconnectMap) {
+void Map::Initialize(Drawmap* myDrawmap, DrawBezier* myDrawBezier, IntersectMap* myIntersectMap, MapIntraConnect* myIntraconnectMap, MapInterConnect* myInterconnectMap) {
     this->rect = sf::RectangleShape(sf::Vector2f(this->size, this->size));
 
     this->rect.setFillColor(sf::Color(255, 255, 255, 0));
@@ -22,6 +22,7 @@ void Map::Initialize(Drawmap* myDrawmap, DrawBezier* myDrawBezier, IntersectMap*
     this->myDrawBezier = myDrawBezier;
     this->myIntersectMap = myIntersectMap;
     this->myIntraconnectMap = myIntraconnectMap;
+    this->myInterconnectMap = myInterconnectMap;
 }
 
 void Map::Update() {
@@ -44,6 +45,7 @@ void Map::Input(sf::Event event) {
         this->myIntersectMap->Input(event);
     } else if (this->drawStatus == 3) {
         this->myIntraconnectMap->Input(event);
+        this->myInterconnectMap->Input(event);
     }
 }
 
@@ -71,6 +73,7 @@ void Map::Visualize(sf::Event event) {
     this->myDrawBezier->Visualize(event);
     //this->myIntersectMap->Visualize(event);
     this->myIntraconnectMap->Visualize(event);
+    this->myInterconnectMap->Visualize(event);
 
     //visualize for main
     //draw all road
@@ -95,6 +98,11 @@ SaveRoad* Map::getRoad(int id) {
 SaveIntraConnection* Map::getIntraConnection(int id) {
     if (id >= (int) this->intraConnections.size() || id < 0) {return nullptr;}
     return &this->intraConnections[id];
+}
+
+SaveInterConnection* Map::getInterConnection(int id) {
+    if (id >= (int) this->interConnections.size() || id < 0) {return nullptr;}
+    return &this->interConnections[id];
 }
 
 void Map::infoVisualizeRoad(int roadId, sf::Color color) {
