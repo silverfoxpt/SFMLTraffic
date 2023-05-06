@@ -17,15 +17,11 @@ void MapIntraConnect::Visualize(sf::Event event) {
 }
 
 void MapIntraConnect::VisualizeSelectedRoad(int id) {
-    auto connect = this->parent->intraConnections[id];
+    auto connect = this->parent->getIntraConnection(id);
 
-    //draw line1
-    SaveRoad road1 = this->parent->roads[connect.inputRoadIdx];
-    SaveRoad road2 = this->parent->roads[connect.outputRoadIdx];
-
-    //draw oppositing arrows
-    this->drawYellowLine(this->myRend, road1.nodes[0].mapPos, road1.nodes[road1.nodes.size()-1].mapPos);
-    this->drawYellowLine(this->myRend, road2.nodes[road1.nodes.size()-1].mapPos, road2.nodes[0].mapPos);
+    //draw
+    this->parent->infoVisualizeRoad(connect->inputRoadIdx, sf::Color::Yellow);
+    this->parent->infoVisualizeRoad(connect->outputRoadIdx, sf::Color::Yellow);
 }
 
 void MapIntraConnect::Submit() {
@@ -47,6 +43,21 @@ void MapIntraConnect::Submit() {
     }
 
     this->parent->intraConnections.push_back(newConnect);
+}
+
+void MapIntraConnect::MergeRoad(int id1, int id2) {
+    auto road1 = this->parent->getRoad(id1);
+    auto road2 = this->parent->getRoad(id2);
+    if (road1 == nullptr || road2 == nullptr) {std::cerr << "Road not found : MergeRoad\n"; return;}
+
+    SaveNode first = road1->nodes.back();
+    SaveNode sec = road2->nodes.front();
+
+    sf::Vector2f mid = Math::Middlepoint(first.mapPos, sec.mapPos);
+    SaveNode new1 = this->parent->getSaveNodeFromMousePos(mid), new2 = new1;
+
+    road1->nodes[road1->nodes.size()-1] = new1;
+    road2->nodes[0] = new2;
 }
 
 //thanks chatgpt :))

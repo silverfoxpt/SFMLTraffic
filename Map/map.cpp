@@ -74,29 +74,46 @@ void Map::Visualize(sf::Event event) {
 
     //visualize for main
     //draw all road
-    for (auto &road : this->roads) {
-        sf::Vector2f begin; int c = 0;
-        for (auto &node: road.nodes) {
-            if (c == 0) {
-                begin = node.mapPos; c++; continue;
-            }
-
-            sf::Vertex line[2] =
-            {
-                sf::Vertex(sf::Vector2f(begin.x, begin.y), sf::Color(0, 255, 0, 255)),
-                sf::Vertex(sf::Vector2f(node.mapPos.x, node.mapPos.y), sf::Color(0, 255, 0, 255))
-            };
-            this->rend->draw(line , 2, sf::Lines);
-            begin = node.mapPos;
-        }
+    for (int i = 0; i < this->roads.size(); i++) {
+        this->infoVisualizeRoad(i, sf::Color::Green);
     }
 
     //visualize for sub-map event - postmain for layering purposes
     this->myIntersectMap->Visualize(event);
 }
 
+//helper functions
 int* Map::getStatus() {
     return &(this->drawStatus);
+}
+
+SaveRoad* Map::getRoad(int id) {
+    if (id >= (int) this->roads.size() || id < 0) {return nullptr;}
+    return &this->roads[id];
+}
+
+SaveIntraConnection* Map::getIntraConnection(int id) {
+    if (id >= (int) this->intraConnections.size() || id < 0) {return nullptr;}
+    return &this->intraConnections[id];
+}
+
+void Map::infoVisualizeRoad(int roadId, sf::Color color) {
+    sf::Vector2f begin; int c = 0;
+    auto myRoad = this->getRoad(roadId);
+
+    for (auto &node: myRoad->nodes) {
+        if (c == 0) {
+            begin = node.mapPos; c++; continue;
+        }
+
+        sf::Vertex line[2] =
+        {
+            sf::Vertex(sf::Vector2f(begin.x, begin.y), color),
+            sf::Vertex(sf::Vector2f(node.mapPos.x, node.mapPos.y), color)
+        };
+        this->rend->draw(line , 2, sf::Lines);
+        begin = node.mapPos;
+    }
 }
 
 void Map::addRoad(SaveRoad addRoad) {

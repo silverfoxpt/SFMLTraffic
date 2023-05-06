@@ -52,8 +52,13 @@ class Map {
         void Visualize(sf::Event event);
         void LateUpdate();
 
+        //helper functions
         int* getStatus(); 
+        SaveRoad* getRoad(int id);
+        SaveIntraConnection* getIntraConnection(int id);
+
         void addRoad(SaveRoad road);
+        void infoVisualizeRoad(int roadId, sf::Color color);
 
         SaveNode getSaveNodeFromMousePos(sf::Vector2f mousePos);
         bool checkInMapFromActualPos(sf::Vector2f actualPos);

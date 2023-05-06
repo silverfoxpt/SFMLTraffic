@@ -131,10 +131,14 @@ void SFMLUpdate() {
         int counter = 0;
         for (auto& intraConnect: editor.intraConnections) {
             std::string info = "" + std::to_string(intraConnect.inputRoadIdx) + " -> " + std::to_string(intraConnect.outputRoadIdx);
-            ImGui::Selectable(info.c_str(), false, ImGuiSelectableFlags_None, ImVec2(0, 0));
+
+            //clicked on 
+            if (ImGui::Selectable(info.c_str(), false, ImGuiSelectableFlags_None, ImVec2(0, 0))) {
+                auto connect = editor.getIntraConnection(counter);
+                editorIntraconnectMap.MergeRoad(connect->inputRoadIdx, connect->outputRoadIdx);
+            }
 
             if (ImGui::IsItemHovered()) {
-                //std::cout << "Hello : " << counter << '\n';
                 editorIntraconnectMap.VisualizeSelectedRoad(counter);
                 ImGui::SetTooltip("Click to merge roads");
             }

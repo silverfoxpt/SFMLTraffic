@@ -30,8 +30,10 @@ class MapIntraConnect {
 
         void Input(sf::Event event);
         void Visualize(sf::Event event = sf::Event());
-        void VisualizeSelectedRoad(int id);
         void Initialize(Map* map);
+
+        void VisualizeSelectedRoad(int id);
+        void MergeRoad(int id1, int id2);
         void Submit();
 
         int* getConnect1() {return &this->connectIdx1;}
