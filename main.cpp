@@ -97,6 +97,36 @@ void Test() {
     }
 }
 
+void SFMLConnection() {
+    //new board for connection status
+    ImGui::Begin("Connection status");
+    ImGui::Spacing();
+    
+    //intra road connection
+    ImGui::Text("Intra-connection");
+
+    ImGui::BeginChild("ScrollingRegion", ImVec2(0, 100), true, ImGuiWindowFlags_HorizontalScrollbar);
+    int counter = 0;
+    for (auto& intraConnect: editor.intraConnections) {
+        std::string info = "" + std::to_string(intraConnect.inputRoadIdx) + " -> " + std::to_string(intraConnect.outputRoadIdx);
+
+        //clicked on 
+        if (ImGui::Selectable(info.c_str(), false, ImGuiSelectableFlags_None, ImVec2(0, 0))) {
+            auto connect = editor.getIntraConnection(counter);
+            editorIntraconnectMap.MergeRoad(connect->inputRoadIdx, connect->outputRoadIdx);
+        }
+
+        if (ImGui::IsItemHovered()) {
+            editorIntraconnectMap.VisualizeSelectedRoad(counter);
+            ImGui::SetTooltip("Click to merge roads");
+        }
+        counter++;
+    }
+    ImGui::EndChild();
+
+    ImGui::End();
+}
+
 void SFMLUpdate() {
     ImGui::Begin("Map editor");
     ImGui::InputInt("Status", editor.getStatus());
@@ -119,37 +149,11 @@ void SFMLUpdate() {
         }
 
         ImGui::Spacing();
-
-        //new board for connection status
-        ImGui::Begin("Connection status");
-        ImGui::Spacing();
-        
-        //intra road connection
-        ImGui::Text("Intra-connection");
-    
-        ImGui::BeginChild("ScrollingRegion", ImVec2(0, 100), true, ImGuiWindowFlags_HorizontalScrollbar);
-        int counter = 0;
-        for (auto& intraConnect: editor.intraConnections) {
-            std::string info = "" + std::to_string(intraConnect.inputRoadIdx) + " -> " + std::to_string(intraConnect.outputRoadIdx);
-
-            //clicked on 
-            if (ImGui::Selectable(info.c_str(), false, ImGuiSelectableFlags_None, ImVec2(0, 0))) {
-                auto connect = editor.getIntraConnection(counter);
-                editorIntraconnectMap.MergeRoad(connect->inputRoadIdx, connect->outputRoadIdx);
-            }
-
-            if (ImGui::IsItemHovered()) {
-                editorIntraconnectMap.VisualizeSelectedRoad(counter);
-                ImGui::SetTooltip("Click to merge roads");
-            }
-            counter++;
-        }
-        ImGui::EndChild();
-
-        ImGui::End();
     }
 
     ImGui::End();
+
+    SFMLConnection();
 }
 
 int main()

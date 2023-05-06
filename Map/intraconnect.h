@@ -40,7 +40,6 @@ class MapIntraConnect {
         int* getConnect2() {return &this->connectIdx2;}
 
     private: 
-        void drawYellowLine(sf::RenderTarget* target, const sf::Vector2f& point1, const sf::Vector2f& point2);
 
 };
 

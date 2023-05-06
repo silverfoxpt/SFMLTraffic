@@ -74,7 +74,7 @@ void Map::Visualize(sf::Event event) {
 
     //visualize for main
     //draw all road
-    for (int i = 0; i < this->roads.size(); i++) {
+    for (int i = 0; i < (int) this->roads.size(); i++) {
         this->infoVisualizeRoad(i, sf::Color::Green);
     }
 

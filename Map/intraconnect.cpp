@@ -59,21 +59,3 @@ void MapIntraConnect::MergeRoad(int id1, int id2) {
     road1->nodes[road1->nodes.size()-1] = new1;
     road2->nodes[0] = new2;
 }
-
-//thanks chatgpt :))
-void MapIntraConnect::drawYellowLine(sf::RenderTarget* target, const sf::Vector2f& point1, const sf::Vector2f& point2)
-{
-    // Create a SFML vertex array with two vertices
-    sf::VertexArray line(sf::Lines, 2);
-
-    // Set the position and color of the first vertex
-    line[0].position = point1;
-    line[0].color = sf::Color::Yellow;
-
-    // Set the position and color of the second vertex
-    line[1].position = point2;
-    line[1].color = sf::Color::Yellow;
-
-    // Draw the line to the target
-    target->draw(line);
-}
