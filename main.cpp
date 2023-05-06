@@ -97,6 +97,11 @@ void Test() {
     }
 }
 
+void SFMLRoad() {
+    
+}
+
+
 void SFMLConnection() {
     //new board for connection status
     ImGui::Begin("Connection status");

@@ -49,6 +49,7 @@ class Math {
             return sf::Vector2f(a.x, a.y);
         }
 
+        //intersect of segments
         static sf::Vector2i Intersect(sf::Vector2f a1, sf::Vector2f a2, sf::Vector2f b1, sf::Vector2f b2) {
             const sf::Vector2i nullRoad(-99999, -99999);
 
