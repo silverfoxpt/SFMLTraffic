@@ -13,6 +13,7 @@
 #include <chrono>
 
 #include "map.h"
+#include "../drawshapes.h"
 
 class Map;
 
@@ -37,6 +38,10 @@ class MapInterConnect {
         void Input(sf::Event event);
         void Visualize(sf::Event event = sf::Event());
         void Initialize(Map* map);
+
+        void Submit();
+        void VisualizeSelectedRoad(int id);
+        void MergeRoad(int id);
 
         int* getRoadId() {return &this->connectRoadId;}
         int* getConnectPort() {return &this->connectPortId;}

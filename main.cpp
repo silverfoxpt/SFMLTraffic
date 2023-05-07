@@ -133,25 +133,58 @@ void SFMLConnection() {
 
     ImGui::BeginChild("ScrollingRegion", ImVec2(0, 100), true, ImGuiWindowFlags_HorizontalScrollbar);
     int counter = 0;
+    std::vector<int> delIntra;
     for (auto& intraConnect: editor.intraConnections) {
         std::string info = "" + std::to_string(intraConnect.inputRoadIdx) + " -> " + std::to_string(intraConnect.outputRoadIdx);
 
         //clicked on 
-        if (ImGui::Selectable(info.c_str(), false, ImGuiSelectableFlags_None, ImVec2(0, 0))) {
-            auto connect = editor.getIntraConnection(counter);
-            editorIntraconnectMap.MergeRoad(connect->inputRoadIdx, connect->outputRoadIdx);
-        }
+        ImGui::Selectable(info.c_str(), false, ImGuiSelectableFlags_None, ImVec2(0, 0));
 
         if (ImGui::IsItemHovered()) {
             editorIntraconnectMap.VisualizeSelectedRoad(counter);
-            ImGui::SetTooltip("Click to merge roads");
+            if (ImGui::IsMouseClicked(0)) { // check for left click=
+                auto connect = editor.getIntraConnection(counter);
+                editorIntraconnectMap.MergeRoad(connect->inputRoadIdx, connect->outputRoadIdx);
+            }
+            else if (ImGui::IsMouseClicked(1)) { // check for right click=
+                delIntra.push_back(counter);
+            }
+
+            ImGui::SetTooltip("Left click to merge roads, right click to delete");
         }
         counter++;
     }
+    for (int x: delIntra) {editor.intraConnections.erase(editor.intraConnections.begin() + x);}
     ImGui::EndChild();
 
     //inter road connection
     ImGui::Text("Inter-connection");
+
+    ImGui::BeginChild("InterScroll", ImVec2(0, 100), true, ImGuiWindowFlags_HorizontalScrollbar);
+    counter = 0;
+    const char* sides[] = { "top", "right", "down", "left" };
+    std::vector<int> delInter;
+    for (auto& interConnect: editor.interConnections) {
+        std::string info = "Road " + std::to_string(interConnect.roadIdx) + " -> port " + std::to_string(interConnect.portIdx) + ", " + sides[interConnect.sideIdx] + " side as " + 
+            (interConnect.inputOrOutput == 0 ? "input" : "output");
+
+        //clicked on 
+        ImGui::Selectable(info.c_str(), false, ImGuiSelectableFlags_None, ImVec2(0, 0));
+
+        if (ImGui::IsItemHovered()) {
+            editorInterconnectMap.VisualizeSelectedRoad(counter);
+            if (ImGui::IsMouseClicked(0)) { // check for left click
+                editorInterconnectMap.MergeRoad(counter);
+            }
+            else if (ImGui::IsMouseClicked(1)) { // check for right click
+                delInter.push_back(counter);
+            }
+            ImGui::SetTooltip("Left click to warp road to port, right click to delete");
+        }
+        counter++;
+    }
+    for (int x: delInter) {editor.interConnections.erase(editor.interConnections.begin() + x);}
+    ImGui::EndChild();
 
     ImGui::End();
 }
@@ -226,9 +259,9 @@ void SFMLUpdate() {
 
         ImGui::Text("as"); ImGui::SameLine();
         const char* inout[] = { "Input", "Output"};
-        ImGui::SetNextItemWidth(100); ImGui::Combo("##interconnectside", editorInterconnectMap.getInputOrOutput(), inout, IM_ARRAYSIZE(inout)); ImGui::SameLine();
-        if (ImGui::Button("Connect")) {
-            
+        ImGui::SetNextItemWidth(100); ImGui::Combo("##interconnectinout", editorInterconnectMap.getInputOrOutput(), inout, IM_ARRAYSIZE(inout)); 
+        if (ImGui::Button("Connect##intercon2")) {
+            editorInterconnectMap.Submit();
         }
     }
 
