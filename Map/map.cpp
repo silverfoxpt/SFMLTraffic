@@ -177,6 +177,16 @@ void Map::addRoad(SaveRoad addRoad) {
     this->roads.push_back(addRoad);
 }
 
+void Map::deleteRoad(int id) {
+    if (id >= this->roads.size() || id < 0) { std::cerr << "Road not found!\n"; return;}
+
+    //delete road
+    this->roads.erase(this->roads.begin() + id);
+
+    //delete from saveIntersectingNode(s)
+    
+}
+
 SaveNode Map::getSaveNodeFromMousePos(sf::Vector2f mousePos) {
     //create node
     sf::Vector2f relativePos((mousePos.x - this->offset.x) / GameManager::tileSize, (mousePos.y - this->offset.y) / GameManager::tileSize);

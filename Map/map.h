@@ -63,6 +63,7 @@ class Map {
         SaveInterConnection* getInterConnection(int id);
 
         void addRoad(SaveRoad road);
+        void deleteRoad(int id);
         void infoVisualizeRoad(int roadId, sf::Color color);
 
         SaveNode getSaveNodeFromMousePos(sf::Vector2f mousePos);
