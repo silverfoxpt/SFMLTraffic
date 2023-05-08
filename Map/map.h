@@ -59,6 +59,7 @@ class Map {
         //helper functions
         int* getStatus(); 
         SaveRoad* getRoad(int id);
+        SaveIntersectingNode* getIntersectingNode(int id);
         SaveIntraConnection* getIntraConnection(int id);
         SaveInterConnection* getInterConnection(int id);
 

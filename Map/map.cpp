@@ -105,6 +105,11 @@ SaveInterConnection* Map::getInterConnection(int id) {
     return &this->interConnections[id];
 }
 
+SaveIntersectingNode* Map::getIntersectingNode(int id) {
+    if (id >= (int) this->intersections.size() || id < 0) {return nullptr;}
+    return &this->intersections[id];
+}
+
 void Map::infoVisualizeRoad(int roadId, sf::Color color) {
     sf::Vector2f begin; int c = 0;
     auto myRoad = this->getRoad(roadId);
@@ -178,18 +183,61 @@ void Map::addRoad(SaveRoad addRoad) {
 }
 
 void Map::deleteRoad(int id) {
-    if (id >= this->roads.size() || id < 0) { std::cerr << "Road not found!\n"; return;}
+    if (id >= (int) this->roads.size() || id < 0) { std::cerr << "Road not found!\n"; return;}
 
     //delete road
     this->roads.erase(this->roads.begin() + id);
 
     //delete from saveIntersectingNode(s)
-    
+    std::vector<int> delPos;
+    for (int i = 0; i < (int) this->intersections.size(); i++) {
+        auto intersect = this->getIntersectingNode(i);
+
+        for (int j = 0; j < (int) intersect->intersectingRoadIndex.size(); j++) {
+            if (intersect->intersectingRoadIndex[j] == id) { //found road
+                delPos.push_back(i); break;
+            } else if (intersect->intersectingRoadIndex[j] > id) { //found larger size road
+                intersect->intersectingRoadIndex[j]--;
+            }
+        }
+    }
+    std::reverse(delPos.begin(), delPos.end());
+    for (int x: delPos) { this->intersections.erase(this->intersections.begin() + x); }
+    delPos.clear();
+
+    //delete from intra-connections
+    for (int i = 0; i < (int) this->intraConnections.size(); i++) {
+        auto intra = this->getIntraConnection(i);
+
+        if (intra->inputRoadIdx == id || intra->outputRoadIdx == id) { //found road
+            delPos.push_back(i); continue;
+        } 
+
+        if (intra->inputRoadIdx > id) {intra->inputRoadIdx--;}
+        if (intra->outputRoadIdx > id) {intra->outputRoadIdx--;}
+    }
+    std::reverse(delPos.begin(), delPos.end());
+    for (int x: delPos) { this->intraConnections.erase(this->intraConnections.begin() + x); }
+    delPos.clear();
+
+    //delete from inter-connections
+    for (int i = 0; i < (int) this->interConnections.size(); i++) {
+        auto inter = this->getInterConnection(i);
+
+        if (inter->roadIdx == id) { //found road
+            delPos.push_back(i); continue;
+        }
+
+        if (inter->roadIdx > id) { inter->roadIdx--; }
+    }
+    std::reverse(delPos.begin(), delPos.end());
+    for (int x: delPos) { this->interConnections.erase(this->interConnections.begin() + x); }
+    delPos.clear();
 }
 
 SaveNode Map::getSaveNodeFromMousePos(sf::Vector2f mousePos) {
     //create node
-    sf::Vector2f relativePos((mousePos.x - this->offset.x) / GameManager::tileSize, (mousePos.y - this->offset.y) / GameManager::tileSize);
+    sf::Vector2f relativePos((mousePos.x - this->offset.x) / this->size, (mousePos.y - this->offset.y) / this->size);
     sf::Vector2f actualPos(mousePos.x, mousePos.y);
 
     SaveNode newNode;
@@ -210,3 +258,7 @@ bool Map::checkInMapFromActualPos(sf::Vector2f actualPos) {
     }
     return true;
 }
+
+/*void Map::SaveTile() {
+    
+}*/

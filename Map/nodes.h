@@ -12,12 +12,27 @@
 #include <memory>
 #include <chrono>
 
+#include "../json.hpp"
+using json = nlohmann::json;
+
 class SaveNode {
     public:
         sf::Vector2f relativePos;
         sf::Vector2f mapPos;
 
         SaveNode() {}
+
+        json getJson() {
+            json j;
+            j["relativePos"] = {relativePos.x, relativePos.y};
+            j["mapPos"] = {mapPos.x, mapPos.y};
+            return j;
+        }
+
+        SaveNode(json j) {
+            this->relativePos = sf::Vector2f(j["relativePos"][0], j["relativePos"][1]);
+            this->mapPos = sf::Vector2f(j["mapPos"][0], j["mapPos"][1]);
+        }
 };
 
 class SaveRoad {
@@ -25,6 +40,23 @@ class SaveRoad {
         std::vector<SaveNode> nodes;
 
         SaveRoad() {}
+
+        json getJson() {
+            json j;
+            std::vector<json> tmp;
+            for (SaveNode node: this->nodes) {
+                tmp.push_back(node.getJson());
+            }
+            j["nodes"] = tmp;
+            return j;
+        }
+
+        SaveRoad(json j) {
+            std::vector<json> tmp = j["nodes"];
+            for (json j2: tmp) {
+                nodes.push_back(SaveNode(j2));
+            }
+        }
 };
 
 class SaveIntersectingNode {
@@ -39,7 +71,26 @@ class SaveIntraConnection {
         int inputRoadIdx;
         int outputRoadIdx;
 
+        SaveIntraConnection() {} //default
+
+        SaveIntraConnection(int id1, int id2) {
+            this->inputRoadIdx = id1;
+            this->outputRoadIdx = id2;
+        }
+
         bool isEqual(SaveIntraConnection& other) {return (this->inputRoadIdx == other.inputRoadIdx) && (this->outputRoadIdx == other.outputRoadIdx); }
+
+        json getJson() {
+            json j;
+            j["inputRoadIdx"] = inputRoadIdx;
+            j["outputRoadIdx"] = outputRoadIdx;
+            return j;
+        }
+
+        SaveIntraConnection(json j) {
+            this->inputRoadIdx = j["inputRoadIdx"];
+            this->outputRoadIdx = j["outputRoadIdx"];
+        }
 };
 
 class SaveInterConnection {
