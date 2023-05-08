@@ -259,6 +259,36 @@ bool Map::checkInMapFromActualPos(sf::Vector2f actualPos) {
     return true;
 }
 
-/*void Map::SaveTile() {
-    
-}*/
+json Map::getFullJson() {
+    json myJson;
+
+    //roads
+    json jsonRoads;
+    for (auto& road: this->roads) {
+        jsonRoads.push_back(road.getJson());
+    }
+    myJson["roads"] = jsonRoads;    
+
+    //intersections
+    json jsonIntersect;
+    for (auto& intersect: this->intersections) {
+        jsonIntersect.push_back(intersect.getJson());
+    }
+    myJson["intersections"] = jsonIntersect;
+
+    //intraconnect
+    json jsonIntraconnect;
+    for (auto& intra: this->intraConnections) {
+        jsonIntraconnect.push_back(intra.getJson());
+    }
+    myJson["intraConnections"] = jsonIntraconnect;
+
+    //intersections
+    json jsonInterconnect;
+    for (auto& inter: this->interConnections) {
+        jsonInterconnect.push_back(inter.getJson());
+    }
+    myJson["interConnections"] = jsonInterconnect;
+
+    return myJson;
+}

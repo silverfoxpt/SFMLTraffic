@@ -8,6 +8,7 @@
 #include <random>
 #include <memory>
 #include <chrono>
+#include <fstream>
 
 #include "Map/map.h"
 
@@ -107,7 +108,7 @@ void Test() {
 }
 
 void SFMLRoad() {
-    ImGui::Begin("Road status");
+    ImGui::Begin("Road status##Default");
 
     ImGui::BeginChild("ScrollingRegion2", ImVec2(0, 100), true, ImGuiWindowFlags_HorizontalScrollbar);
     int delRoad = -1;
@@ -133,10 +134,9 @@ void SFMLRoad() {
     }
 }
 
-
 void SFMLConnection() {
     //new board for connection status
-    ImGui::Begin("Connection status");
+    ImGui::Begin("Connection status##Default");
     ImGui::Spacing();
     
     //intra road connection
@@ -231,16 +231,47 @@ void SFMLInterConnectPort() {
     }
 }
 
-void SFMLAction() {
-    ImGui::Begin("Action");
-    if (ImGui::Button("Save tile to map##act1")) {
-        //test
-        if (editor.roads.size() > 0) {
-            json j = editor.roads[0].getJson();
-            std::string tmp = j.dump();
+void SFMLHandleJson() {
+    // Read from file
+    std::ifstream roadInFile("road.json");
+    if (!roadInFile) {
+        std::cerr << "Failed to open road.json" << std::endl;
+        return;
+    }
+    json parsed;
+    try {
+        parsed = json::parse(roadInFile);
+    } catch (const std::exception& e) {
+        std::cerr << "Failed to parse road.json: " << e.what() << std::endl;
+        return;
+    }
+    roadInFile.close();
 
-            std::cout << tmp << '\n';
-        }
+    std::vector<json> tiles;
+    try {
+        tiles = parsed.get<std::vector<json>>();
+    } catch (const std::exception& e) {
+        std::cerr << "Failed to extract vector from road.json: " << e.what() << std::endl;
+        return;
+    }
+
+    // Write to file
+    json tile = editor.getFullJson(); 
+    tiles.push_back(tile);
+    json newFile = tiles; 
+    std::ofstream roadOutFile("road.json");
+    if (!roadOutFile) {
+        std::cerr << "Failed to open road.json for writing" << std::endl;
+        return;
+    }
+    roadOutFile << newFile.dump(4);
+    roadOutFile.close();
+}
+
+void SFMLAction() {
+    ImGui::Begin("Action##Default");
+    if (ImGui::Button("Save tile to map##act1")) {
+        SFMLHandleJson();
     }
     //ImGui::SameLine();
     if (ImGui::Button("Clear tile##act2")) {
@@ -250,7 +281,7 @@ void SFMLAction() {
 }
 
 void SFMLUpdate() {
-    ImGui::Begin("Map editor");
+    ImGui::Begin("Map editor##Default");
     ImGui::InputInt("Status", editor.getStatus());
 
     //intersection mode
@@ -314,8 +345,13 @@ void InitTest() {
 
 int main()
 {
+    //ImGui::LoadIniSettingsFromDisk("imgui.ini");
     ImGui::SFML::Init(mapmaker);
-    ImGui::SFML::Init(window);
+    ImGui::SetCurrentContext(ImGui::CreateContext());
+
+    //ImGui::LoadIniSettingsFromDisk("window.ini");
+    //ImGui::SFML::Init(window);
+    //ImGui::SetCurrentContext(ImGui::CreateContext());
     Initialize();
     //InitTest();
 
@@ -327,36 +363,40 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
-            ImGui::SFML::ProcessEvent(window, event);
+            //ImGui::SFML::ProcessEvent(window, event);
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        ImGui::SFML::Update(window, deltaTime.restart());
+        //ImGui::SFML::Update(window, deltaTime.restart());
+        //ImGui::SetCurrentContext(ImGui::GetCurrentContext());
         window.clear();        
         
         Test(); 
 
-        ImGui::SFML::Render(window);
-        window.display();
+        //ImGui::SFML::Render(window);
+        
 
         //mapmaker
-        sf::Event mapEvent;
-        while(mapmaker.pollEvent(mapEvent)) {
-            ImGui::SFML::ProcessEvent(mapmaker, mapEvent);
-            editor.Input(mapEvent);
+        //sf::Event mapEvent;
+        while(mapmaker.pollEvent(event)) {
+            ImGui::SFML::ProcessEvent(mapmaker, event);
+            editor.Input(event);
 
-            if (mapEvent.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed)
                 mapmaker.close();
         }
         ImGui::SFML::Update(mapmaker, deltaTime2.restart());
+        ImGui::SetCurrentContext(ImGui::GetCurrentContext());
         mapmaker.clear(sf::Color(60, 60, 60, 255));
 
         editor.Update();
-        editor.Visualize(mapEvent);
+        editor.Visualize(event);
         SFMLUpdate();
         editor.LateUpdate();
 
         ImGui::SFML::Render(mapmaker);
+
+        window.display();
         mapmaker.display();
 
         //std::cout << 1.0 / deltaTime.getElapsedTime().asSeconds() << '\n';

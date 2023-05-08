@@ -64,6 +64,26 @@ class SaveIntersectingNode {
         SaveNode posNode;
         std::vector<int> intersectingRoadIndex;
         std::vector<int> startNodeIdx;
+
+        json getJson() {
+            json j;
+            j["posNode"] = posNode.getJson();
+            j["intersectingRoadIndex"] = intersectingRoadIndex;
+            j["startNodeIdx"] = startNodeIdx;
+            return j;
+        }
+
+        SaveIntersectingNode(json j) {
+            this->posNode = j["posNode"];
+            this->intersectingRoadIndex = j["intersectingRoadIndex"].get<std::vector<int>>();
+            this->startNodeIdx = j["startNodeIdx"].get<std::vector<int>>();
+        }
+
+        SaveIntersectingNode(SaveNode pos, std::vector<int> roadIdx, std::vector<int> start) {
+            this->posNode = pos;
+            this->intersectingRoadIndex = roadIdx;
+            this->startNodeIdx = start;
+        }
 };
 
 class SaveIntraConnection {
@@ -101,6 +121,29 @@ class SaveInterConnection {
         int inputOrOutput; // 0 for input, 1 for output
 
         bool isEqual(SaveInterConnection& other) {return (this->roadIdx == other.roadIdx) && (this->inputOrOutput == other.inputOrOutput); }
+
+        json getJson() {
+            json j;
+            j["roadIdx"] = roadIdx;
+            j["portIdx"] = portIdx;
+            j["sideIdx"] = sideIdx;
+            j["inputOrOutput"] = inputOrOutput;
+            return j;
+        }
+
+        SaveInterConnection(json j) {
+            this->roadIdx = j["roadIdx"];
+            this->portIdx = j["portIdx"];
+            this->sideIdx = j["sideIdx"];
+            this->inputOrOutput = j["inputOrOutput"];
+        }
+
+        SaveInterConnection(int road, int port, int side, int inout) {
+            this->roadIdx = road;
+            this->portIdx = port;
+            this->sideIdx = side;
+            this->inputOrOutput = inout;
+        }
 };
 
 #endif
