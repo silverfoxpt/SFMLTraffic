@@ -263,28 +263,28 @@ json Map::getFullJson() {
     json myJson;
 
     //roads
-    json jsonRoads = std::vector<json>();
+    json jsonRoads = json::array();
     for (auto& road: this->roads) {
         jsonRoads.push_back(road.getJson());
     }
     myJson["roads"] = jsonRoads;    
 
     //intersections
-    json jsonIntersect = std::vector<json>();
+    json jsonIntersect = json::array();
     for (auto& intersect: this->intersections) {
         jsonIntersect.push_back(intersect.getJson());
     }
     myJson["intersections"] = jsonIntersect;
 
     //intraconnect
-    json jsonIntraconnect = std::vector<json>();
+    json jsonIntraconnect = json::array();
     for (auto& intra: this->intraConnections) {
         jsonIntraconnect.push_back(intra.getJson());
     }
     myJson["intraConnections"] = jsonIntraconnect;
 
     //intersections
-    json jsonInterconnect = std::vector<json>();
+    json jsonInterconnect = json::array();
     for (auto& inter: this->interConnections) {
         jsonInterconnect.push_back(inter.getJson());
     }
