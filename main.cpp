@@ -346,7 +346,10 @@ void InitTest() {
 int main()
 {
     ImGui::SFML::Init(mapmaker);
+    ImGui::GetIO().IniFilename = "mapmaker.ini";
+
     ImGui::SFML::Init(window);
+    ImGui::GetIO().IniFilename = "imgui.ini";
     Initialize();
     //InitTest();
 
