@@ -292,3 +292,10 @@ json Map::getFullJson() {
 
     return myJson;
 }
+
+void Map::clear() {
+    roads.clear();
+    intersections.clear();
+    intraConnections.clear();
+    interConnections.clear();
+}

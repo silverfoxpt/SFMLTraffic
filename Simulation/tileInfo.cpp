@@ -194,3 +194,11 @@ std::map<int, std::vector<std::pair<int, int>>> TileInfo::roadIntraConnection = 
         }
     }
 };
+
+int TileInfo::largestId() {
+    int maxi = 0;
+    for (auto it = roadInTileMap.begin(); it != roadInTileMap.end(); it++) {
+        maxi = std::max(maxi, it->first);
+    }
+    return maxi;
+}

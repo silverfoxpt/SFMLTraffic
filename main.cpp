@@ -60,6 +60,55 @@ sf::Clock           testClock;
 
 sf::Texture         carTex;
 
+void InitializeTileFromJson() {
+    //load the file up
+    std::ifstream roadInFile("road.json");
+    if (!roadInFile) {
+        std::cerr << "Failed to open road.json" << std::endl;
+        return;
+    }
+    json parsed;
+    try {
+        parsed = json::parse(roadInFile);
+    } catch (const std::exception& e) {
+        std::cerr << "Failed to parse road.json: " << e.what() << std::endl;
+        return;
+    }
+    roadInFile.close();
+
+    std::vector<json> tiles;
+    try {
+        tiles = parsed.get<std::vector<json>>();
+    } catch (const std::exception& e) {
+        std::cerr << "Failed to extract vector from road.json: " << e.what() << std::endl;
+        return;
+    }
+
+    //get beginning id
+    int id = TileInfo::largestId();
+
+    //load from json
+    for (json tile: tiles) {
+        //load the roads
+        std::vector<json> roads = tile["roads"];
+        std::vector<Road> mainRoads;
+        for (json road: roads) {
+            SaveRoad mapRoad(road);
+            std::vector<Node> mainNodes;
+            for (SaveNode mapNode: mapRoad.nodes) {
+                Node mainNode(std::pair<float, float>(mapNode.relativePos.x, mapNode.relativePos.y));
+                mainNodes.push_back(mainNode);
+            }
+            Road mainRoad(mainNodes);
+            mainRoads.push_back(mainRoad);
+        }
+        TileInfo::roadInTileMap[id] = mainRoads;
+
+        //increase id
+        id++;
+    }
+}
+
 void Initialize() {
     editorIntersectMap.Initialize(&editor);
     editorDrawmap.Initialize(&editor);
@@ -71,6 +120,9 @@ void Initialize() {
     window.setPosition(sf::Vector2i(50, 50));
     mapmaker.setPosition(sf::Vector2i(870, 50));
 
+    //load file from json
+    InitializeTileFromJson();
+
     //test
     testClock.restart();
     for (int i = 0; i < 30; i++) {
@@ -81,7 +133,7 @@ void Initialize() {
     }
 }
 
-void Test() {
+void MainUpdateAndTest() {
     tilemap.Debug();
     tilemap.Update();
      
@@ -275,7 +327,7 @@ void SFMLAction() {
     }
     //ImGui::SameLine();
     if (ImGui::Button("Clear tile##act2")) {
-
+        editor.clear();
     }
     ImGui::End();
 }
@@ -373,7 +425,7 @@ int main()
         ImGui::Text("Hi!");
         ImGui::End();
         
-        Test(); 
+        MainUpdateAndTest(); 
 
         ImGui::SFML::Render(window);       
 
