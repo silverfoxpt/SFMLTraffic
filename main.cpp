@@ -104,6 +104,26 @@ void InitializeTileFromJson() {
         }
         TileInfo::roadInTileMap[id] = mainRoads;
 
+        //load intraconnections
+        std::vector<json> intraconnect = tile["intraConnections"];
+        std::vector<std::pair<int, int>> mainIntras;
+        for (json intra: intraconnect) {
+            std::pair<int, int> mainIntra;
+            mainIntra.first = intra["inputRoadIdx"];
+            mainIntra.second = intra["outputRoadIdx"];
+            mainIntras.push_back(mainIntra);
+        }
+        TileInfo::roadIntraConnection[id] = mainIntras;
+
+        //load interconnections
+        /*std::vector<json> interconnect = tile["interConnections"];
+        std::vector<RoadInterInfo> mainInters;
+        for (json inter: interconnect) {
+            RoadInterInfo mainInter();
+            bool inputFromTile = (inter["inputOrOutput"] == 0);
+            bool outputToFile = (inter["inputOrOutput"] == 1);
+        }*/
+
         //increase id
         id++;
     }

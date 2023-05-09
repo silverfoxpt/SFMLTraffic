@@ -84,7 +84,8 @@ std::map<int, std::vector<RoadInterInfo>> TileInfo::roadInterConnection = {
             RoadInterInfo(
                 true, true,
                 5, 5, //input at 0.5, output at 0.5 -> 5, 5
-                3, 1
+                3, 1,
+                0
             )
         }
     },
@@ -95,7 +96,8 @@ std::map<int, std::vector<RoadInterInfo>> TileInfo::roadInterConnection = {
             RoadInterInfo(
                 true, true,
                 1, 1,
-                3, 1
+                3, 1, 
+                0
             )
         }
         
@@ -106,17 +108,20 @@ std::map<int, std::vector<RoadInterInfo>> TileInfo::roadInterConnection = {
             RoadInterInfo(
                 true, false,
                 3, -1,
-                3, -1
+                3, -1, 
+                0
             ),
             RoadInterInfo(
                 true, false,
                 7, -1,
-                3, -1
+                3, -1,
+                1
             ),
             RoadInterInfo(
                 false, true,
                 -1, 5,
-                -1, 1
+                -1, 1, 
+                2
             )
         }   
     },
@@ -126,32 +131,38 @@ std::map<int, std::vector<RoadInterInfo>> TileInfo::roadInterConnection = {
             RoadInterInfo(
                 true, false,
                 5, -1,
-                3, -1
+                3, -1,
+                0
             ),
             RoadInterInfo(
                 true, false,
                 5, -1,
-                3, -1
+                3, -1, 
+                1
             ),
             RoadInterInfo(
                 true, false,
                 5, -1,
-                3, -1
+                3, -1, 
+                2
             ),
             RoadInterInfo(
                 false, true,
                 -1, 5,
-                -1, 1
+                -1, 1,
+                3
             ),
             RoadInterInfo(
                 false, true,
                 -1, 5,
-                -1, 1
+                -1, 1, 
+                4
             ),
             RoadInterInfo(
                 false, true,
                 -1, 5,
-                -1, 1
+                -1, 1, 
+                5
             )
         }
     }
