@@ -54,6 +54,7 @@ void MapInterConnect::MergeRoad(int id) {
         } 
         case 1: {
             pos = sf::Vector2f(this->parent->offset.x + this->parent->size, this->parent->offset.y + port * additional); 
+            break;
         }
         case 2: {
             pos = sf::Vector2f(this->parent->offset.x + port * additional, this->parent->offset.y + this->parent->size); 

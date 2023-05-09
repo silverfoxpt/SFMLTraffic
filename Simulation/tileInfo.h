@@ -26,12 +26,12 @@ struct RoadInterInfo {
         int extraSideOut;
         int roadId;
 
-        RoadInterInfo(bool inputFromRoad, bool outputToRoad, 
+        RoadInterInfo(bool inputFromOtherTile, bool outputToOtherTile, 
             bool inputId, bool outputId, 
             int extraSideIn, int extraSideOut, int roadId) 
         {
-            this->inputFromOtherTile = inputFromRoad;
-            this->outputToOtherTile = outputToRoad;
+            this->inputFromOtherTile = inputFromOtherTile;
+            this->outputToOtherTile = outputToOtherTile;
 
             this->inputId = inputId;
             this->outputId = outputId;

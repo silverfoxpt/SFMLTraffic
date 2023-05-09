@@ -116,13 +116,47 @@ void InitializeTileFromJson() {
         TileInfo::roadIntraConnection[id] = mainIntras;
 
         //load interconnections
-        /*std::vector<json> interconnect = tile["interConnections"];
+        std::vector<json> interconnect = tile["interConnections"];
         std::vector<RoadInterInfo> mainInters;
         for (json inter: interconnect) {
-            RoadInterInfo mainInter();
             bool inputFromTile = (inter["inputOrOutput"] == 0);
-            bool outputToFile = (inter["inputOrOutput"] == 1);
-        }*/
+            bool outputToTile = (inter["inputOrOutput"] == 1);
+            int inputId, outputId;
+            int extraSideIn, extraSideOut;
+            if (inputFromTile) {
+                inputId = inter["portIdx"]; outputId = -1;
+                extraSideIn = inter["sideIdx"]; extraSideOut = -1;
+            } else {
+                outputId = inter["portIdx"]; inputId = -1;
+                extraSideOut = inter["sideIdx"]; extraSideIn = -1;
+            }
+            int roadIdx = inter["roadIdx"];
+
+            //check if roadIdx already exist in mainInters
+            bool duplicate = false;
+            for (RoadInterInfo& mainInter: mainInters) {
+                if (mainInter.roadId == roadIdx) {
+                    duplicate = true;
+                    if (inputFromTile) {
+                        mainInter.inputFromOtherTile = true;
+                        mainInter.inputId = inputId;
+                        mainInter.extraSideIn = extraSideIn;
+                    } else {
+                        mainInter.inputFromOtherTile = true;
+                        mainInter.inputId = inputId;
+                        mainInter.extraSideIn = extraSideIn;
+                    }
+                    break;
+                }
+            }
+
+            //if not duplicated then save as individualx
+            if (!duplicate) {
+                RoadInterInfo newInterInfo(inputFromTile, outputToTile, inputId, outputId, extraSideIn, extraSideOut, roadIdx);
+                mainInters.push_back(newInterInfo);
+            }
+        }
+        TileInfo::roadInterConnection[id] = mainInters;
 
         //increase id
         id++;
