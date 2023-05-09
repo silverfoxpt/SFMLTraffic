@@ -142,9 +142,9 @@ void InitializeTileFromJson() {
                         mainInter.inputId = inputId;
                         mainInter.extraSideIn = extraSideIn;
                     } else {
-                        mainInter.inputFromOtherTile = true;
-                        mainInter.inputId = inputId;
-                        mainInter.extraSideIn = extraSideIn;
+                        mainInter.outputToOtherTile = true;
+                        mainInter.outputId = outputId;
+                        mainInter.extraSideOut = extraSideOut;
                     }
                     break;
                 }
