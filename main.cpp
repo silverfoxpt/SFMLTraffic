@@ -366,6 +366,9 @@ int main()
         ImGui::SFML::Update(window, deltaTime.restart());
         
         window.clear();        
+        ImGui::Begin("Hello##Default2");
+        ImGui::Text("Hi!");
+        ImGui::End();
         
         Test(); 
 
