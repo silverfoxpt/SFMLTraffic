@@ -345,13 +345,8 @@ void InitTest() {
 
 int main()
 {
-    //ImGui::LoadIniSettingsFromDisk("imgui.ini");
     ImGui::SFML::Init(mapmaker);
-    ImGui::SetCurrentContext(ImGui::CreateContext());
-
-    //ImGui::LoadIniSettingsFromDisk("window.ini");
-    //ImGui::SFML::Init(window);
-    //ImGui::SetCurrentContext(ImGui::CreateContext());
+    ImGui::SFML::Init(window);
     Initialize();
     //InitTest();
 
@@ -361,23 +356,24 @@ int main()
     {   
         //normal window
         sf::Event event;
+        ImGui::SFML::SetCurrentWindow(window);
         while (window.pollEvent(event))
         {
-            //ImGui::SFML::ProcessEvent(window, event);
+            ImGui::SFML::ProcessEvent(window, event);
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        //ImGui::SFML::Update(window, deltaTime.restart());
-        //ImGui::SetCurrentContext(ImGui::GetCurrentContext());
+        ImGui::SFML::Update(window, deltaTime.restart());
+        
         window.clear();        
         
         Test(); 
 
-        //ImGui::SFML::Render(window);
-        
+        ImGui::SFML::Render(window);       
 
         //mapmaker
         //sf::Event mapEvent;
+        ImGui::SFML::SetCurrentWindow(mapmaker);
         while(mapmaker.pollEvent(event)) {
             ImGui::SFML::ProcessEvent(mapmaker, event);
             editor.Input(event);
@@ -386,7 +382,6 @@ int main()
                 mapmaker.close();
         }
         ImGui::SFML::Update(mapmaker, deltaTime2.restart());
-        ImGui::SetCurrentContext(ImGui::GetCurrentContext());
         mapmaker.clear(sf::Color(60, 60, 60, 255));
 
         editor.Update();
@@ -401,6 +396,7 @@ int main()
 
         //std::cout << 1.0 / deltaTime.getElapsedTime().asSeconds() << '\n';
     }
-    ImGui::SFML::Shutdown();
+    ImGui::SFML::Shutdown(mapmaker);
+    ImGui::SFML::Shutdown(window);
     return 0;
 }
