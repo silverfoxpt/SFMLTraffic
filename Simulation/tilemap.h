@@ -32,6 +32,7 @@ class Tilemap {
         std::vector<std::vector<int>> tileIds;
         
         Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tileHeight, sf::RenderWindow* myWindow);
+        Tilemap() {} //empty constructor
         void Debug();
         void Update();
         void ClearAndReset();

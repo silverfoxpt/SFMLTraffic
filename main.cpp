@@ -44,7 +44,7 @@ float GameManager::windowHeight = window.getSize().y;
 float GameManager::deltaTime = 1/60.0;
 int GameManager::tileSize = 100;
 
-Tilemap             tilemap(5, 7, 50, 50, GameManager::tileSize, GameManager::tileSize, &window);
+Tilemap             tilemap;
 
 MapInterConnect     editorInterconnectMap(&mapmaker);
 MapIntraConnect     editorIntraconnectMap(&mapmaker);
@@ -156,6 +156,10 @@ void InitializeTileFromJson() {
                 mainInters.push_back(newInterInfo);
             }
         }
+        //sort by roadId first
+        std::sort(mainInters.begin(), mainInters.end());
+
+        //set interconnections
         TileInfo::roadInterConnection[id] = mainInters;
 
         //increase id
@@ -205,6 +209,12 @@ void UpdateTest() {
 }
 
 void Initialize() {
+    //load file from json
+    InitializeTileFromJson();
+
+    //update new tilemap
+    tilemap = Tilemap(5, 7, 50, 50, GameManager::tileSize, GameManager::tileSize, &window);
+
     editorIntersectMap.Initialize(&editor);
     editorDrawmap.Initialize(&editor);
     editorDrawBezier.Initialize(&editor);
@@ -214,9 +224,6 @@ void Initialize() {
 
     window.setPosition(sf::Vector2i(50, 50));
     mapmaker.setPosition(sf::Vector2i(870, 50));
-
-    //load file from json
-    InitializeTileFromJson();
 
     InitializeTest();
 }

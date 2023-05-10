@@ -5,9 +5,9 @@ float CarInfo::carHalfLength = 5;
 
 //16.6m/s == 60km/h
 float CarInfo::desiredVelocity = 33.2; // m/s 
-float CarInfo::minDesiredDistance = 5;
+float CarInfo::minDesiredDistance = 7;
 
-float CarInfo::safetyInputJammedRoad = 10;
+float CarInfo::safetyInputJammedRoad = 20;
 
 float CarInfo::accelExponent = 4;
 float CarInfo::reactionTime = 1.5; //seconds;

@@ -32,7 +32,7 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* paren
     }
 
     //set up road intersection
-    sf::Vector2i nullRoad(-99999, -99999);
+    /*sf::Vector2i nullRoad(-99999, -99999);
     std::vector<std::pair<int, int>> roadIntraCon = TileInfo::roadIntraConnection[this->tileId];
 
     for (int i = 0; i < (int) this->roads.size() - 1; i++) {
@@ -91,7 +91,7 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* paren
                 IntersectManager::addNode(newIntersection);
             }
         }
-    }
+    }*/
 }
 
 void Tile::Debug(int &c) { //this just draw stuffs, not important, so I won't be refactoring any time soon
@@ -172,9 +172,12 @@ void Tile::SetUpRoadConnection() {
     int dx[4]           = {-1, 0, +1, 0}; 
     int dy[4]           = {0, +1, 0, -1};
     int opposite[4]     = {2, 3, 0, 1};
-
+    
+    int infoCount = 0;
     for (int i = 0; i < (int) this->roads.size(); i++) {
-        RoadInterInfo c = info[i];
+        RoadInterInfo c = info[infoCount];
+        if (c.roadId != i) {continue;}
+        infoCount++;
 
         //set up inputs from other tile
         if (c.inputFromOtherTile) {

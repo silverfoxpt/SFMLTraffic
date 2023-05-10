@@ -69,6 +69,10 @@ class RoadInterInfo {
             return ss.str();
         }
 
+        bool operator <(const RoadInterInfo& other) const {
+            return this->roadId < other.roadId;
+        }
+
 };
 
 class TileInfo {
