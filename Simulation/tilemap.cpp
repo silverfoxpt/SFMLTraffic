@@ -10,6 +10,8 @@ Tilemap::Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tile
     this->tileHeight = tileHeight;
     this->tileWidth = tileWidth;
 
+    this->myWindow = myWindow;
+
     //test, setup some tile ids
     for (int i = 0; i < this->rows; i++) {
         this->tileIds.push_back(std::vector<int>());
@@ -17,46 +19,10 @@ Tilemap::Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tile
             this->tileIds[i].push_back(1);
         }
     }
-    this->tileIds[0][0] = 3;
-    this->tileIds[0][1] = 4;
+    //this->tileIds[0][0] = 3;
+    //this->tileIds[0][1] = 4;
 
-    //setup tiles
-    for (int i = 0; i < this->rows; i++) {
-        this->tilemap.push_back(std::vector<Tile>());
-
-        for (int j = 0; j < this->cols; j++) {
-            Tile newTile(
-                this->xPos + j * tileWidth,
-                this->yPos + i * tileHeight,
-                this->tileWidth,
-                this->tileHeight,
-                this->tileIds[i][j],
-                this,
-                i, 
-                j
-            );
-            newTile.myWindow = myWindow;
-
-            this->tilemap[i].push_back(newTile);
-        }
-    }
-
-    //NOTE: TILE CONNECTION SETUP ARE ONLY VIABLE AFTER ALL TILES ARE CREATED
-    //AND FILLED ON TILEMAP
-
-    /*//set up tiles input output connections
-    for (int i = 0; i < this->rows; i++) {
-        for (int j = 0; j < this->cols; j++) {
-            this->tilemap[i][j].SetUpTileInputOutputConnection();
-        }
-    }*/
-
-    //setup roads connections
-    for (int i = 0; i < this->rows; i++) {
-        for (int j = 0; j < this->cols; j++) {
-            this->tilemap[i][j].SetUpRoadConnection();
-        }
-    }
+    this->ClearAndReset();
 }
 
 void Tilemap::Debug() {
@@ -102,6 +68,47 @@ void Tilemap::Update() {
     for (auto& v: this->tilemap) {
         for (Tile& tile: v) {
             tile.Update();
+        }
+    }
+}
+
+void Tilemap::ClearAndReset() {
+    //setup tiles
+    tilemap.clear();
+    for (int i = 0; i < this->rows; i++) {
+        this->tilemap.push_back(std::vector<Tile>());
+
+        for (int j = 0; j < this->cols; j++) {
+            Tile newTile(
+                this->xPos + j * tileWidth,
+                this->yPos + i * tileHeight,
+                this->tileWidth,
+                this->tileHeight,
+                this->tileIds[i][j],
+                this,
+                i, 
+                j
+            );
+            newTile.myWindow = this->myWindow;
+
+            this->tilemap[i].push_back(newTile);
+        }
+    }
+
+    //NOTE: TILE CONNECTION SETUP ARE ONLY VIABLE AFTER ALL TILES ARE CREATED
+    //AND FILLED ON TILEMAP
+
+    /*//set up tiles input output connections
+    for (int i = 0; i < this->rows; i++) {
+        for (int j = 0; j < this->cols; j++) {
+            this->tilemap[i][j].SetUpTileInputOutputConnection();
+        }
+    }*/
+
+    //setup roads connections
+    for (int i = 0; i < this->rows; i++) {
+        for (int j = 0; j < this->cols; j++) {
+            this->tilemap[i][j].SetUpRoadConnection();
         }
     }
 }

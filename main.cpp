@@ -185,12 +185,17 @@ void UpdateTest() {
         window.draw(car.user);
 
         if (testClock.getElapsedTime().asSeconds() >= 0.2 && c == counter) {
-            if (c % 2 == 0 && !tile->roads[0].inputJammed) {
+            /*if (c % 2 == 0 && !tile->roads[0].inputJammed) {
                 tile->roads[0].acceptCar(&car);
                 testClock.restart();
                 c++;
             } else if (c % 2 == 1 && !tile->roads[1].inputJammed) {
                 tile->roads[1].acceptCar(&car);
+                testClock.restart();
+                c++;
+            }*/
+            if (!tile->roads[0].inputJammed) {
+                tile->roads[0].acceptCar(&car);
                 testClock.restart();
                 c++;
             }
@@ -220,7 +225,7 @@ void MainUpdateAndTest() {
     tilemap.Debug();
     tilemap.Update();
      
-    UpdateTest();
+    //UpdateTest();
 }
 
 void SFMLRoad() {
@@ -461,8 +466,14 @@ void InitTest() {
 
 void MainSFML() {
     ImGui::Begin("Map input");
-    if (ImGui::Button("Reset")) {
+    if (ImGui::Button("Reset all")) {
+        //ImGui::Too("Nuke everything, reimport tiles' template from JSON, clear the map, rerun the simulation.");
         TileInfo::clearAll();
+        tilemap.ClearAndReset();
+
+        std::cout << TileInfo::roadInTileMap.size();
+
+        InitializeTest();
     }
     ImGui::End();
 }

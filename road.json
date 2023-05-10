@@ -1,3 +1,46 @@
 [
-    
+    {
+        "interConnections": [
+            {
+                "inputOrOutput": 0,
+                "portIdx": 10,
+                "roadIdx": 0,
+                "sideIdx": 3
+            },
+            {
+                "inputOrOutput": 1,
+                "portIdx": 10,
+                "roadIdx": 0,
+                "sideIdx": 1
+            }
+        ],
+        "intersections": [],
+        "intraConnections": [],
+        "roads": [
+            {
+                "nodes": [
+                    {
+                        "mapPos": [
+                            50.0,
+                            240.0
+                        ],
+                        "relativePos": [
+                            0.0,
+                            0.4749999940395355
+                        ]
+                    },
+                    {
+                        "mapPos": [
+                            450.0,
+                            240.0
+                        ],
+                        "relativePos": [
+                            1.0,
+                            0.4749999940395355
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
 ]
