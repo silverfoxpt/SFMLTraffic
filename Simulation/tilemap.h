@@ -36,6 +36,8 @@ class Tilemap {
         void Update();
         void ClearAndReset();
 
+        int* getTileID(int i, int j);
+
         bool TileExist(int row, int col);
         Tile* GetTile(int row, int col);
 };

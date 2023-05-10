@@ -59,7 +59,8 @@ bool Tilemap::TileExist(int row, int col) {
 
 Tile* Tilemap::GetTile(int row, int col) {
     if (!this->TileExist(row, col)) {
-        std::cout << "ERROR: TILE DOESN'T EXIST.";
+        std::cerr << "Tile not found";
+        return nullptr;
     }
     return &this->tilemap[row][col];
 }
@@ -111,4 +112,12 @@ void Tilemap::ClearAndReset() {
             this->tilemap[i][j].SetUpRoadConnection();
         }
     }
+}
+
+int* Tilemap::getTileID(int i, int j) {
+    if (!this->TileExist(i, j)) {
+        std::cerr << "Tile ID not found";
+        return nullptr;
+    }
+    return &this->tileIds[i][j];
 }

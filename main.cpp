@@ -464,9 +464,10 @@ void InitTest() {
     std::cout << x << " " << y << '\n';
 }
 
-void MainSFML() {
+void MainSFMLAction() {
     ImGui::Begin("Map input");
 
+    //reset button
     if (ImGui::Button("Reset all")) {
         std::cout << "Reset!\n";
         TileInfo::clearAll();
@@ -481,7 +482,56 @@ void MainSFML() {
         ImGui::Text("Nuke everything, reimport tiles' template from JSON, clear the map, rerun the simulation.");
         ImGui::EndTooltip();
     }
+
+    //clear json button
+    if (ImGui::Button("Clear JSON")) {
+        json newJson = json::array();
+
+        std::ofstream roadOutFile("road.json");
+        if (!roadOutFile) {
+            std::cerr << "Failed to open road.json for writing" << std::endl;
+            return;
+        }
+        roadOutFile << newJson.dump(4);
+        roadOutFile.close();
+    }
+
+    if (ImGui::IsItemHovered()) {
+        ImGui::BeginTooltip();
+        ImGui::Text("WARNING: This will remove all tile from road.json file. Proceed with caution.");
+        ImGui::EndTooltip();
+    }
     ImGui::End();
+}
+
+void MainSFMLTilemap() {
+    ImGui::Begin("Tilemap");
+
+    if (ImGui::BeginTable("MyTable", tilemap.cols))
+    {
+        for (int row = 0; row < tilemap.rows; row++)
+        {
+            ImGui::TableNextRow();
+
+            for (int col = 0; col < tilemap.cols; col++)
+            {
+                ImGui::TableSetColumnIndex(col);
+                ImGui::SetNextItemWidth(-FLT_MIN);
+
+                std::string id = "##" + std::to_string(row) + std::to_string(col);
+                ImGui::DragScalar(id.c_str(), ImGuiDataType_S32, tilemap.getTileID(row, col));
+            }
+        }
+
+        ImGui::EndTable();
+    }
+
+    ImGui::End();
+}
+
+void MainSFML() {
+    MainSFMLAction();
+    MainSFMLTilemap();
 }
 
 int main()

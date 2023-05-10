@@ -42,5 +42,194 @@
                 ]
             }
         ]
+    },
+    {
+        "interConnections": [
+            {
+                "inputOrOutput": 0,
+                "portIdx": 10,
+                "roadIdx": 0,
+                "sideIdx": 3
+            },
+            {
+                "inputOrOutput": 1,
+                "portIdx": 10,
+                "roadIdx": 3,
+                "sideIdx": 1
+            }
+        ],
+        "intersections": [],
+        "intraConnections": [
+            {
+                "inputRoadIdx": 0,
+                "outputRoadIdx": 1
+            },
+            {
+                "inputRoadIdx": 1,
+                "outputRoadIdx": 2
+            },
+            {
+                "inputRoadIdx": 2,
+                "outputRoadIdx": 3
+            },
+            {
+                "inputRoadIdx": 0,
+                "outputRoadIdx": 4
+            },
+            {
+                "inputRoadIdx": 4,
+                "outputRoadIdx": 5
+            },
+            {
+                "inputRoadIdx": 5,
+                "outputRoadIdx": 3
+            }
+        ],
+        "roads": [
+            {
+                "nodes": [
+                    {
+                        "mapPos": [
+                            50.0,
+                            240.0
+                        ],
+                        "relativePos": [
+                            0.0,
+                            0.4749999940395355
+                        ]
+                    },
+                    {
+                        "mapPos": [
+                            201.0,
+                            239.75
+                        ],
+                        "relativePos": [
+                            0.3774999976158142,
+                            0.47437500953674316
+                        ]
+                    }
+                ]
+            },
+            {
+                "nodes": [
+                    {
+                        "mapPos": [
+                            201.0,
+                            239.75
+                        ],
+                        "relativePos": [
+                            0.3774999976158142,
+                            0.47437500953674316
+                        ]
+                    },
+                    {
+                        "mapPos": [
+                            259.0,
+                            127.0
+                        ],
+                        "relativePos": [
+                            0.5224999785423279,
+                            0.19249999523162842
+                        ]
+                    }
+                ]
+            },
+            {
+                "nodes": [
+                    {
+                        "mapPos": [
+                            259.0,
+                            127.0
+                        ],
+                        "relativePos": [
+                            0.5224999785423279,
+                            0.19249999523162842
+                        ]
+                    },
+                    {
+                        "mapPos": [
+                            314.25,
+                            240.0
+                        ],
+                        "relativePos": [
+                            0.6606249809265137,
+                            0.4749999940395355
+                        ]
+                    }
+                ]
+            },
+            {
+                "nodes": [
+                    {
+                        "mapPos": [
+                            314.25,
+                            240.0
+                        ],
+                        "relativePos": [
+                            0.6606249809265137,
+                            0.4749999940395355
+                        ]
+                    },
+                    {
+                        "mapPos": [
+                            450.0,
+                            240.0
+                        ],
+                        "relativePos": [
+                            1.0,
+                            0.4749999940395355
+                        ]
+                    }
+                ]
+            },
+            {
+                "nodes": [
+                    {
+                        "mapPos": [
+                            201.0,
+                            239.5
+                        ],
+                        "relativePos": [
+                            0.3774999976158142,
+                            0.4737499952316284
+                        ]
+                    },
+                    {
+                        "mapPos": [
+                            257.0,
+                            335.0
+                        ],
+                        "relativePos": [
+                            0.5174999833106995,
+                            0.7124999761581421
+                        ]
+                    }
+                ]
+            },
+            {
+                "nodes": [
+                    {
+                        "mapPos": [
+                            257.0,
+                            335.0
+                        ],
+                        "relativePos": [
+                            0.5174999833106995,
+                            0.7124999761581421
+                        ]
+                    },
+                    {
+                        "mapPos": [
+                            314.5,
+                            240.0
+                        ],
+                        "relativePos": [
+                            0.6612499952316284,
+                            0.4749999940395355
+                        ]
+                    }
+                ]
+            }
+        ]
     }
 ]
