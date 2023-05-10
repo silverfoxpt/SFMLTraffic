@@ -11,12 +11,13 @@
 #include <random>
 #include <memory>
 #include <chrono>
+#include <sstream>
 
 #include "tile.h"
 
 class Road;
 
-struct RoadInterInfo {
+class RoadInterInfo {
     public:
         bool inputFromOtherTile; 
         bool outputToOtherTile;
@@ -27,7 +28,7 @@ struct RoadInterInfo {
         int roadId;
 
         RoadInterInfo(bool inputFromOtherTile, bool outputToOtherTile, 
-            bool inputId, bool outputId, 
+            int inputId, int outputId, 
             int extraSideIn, int extraSideOut, int roadId) 
         {
             this->inputFromOtherTile = inputFromOtherTile;
@@ -55,6 +56,19 @@ struct RoadInterInfo {
 
         Else, inputId, outputId, extraSideIn, extraSideOut can be safely set to -1, cause it doesn't matter
         */
+
+        std::string to_string() const {
+            std::stringstream ss;
+            ss << "inputFromOtherTile: " << inputFromOtherTile << "\n";
+            ss << "outputToOtherTile: " << outputToOtherTile << "\n";
+            ss << "inputId: " << inputId << "\n";
+            ss << "outputId: " << outputId << "\n";
+            ss << "extraSideIn: " << extraSideIn << "\n";
+            ss << "extraSideOut: " << extraSideOut << "\n";
+            ss << "roadId: " << roadId << "\n";
+            return ss.str();
+        }
+
 };
 
 class TileInfo {

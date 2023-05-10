@@ -121,8 +121,8 @@ void InitializeTileFromJson() {
         for (json inter: interconnect) {
             bool inputFromTile = (inter["inputOrOutput"] == 0);
             bool outputToTile = (inter["inputOrOutput"] == 1);
-            int inputId, outputId;
-            int extraSideIn, extraSideOut;
+            int inputId = -99, outputId = -99;
+            int extraSideIn = -99, extraSideOut = -99;
             if (inputFromTile) {
                 inputId = inter["portIdx"]; outputId = -1;
                 extraSideIn = inter["sideIdx"]; extraSideOut = -1;
