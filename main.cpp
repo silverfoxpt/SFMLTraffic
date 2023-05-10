@@ -225,7 +225,7 @@ void MainUpdateAndTest() {
     tilemap.Debug();
     tilemap.Update();
      
-    //UpdateTest();
+    UpdateTest();
 }
 
 void SFMLRoad() {
@@ -466,14 +466,20 @@ void InitTest() {
 
 void MainSFML() {
     ImGui::Begin("Map input");
+
     if (ImGui::Button("Reset all")) {
-        //ImGui::Too("Nuke everything, reimport tiles' template from JSON, clear the map, rerun the simulation.");
+        std::cout << "Reset!\n";
         TileInfo::clearAll();
+        InitializeTileFromJson();
+
         tilemap.ClearAndReset();
-
-        std::cout << TileInfo::roadInTileMap.size();
-
         InitializeTest();
+    }
+
+    if (ImGui::IsItemHovered()) {
+        ImGui::BeginTooltip();
+        ImGui::Text("Nuke everything, reimport tiles' template from JSON, clear the map, rerun the simulation.");
+        ImGui::EndTooltip();
     }
     ImGui::End();
 }

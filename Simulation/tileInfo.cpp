@@ -2,7 +2,7 @@
 
 std::map<int, std::vector<Road>> TileInfo::roadInTileMap = {
     {
-        1,
+        0,
         {
             Road({
                 Node(std::pair<float, float>(0.0, 0.5)),
@@ -79,7 +79,7 @@ std::map<int, std::vector<Road>> TileInfo::roadInTileMap = {
 //reclassified
 std::map<int, std::vector<RoadInterInfo>> TileInfo::roadInterConnection = {
     {
-        1, 
+        0, 
         {
             RoadInterInfo(
                 true, true,
@@ -171,7 +171,7 @@ std::map<int, std::vector<RoadInterInfo>> TileInfo::roadInterConnection = {
 //newly classified
 std::map<int, std::vector<std::pair<int, int>>> TileInfo::roadIntraConnection = {
     {
-        1,
+        0,
         {
 
         }
