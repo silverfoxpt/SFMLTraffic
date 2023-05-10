@@ -163,21 +163,10 @@ void InitializeTileFromJson() {
     }
 }
 
-void Initialize() {
-    editorIntersectMap.Initialize(&editor);
-    editorDrawmap.Initialize(&editor);
-    editorDrawBezier.Initialize(&editor);
-    editorIntraconnectMap.Initialize(&editor);
-    editorInterconnectMap.Initialize(&editor);
-    editor.Initialize(&editorDrawmap, &editorDrawBezier, &editorIntersectMap, &editorIntraconnectMap, &editorInterconnectMap);
-
-    window.setPosition(sf::Vector2i(50, 50));
-    mapmaker.setPosition(sf::Vector2i(870, 50));
-
-    //load file from json
-    InitializeTileFromJson();
-
+void InitializeTest() {
     //test
+    c = 0;
+    cars.clear();
     testClock.restart();
     for (int i = 0; i < 30; i++) {
         Car newCar(5, CarInfo::carLength);
@@ -187,10 +176,7 @@ void Initialize() {
     }
 }
 
-void MainUpdateAndTest() {
-    tilemap.Debug();
-    tilemap.Update();
-     
+void UpdateTest() {
     //moreeeeeeeeeee testssssssssss
     int counter = 0;
     Tile* tile = tilemap.GetTile(0, 0);
@@ -211,6 +197,30 @@ void MainUpdateAndTest() {
         }
         counter++;
     }
+}
+
+void Initialize() {
+    editorIntersectMap.Initialize(&editor);
+    editorDrawmap.Initialize(&editor);
+    editorDrawBezier.Initialize(&editor);
+    editorIntraconnectMap.Initialize(&editor);
+    editorInterconnectMap.Initialize(&editor);
+    editor.Initialize(&editorDrawmap, &editorDrawBezier, &editorIntersectMap, &editorIntraconnectMap, &editorInterconnectMap);
+
+    window.setPosition(sf::Vector2i(50, 50));
+    mapmaker.setPosition(sf::Vector2i(870, 50));
+
+    //load file from json
+    InitializeTileFromJson();
+
+    InitializeTest();
+}
+
+void MainUpdateAndTest() {
+    tilemap.Debug();
+    tilemap.Update();
+     
+    UpdateTest();
 }
 
 void SFMLRoad() {
@@ -451,6 +461,9 @@ void InitTest() {
 
 void MainSFML() {
     ImGui::Begin("Map input");
+    if (ImGui::Button("Reset")) {
+        TileInfo::clearAll();
+    }
     ImGui::End();
 }
 

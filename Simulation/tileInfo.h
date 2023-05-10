@@ -64,6 +64,7 @@ class TileInfo {
         static std::map<int, std::vector<std::pair<int, int>>> roadIntraConnection;
 
         static int largestId();
+        static void clearAll();
 };
 
 #endif

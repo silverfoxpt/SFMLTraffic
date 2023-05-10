@@ -213,3 +213,9 @@ int TileInfo::largestId() {
     }
     return maxi;
 }
+
+void TileInfo::clearAll() {
+    roadInterConnection.clear();
+    roadInTileMap.clear();
+    roadIntraConnection.clear();
+}
