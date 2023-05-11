@@ -433,7 +433,7 @@ void Road::CheckIfOutputBlocked() {
 
 //probably finished
 void Road::CheckIfInputJammed() {   
-    if (currentCars.size() == 0) {return;}
+    if (currentCars.size() == 0) { this->inputJammed = false; return;}
 
     Car* bottomCar = this->currentCars[0];
     if (bottomCar->getCarBottom() <= CarInfo::safetyInputJammedRoad) 

@@ -28,7 +28,7 @@ class DrawBezier {
         Map* parent;
 
         //for the bezier
-        int numPoints = 8;
+        int numPoints = 10;
         bool clickedFirst = false;
         bool clickedSecond = false;
 
