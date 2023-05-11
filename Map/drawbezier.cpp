@@ -33,7 +33,7 @@ void DrawBezier::Input(sf::Event event) {
 
                 /////dont draw anything yet, just set up da nodes
                 for (int i = 0; i < this->numPoints; i++) {
-                    sf::Vector2f pos = Math::Lerp(firstPos, secondPos, (float) i / numPoints);
+                    sf::Vector2f pos = Math::Lerp(firstPos, secondPos, (float) i / (numPoints-1));
 
                     SaveNode nod = this->parent->getSaveNodeFromMousePos(pos);
                     this->nodes.push_back(nod);
@@ -70,9 +70,10 @@ void DrawBezier::Input(sf::Event event) {
         if (event.key.code == sf::Keyboard::Escape) {
             if (!this->nodes.empty()) { //not empty
                 SaveRoad newRoad;
-                newRoad.nodes = this->nodes; this->nodes.clear();
+                newRoad.nodes = this->nodes; 
 
                 this->parent->addRoad(newRoad);
+                this->nodes.clear();
             }
 
             this->isDraggingNode1 = false;
@@ -96,7 +97,7 @@ void DrawBezier::Input(sf::Event event) {
         sf::Vector2f anchor1 = this->firstNode.mapPos;
         sf::Vector2f anchor2 = this->secondNode.mapPos;
         for (int i = 0; i < this->numPoints; i++) {
-            float t = (float) i / this->numPoints;
+            float t = (float) i / (this->numPoints - 1);
             sf::Vector2f p1 = Math::Lerp(anchor1, bezierConfig1, t);
             sf::Vector2f p2 = Math::Lerp(bezierConfig1, anchor2, t);
             sf::Vector2f mainPos = Math::Lerp(p1, p2, t);
@@ -110,7 +111,7 @@ void DrawBezier::Input(sf::Event event) {
 void DrawBezier::Visualize(sf::Event event) {
     if (!nodes.empty()) {
         // Draw lines between all the nodes.
-        for (size_t i = 0; i < nodes.size() - 1; ++i) {
+        for (size_t i = 0; i < nodes.size() - 1; i++) {
             sf::Vertex line[] = {
                 sf::Vertex(nodes[i].mapPos, sf::Color::Red),
                 sf::Vertex(nodes[i+1].mapPos, sf::Color::Red)

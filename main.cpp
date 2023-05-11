@@ -41,7 +41,7 @@ sf::RenderWindow    mapmaker(sf::VideoMode(900, 700), "Map 2D");
 sf::RenderWindow* GameManager::rend = &window;
 float GameManager::windowWidth = window.getSize().x;
 float GameManager::windowHeight = window.getSize().y;
-float GameManager::deltaTime = 1/60.0;
+float GameManager::deltaTime = 1/300.0;
 int GameManager::tileSize = 100;
 
 Tilemap             tilemap;
