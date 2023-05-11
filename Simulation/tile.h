@@ -19,10 +19,7 @@
 #include "carInfo.h"
 #include "randomsfml.h"
 
-#include "intersectnode.h"
-
 class Tilemap;
-class IntersectNode;
 
 class Node {
     public:
@@ -98,6 +95,9 @@ class Tile {
         void SetUpRoadConnection(); 
 
         std::vector<Road*> GetInterRoad(int side, int idx, bool isInputRoad);
+
+        Road* getRoad(int id);
+        sf::Vector2f getCornerPos();
 };
 
 #endif

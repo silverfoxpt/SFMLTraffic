@@ -31,7 +31,7 @@ using json = nlohmann::json;
 
 //really early stuff initialization
 Rand Randomize::rand;
-std::vector<IntersectNode> IntersectManager::intersections;
+//std::vector<IntersectNode> IntersectManager::intersections;
 
 //public variables
 sf::RenderWindow    window(sf::VideoMode(800, 800), "Traffic Simulation 2D");
@@ -45,6 +45,7 @@ float GameManager::deltaTime = 1/60.0;
 int GameManager::tileSize = 100;
 
 Tilemap             tilemap;
+IntersectManager    intersectManager;
 
 MapInterConnect     editorInterconnectMap(&mapmaker);
 MapIntraConnect     editorIntraconnectMap(&mapmaker);
@@ -162,6 +163,17 @@ void InitializeTileFromJson() {
         //set interconnections
         TileInfo::roadInterConnection[id] = mainInters;
 
+        //load intersections
+        std::vector<json> intersections = tile["intersections"];
+        for (json inter: intersections) {
+            SaveIntersectingNode node(inter);
+            IntersectNode mainNode(node.posNode.relativePos);
+            mainNode.roadIdx = node.intersectingRoadIndex;
+            mainNode.startNodeIdx = node.startNodeIdx;
+
+            intersectManager.addNode(mainNode);
+        }
+
         //increase id
         id++;
     }
@@ -215,6 +227,9 @@ void Initialize() {
     //update new tilemap
     tilemap = Tilemap(5, 7, 50, 50, GameManager::tileSize, GameManager::tileSize, &window);
 
+    //update intersect manager
+    intersectManager.Initialize();
+
     editorIntersectMap.Initialize(&editor);
     editorDrawmap.Initialize(&editor);
     editorDrawBezier.Initialize(&editor);
@@ -231,6 +246,8 @@ void Initialize() {
 void MainUpdateAndTest() {
     tilemap.Debug();
     tilemap.Update();
+
+    intersectManager.Visualize(&window);
      
     UpdateTest();
 }

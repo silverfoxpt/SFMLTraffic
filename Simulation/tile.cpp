@@ -31,7 +31,7 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* paren
         this->roads[i].rowIdx = this->rowIdx;
     }
 
-    //set up road intersection
+    //set up road intersection -> not needed anymore
     /*sf::Vector2i nullRoad(-99999, -99999);
     std::vector<std::pair<int, int>> roadIntraCon = TileInfo::roadIntraConnection[this->tileId];
 
@@ -236,6 +236,15 @@ void Tile::Update() {
     for (Road &road: this->roads) {
         road.Update();
     }
+}
+
+Road* Tile::getRoad(int id) {
+    if (id < 0 || id >= this->roads.size()) { std::cerr << "Road not found!\n"; return nullptr;}
+    return &this->roads[id];
+}
+
+sf::Vector2f Tile::getCornerPos() {
+    return sf::Vector2f(this->posX, this->posY);
 }
 
 
