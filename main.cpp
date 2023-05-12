@@ -165,14 +165,17 @@ void InitializeTileFromJson() {
 
         //load intersections
         std::vector<json> intersections = tile["intersections"];
+        std::vector<IntersectNode> intersects;
         for (json inter: intersections) {
             SaveIntersectingNode node(inter);
             IntersectNode mainNode(node.posNode.relativePos);
             mainNode.roadIdx = node.intersectingRoadIndex;
             mainNode.startNodeIdx = node.startNodeIdx;
 
-            intersectManager.addNode(mainNode);
+            //intersectManager.addNode(mainNode);
+            intersects.push_back(mainNode);
         }
+        TileInfo::intersections[id] = intersects;
 
         //increase id
         id++;
@@ -225,7 +228,7 @@ void Initialize() {
     InitializeTileFromJson();
 
     //update new tilemap
-    tilemap = Tilemap(5, 7, 50, 50, GameManager::tileSize, GameManager::tileSize, &window);
+    tilemap = Tilemap(5, 7, 50, 50, GameManager::tileSize, GameManager::tileSize, &window, &intersectManager);
 
     //update intersect manager
     intersectManager.Initialize();
@@ -497,7 +500,7 @@ void MainSFMLAction() {
         TileInfo::clearAll();
         InitializeTileFromJson();
 
-        tilemap.ClearAndReset();
+        tilemap.ClearAndReset(&intersectManager);
         InitializeTest();
     }
 

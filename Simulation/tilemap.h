@@ -15,6 +15,7 @@
 #include "tile.h"
 
 class Tile;
+class IntersectManager;
 
 class Tilemap {
     public:
@@ -31,11 +32,11 @@ class Tilemap {
         std::vector<std::vector<Tile>> tilemap;
         std::vector<std::vector<int>> tileIds;
         
-        Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tileHeight, sf::RenderWindow* myWindow);
+        Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tileHeight, sf::RenderWindow* myWindow, IntersectManager* interManager);
         Tilemap() {} //empty constructor
         void Debug();
         void Update();
-        void ClearAndReset();
+        void ClearAndReset(IntersectManager* interManager);
 
         int* getTileID(int i, int j);
 

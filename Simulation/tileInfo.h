@@ -14,8 +14,10 @@
 #include <sstream>
 
 #include "tile.h"
+#include "intersectnode.h"
 
 class Road;
+class IntersectNode;
 
 class RoadInterInfo {
     public:
@@ -80,6 +82,7 @@ class TileInfo {
         static std::map<int, std::vector<Road>> roadInTileMap;
         static std::map<int, std::vector<RoadInterInfo>> roadInterConnection;
         static std::map<int, std::vector<std::pair<int, int>>> roadIntraConnection;
+        static std::map<int, std::vector<IntersectNode>> intersections;
 
         static int largestId();
         static void clearAll();

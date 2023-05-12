@@ -1,6 +1,6 @@
 #include "tilemap.h"
 
-Tilemap::Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tileHeight, sf::RenderWindow* myWindow) {
+Tilemap::Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tileHeight, sf::RenderWindow* myWindow, IntersectManager* interManager) {
     this->rows = rows;
     this->cols = cols;
 
@@ -19,10 +19,8 @@ Tilemap::Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tile
             this->tileIds[i].push_back(0);
         }
     }
-    //this->tileIds[0][0] = 3;
-    //this->tileIds[0][1] = 6;
 
-    this->ClearAndReset();
+    this->ClearAndReset(interManager);
 }
 
 void Tilemap::Debug() {
@@ -73,7 +71,7 @@ void Tilemap::Update() {
     }
 }
 
-void Tilemap::ClearAndReset() {
+void Tilemap::ClearAndReset(IntersectManager* interManager) {
     //setup tiles
     tilemap.clear();
     for (int i = 0; i < this->rows; i++) {
@@ -90,6 +88,7 @@ void Tilemap::ClearAndReset() {
                 i, 
                 j
             );
+            newTile.intersectManager = interManager;
             newTile.myWindow = this->myWindow;
 
             this->tilemap[i].push_back(newTile);

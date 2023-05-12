@@ -19,7 +19,11 @@
 #include "carInfo.h"
 #include "randomsfml.h"
 
+#include "intersectnode.h"
+
 class Tilemap;
+class IntersectNode;
+class IntersectManager;
 
 class Node {
     public:
@@ -86,6 +90,7 @@ class Tile {
         std::vector<Road> roads;
 
         Tilemap* parentTilemap;
+        IntersectManager* intersectManager;
 
         sf::RenderWindow* myWindow;
 

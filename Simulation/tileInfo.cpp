@@ -206,6 +206,10 @@ std::map<int, std::vector<std::pair<int, int>>> TileInfo::roadIntraConnection = 
     }
 };
 
+std::map<int, std::vector<IntersectNode>> TileInfo::intersections = {
+
+};
+
 int TileInfo::largestId() {
     int maxi = 0;
     for (auto it = roadInTileMap.begin(); it != roadInTileMap.end(); it++) {

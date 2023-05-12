@@ -524,5 +524,94 @@
                 ]
             }
         ]
+    },
+    {
+        "interConnections": [
+            {
+                "inputOrOutput": 0,
+                "portIdx": 10,
+                "roadIdx": 1,
+                "sideIdx": 3
+            },
+            {
+                "inputOrOutput": 1,
+                "portIdx": 10,
+                "roadIdx": 1,
+                "sideIdx": 1
+            }
+        ],
+        "intersections": [
+            {
+                "intersectingRoadIndex": [
+                    0,
+                    1
+                ],
+                "posNode": {
+                    "mapPos": [
+                        279.0,
+                        257.0
+                    ],
+                    "relativePos": [
+                        0.5724999904632568,
+                        0.5174999833106995
+                    ]
+                },
+                "startNodeIdx": [
+                    0,
+                    0
+                ]
+            }
+        ],
+        "intraConnections": [],
+        "roads": [
+            {
+                "nodes": [
+                    {
+                        "mapPos": [
+                            50.0,
+                            202.0
+                        ],
+                        "relativePos": [
+                            0.0,
+                            0.3799999952316284
+                        ]
+                    },
+                    {
+                        "mapPos": [
+                            449.0,
+                            299.0
+                        ],
+                        "relativePos": [
+                            0.9975000023841858,
+                            0.6225000023841858
+                        ]
+                    }
+                ]
+            },
+            {
+                "nodes": [
+                    {
+                        "mapPos": [
+                            50.0,
+                            240.0
+                        ],
+                        "relativePos": [
+                            0.0,
+                            0.4749999940395355
+                        ]
+                    },
+                    {
+                        "mapPos": [
+                            450.0,
+                            240.0
+                        ],
+                        "relativePos": [
+                            1.0,
+                            0.4749999940395355
+                        ]
+                    }
+                ]
+            }
+        ]
     }
 ]
