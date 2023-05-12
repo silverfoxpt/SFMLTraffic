@@ -41,8 +41,9 @@ sf::RenderWindow    mapmaker(sf::VideoMode(900, 700), "Map 2D");
 sf::RenderWindow* GameManager::rend = &window;
 float GameManager::windowWidth = window.getSize().x;
 float GameManager::windowHeight = window.getSize().y;
-float GameManager::deltaTime = 1/60.0;
+float GameManager::deltaTime = 1/300.0;
 int GameManager::tileSize = 100;
+int SETFPS = 300;
 
 Tilemap             tilemap;
 IntersectManager    intersectManager;
@@ -556,9 +557,20 @@ void MainSFMLTilemap() {
     ImGui::End();
 }
 
+void MainSFMLSetting() {
+    ImGui::Begin("Settings");
+
+    //set game FPS
+    ImGui::Text("Set FPS"); ImGui::SameLine(); ImGui::SliderInt("##FPS", &SETFPS, 1, 500);
+    GameManager::deltaTime = 1.0 / SETFPS;
+
+    ImGui::End();
+}
+
 void MainSFML() {
     MainSFMLAction();
     MainSFMLTilemap();
+    MainSFMLSetting();
 }
 
 int main()

@@ -149,22 +149,27 @@ void Tile::Debug(int &c) { //this just draw stuffs, not important, so I won't be
     }*/   
 }
 
-//only used in initialization, so idc if it's slow
+//only used in initialization, so idc if it's slow -> THIS NEEDS REVAMPING
 std::vector<Road*> Tile::GetInterRoad(int side, int idx, bool isInputRoad) {
     std::vector<RoadInterInfo> info = TileInfo::roadInterConnection[this->tileId];
     std::vector<Road*> result;
 
+    int infoCounter = 0;
     for (int i = 0; i < (int) this->roads.size(); i++) {
+        RoadInterInfo cur = info[infoCounter];
+        if (cur.roadId != i) {continue;}
+        infoCounter++;
+
         //handling input
         if (isInputRoad) {
-            if (info[i].inputId == idx && info[i].extraSideIn == side) { //checking
+            if (cur.inputId == idx && cur.extraSideIn == side) { //checking
                 result.push_back(&this->roads[i]);
             }
         } 
         
         //handling output
         else { 
-            if (info[i].outputId == idx && info[i].extraSideOut == side) { //checking
+            if (cur.outputId == idx && cur.extraSideOut == side) { //checking
                 result.push_back(&this->roads[i]);
             }
         }
