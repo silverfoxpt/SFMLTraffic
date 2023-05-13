@@ -19,6 +19,7 @@
 class Node;
 class Road;
 class Tile;
+class Car;
 
 class IntersectNode {
     public:
@@ -29,8 +30,11 @@ class IntersectNode {
         std::vector<int> roadIdx; //only used temporarily
         std::vector<int> startNodeIdx;
 
+        std::vector<int> displacements;
+
         //TODO: UPDATE THIS SOMEWHERE!
         Tile* residentTile;
+        Car* currentAcceptedCar = nullptr;
 
         IntersectNode(sf::Vector2i pos) {
             this->posX = pos.x;
@@ -45,7 +49,8 @@ class IntersectNode {
             myRoads.push_back(newRoad);
         }
 
-        void PopulateIntersectNode();
+        void Update();
+        void InitializeIntersectNode();
 };
 
 class IntersectManager {
@@ -65,7 +70,7 @@ class IntersectManager {
 
         void Initialize() {
             for (auto &inter: intersections) {
-                inter.PopulateIntersectNode();
+                inter.InitializeIntersectNode();
             }
         }
 

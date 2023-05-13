@@ -336,6 +336,31 @@ sf::Vector2f Road::getVectorBetweenTwoNodes(int startNodeIdx) {
     return GameManager::convertScreenToWorld(sf::Vector2f(first, second));
 }
 
+sf::Vector2f Road::getNodePos(int nodeIdx) {
+    if (nodeIdx >= (int) this->nodes.size() || nodeIdx < 0) {std::cerr << "Node not found! \n"; return sf::Vector2f(-9999, -9999);}
+
+    return this->nodes[nodeIdx].getPos();;
+}
+
+float Road::getTotalCarDisplace(int carIdx) {
+    if (carIdx < 0 || carIdx > (int) this->currentCars.size()) {std::cerr << "Car not found!\n"; return -1;}
+
+    return this->getLengthFromStartToNode(this->carOnNode[carIdx]) + this->currentCars[carIdx]->currentDisplacement;
+}
+
+std::pair<Car*, float> Road::getFarthestCarBeforeDisplace(float dis) {
+    if (this->currentCars.size() <= 0) {return std::pair<Car*, float>(nullptr, -1);}
+
+    Car* resultSearch = this->currentCars[0];
+    float currentDisplace = this->getTotalCarDisplace(0);
+    for (int i = 1; i < (int) this->currentCars.size(); i++) {
+        if (this->getTotalCarDisplace(i) > dis) { break; }
+        resultSearch = this->currentCars[i];
+        currentDisplace = this->getTotalCarDisplace(i);
+    }
+    return std::pair<Car*, float>(resultSearch, currentDisplace);
+}
+
 float Road::getLengthBetweenTwoNodes(int startNodeIdx) {
     sf::Vector2f vec = this->getVectorBetweenTwoNodes(startNodeIdx);
     return Math::Length(vec);
