@@ -29,14 +29,7 @@ Tile::Tile(int posX, int posY, int width, int height, int tileId, Tilemap* paren
         //set up idx for debug
         this->roads[i].colIdx = this->colIdx;
         this->roads[i].rowIdx = this->rowIdx;
-    }
-
-    //set up road intersection
-    std::vector<IntersectNode> nodes = TileInfo::intersections[this->tileId];
-    for (auto& node: nodes) {
-        node.residentTile = this;
-        this->intersectManager->addNode(node);
-    }
+    }    
 
     //set up road intersection manually -> not needed anymore
     /*sf::Vector2i nullRoad(-99999, -99999);
@@ -178,6 +171,13 @@ std::vector<Road*> Tile::GetInterRoad(int side, int idx, bool isInputRoad) {
 }
 
 void Tile::SetUpRoadConnection() {
+    //set up road intersection
+    std::vector<IntersectNode> nodes = TileInfo::intersections[this->tileId];
+    for (auto node: nodes) {
+        node.residentTile = this;
+        this->intersectManager->addNode(node);
+    }
+
     std::vector<RoadInterInfo> info = TileInfo::roadInterConnection[this->tileId];
 
     //up, right, down, left
@@ -334,6 +334,24 @@ sf::Vector2f Road::getVectorBetweenTwoNodes(int startNodeIdx) {
 
     //sketchy
     return GameManager::convertScreenToWorld(sf::Vector2f(first, second));
+}
+
+float Road::getLengthBetweenTwoNodes(int startNodeIdx) {
+    sf::Vector2f vec = this->getVectorBetweenTwoNodes(startNodeIdx);
+    return Math::Length(vec);
+}
+
+float Road::getLengthFromStartToNode(int endNodeIdx) {
+    if (!this->calculatedLengthNodeTo) {
+        this->calculatedLengthNodeTo = true;
+
+        this->lengthNodeTo.push_back(0);
+        for (int i = 1; i < (int) this->nodes.size(); i++) {
+            lengthNodeTo.push_back(lengthNodeTo[i-1] + this->getLengthBetweenTwoNodes(i));
+        }
+    }
+
+    return this->lengthNodeTo[endNodeIdx];
 }
 
 void Road::acceptCar(Car* car) { //will need to be updated for traffic stopping

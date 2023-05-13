@@ -5,10 +5,12 @@ void IntersectNode::PopulateIntersectNode() {
 
     //update position
     sf::Vector2f corner = this->residentTile->getCornerPos();
-    int size = this->residentTile->parentTilemap->tileWidth;
+    int size = GameManager::tileSize;
 
     this->posX = corner.x + size * relativePos.x;
     this->posY = corner.y + size * relativePos.y;
+
+    std::cout << this->residentTile->rowIdx << " " << this->residentTile->colIdx << '\n';
 
     //update road
     for (int x: roadIdx) {

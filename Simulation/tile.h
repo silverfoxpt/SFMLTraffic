@@ -45,7 +45,8 @@ class Road {
 
         bool outputBlocked = false;
         bool inputJammed = false;
-        //bool inputAcquired = false;
+        
+        bool calculatedLengthNodeTo = false;
 
         std::vector<Node> nodes;
         std::vector<Road*> inputRoads;
@@ -53,8 +54,11 @@ class Road {
 
         std::vector<Car*> currentCars; //must be deleted when reused for other projects
         std::vector<int> carOnNode;
+        std::vector<int> lengthNodeTo;
 
         sf::Vector2f getVectorBetweenTwoNodes(int startNodeIdx);
+        float getLengthBetweenTwoNodes(int startNodeIdx);
+        float getLengthFromStartToNode(int endNodeIdx);
 
         void addInputRoad(Road* road);
         void addOutputRoad(Road* road);

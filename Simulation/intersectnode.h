@@ -14,6 +14,7 @@
 
 #include "tile.h"
 #include "../drawshapes.h"
+#include "gameManager.h"
 
 class Node;
 class Road;
@@ -54,7 +55,12 @@ class IntersectManager {
         IntersectManager() {} //default
 
         void addNode(IntersectNode inter) {
+            //std::cout << "Hello?\n";
             this->intersections.push_back(inter);
+        }
+
+        void HardReset() {
+            intersections.clear();
         }
 
         void Initialize() {
@@ -65,8 +71,8 @@ class IntersectManager {
 
         void Visualize(sf::RenderWindow* rend) {
             //draw position of intersections
-            for (auto& inter: intersections) {
-                DrawUtils::drawCircle(rend, sf::Vector2f(inter.posX, inter.posY), 3.5, sf::Color::Red); 
+            for (auto &inter: intersections) {
+                DrawUtils::drawCircle(rend, sf::Vector2f(inter.posX, inter.posY), 5, sf::Color::Red); 
             }
         }
 

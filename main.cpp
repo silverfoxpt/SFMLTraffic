@@ -501,7 +501,9 @@ void MainSFMLAction() {
         TileInfo::clearAll();
         InitializeTileFromJson();
 
+        intersectManager.HardReset();
         tilemap.ClearAndReset(&intersectManager);
+        intersectManager.Initialize();
         InitializeTest();
     }
 
