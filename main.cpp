@@ -429,6 +429,45 @@ void SFMLAction() {
     ImGui::End();
 }
 
+void SFMLDragTest() {
+    static bool isDragging = false;
+    static ImVec2 dragStartPos;
+
+    // Begin the parent window
+    ImGui::Begin("Parent Window");
+
+    // Begin the child window with a specified size
+    ImGui::SetNextWindowSize(ImVec2(200, 200), ImGuiCond_Always);
+    ImGui::BeginChild("Child Window", ImVec2(200, 200), true);
+
+    // Draw the box to drop items into
+    ImGui::Text("Drop items here:");
+    ImGui::SameLine();
+    ImGui::TextColored(ImVec4(1,1,0,1), "###drop_box");
+    ImGui::Dummy(ImVec2(200, 200));
+    if (ImGui::BeginDragDropTarget()) {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("MyPayload")) {
+            // Do something with the payload data
+            const std::string* myData = reinterpret_cast<const std::string*>(payload->Data);
+            std::cout << myData << '\n';
+        }
+        ImGui::EndDragDropTarget();
+    }
+
+    // End the child window
+    ImGui::EndChild();
+
+    // Create a draggable item
+    std::string myData = "Hi!";
+    if (ImGui::Button("Drag me")) {
+        ImGui::SetDragDropPayload("MyPayload", &myData, sizeof(myData));
+    }
+
+    // End the parent window
+    ImGui::End();
+
+}
+
 void SFMLUpdate() {
     ImGui::Begin("Map editor##Default");
     ImGui::InputInt("Status", editor.getStatus());
@@ -479,6 +518,7 @@ void SFMLUpdate() {
     SFMLConnection();
     SFMLRoad();
     SFMLAction();
+    //SFMLDragTest();
 }
 
 void InitTest() {
