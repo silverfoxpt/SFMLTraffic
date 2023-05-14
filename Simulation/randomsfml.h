@@ -30,6 +30,21 @@ class Rand {
             std::uniform_int_distribution<std::mt19937::result_type> randInt(0, 10000);
             return randInt(this->rng) / 10000.0;
         }
+
+        std::string get_uuid() {
+            std::uniform_int_distribution<int> dist(0, 15);
+
+            const char *v = "0123456789abcdef";
+            const bool dash[] = { 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0 };
+
+            std::string res;
+            for (int i = 0; i < 16; i++) {
+                if (dash[i]) res += "-";
+                res += v[dist(rng)];
+                res += v[dist(rng)];
+            }
+            return res;
+        }
 };
 
 class Randomize {

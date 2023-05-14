@@ -10,7 +10,7 @@ void IntersectNode::InitializeIntersectNode() {
     this->posX = corner.x + size * relativePos.x;
     this->posY = corner.y + size * relativePos.y;
 
-    std::cout << this->residentTile->rowIdx << " " << this->residentTile->colIdx << '\n';
+    //std::cout << this->residentTile->rowIdx << " " << this->residentTile->colIdx << '\n';
 
     //update road
     for (int x: roadIdx) {
@@ -30,21 +30,36 @@ void IntersectNode::InitializeIntersectNode() {
 }
 
 void IntersectNode::Update() {
-    //find all cars on all roads, which is closest to intersection
+    // Find all cars on all roads which are closest to the intersection
     std::vector<std::pair<Car*, float>> cars;
     for (int i = 0; i < (int) this->myRoads.size(); i++) {
         cars.push_back(this->myRoads[i]->getFarthestCarBeforeDisplace(this->displacements[i]));
     }
 
-    //find out of any of the cars match the profile of currently selected car to pass the intersection
-    if (this->currentAcceptedCar != nullptr) { //if a car is (presumably) passing through my intersection
-        bool found = false;
-        for (const auto &p: cars) {
-            if (p.first == this->currentAcceptedCar) {found = true; break;}
+    // If a car has already been accepted for intersection and it hasn't passed yet, do nothing
+    if (this->currentlyAcceptedRoad >= 0) {
+        auto road = this->myRoads[this->currentlyAcceptedRoad];
+
+        if (std::find(road->carOnNode.begin(), road->carOnNode.end(), this->currentAcceptedCar) != road->carOnNode.end() &&
+                this->currentAcceptedCar->getCarBottom() >= this->displacements[this->currentlyAcceptedRoad]) {
+            return;
         }
-        if (found) {return;}
+
+        // Release blockade from all roads related to this node 
+        for (int i = 0; i < (int) this->myRoads.size(); i++) {
+            this->myRoads[i]->roadBlockedInfo.erase(this->UIUD);
+        }
+
+        this->currentAcceptedCar = nullptr;
+        this->currentlyAcceptedRoad = -1;
     }
 
-    //if, no car found, or the designated car already passed the intersection
-    //release blockade from all road
+    // If there are no cars, do nothing
+    if (cars.empty()) {
+        return;
+    }
+
+    //if no car left on intersection, and new cars are available, continue
+    // Get the car closest to this node
+    // Car* closestCar
 }

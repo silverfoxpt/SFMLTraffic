@@ -15,6 +15,7 @@
 #include "tile.h"
 #include "../drawshapes.h"
 #include "gameManager.h"
+#include "randomsfml.h"
 
 class Node;
 class Road;
@@ -31,14 +32,19 @@ class IntersectNode {
         std::vector<int> startNodeIdx;
 
         std::vector<int> displacements;
+        std::string UIUD;
 
         //TODO: UPDATE THIS SOMEWHERE!
         Tile* residentTile;
+
         Car* currentAcceptedCar = nullptr;
+        int currentlyAcceptedRoad = -1;
 
         IntersectNode(sf::Vector2i pos) {
             this->posX = pos.x;
             this->posY = pos.y;
+
+            this->UIUD = Randomize::rand.get_uuid();
         }
 
         IntersectNode(sf::Vector2f relativePos) {

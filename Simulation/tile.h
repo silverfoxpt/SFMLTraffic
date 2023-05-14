@@ -47,8 +47,7 @@ class Road {
         bool inputJammed = false;
         
         bool calculatedLengthNodeTo = false;
-        bool roadBlocked = false;
-        float roadBlockedAtDisplacement = - 1;
+        std::map<std::string, std::pair<Car*, float>> roadBlockedInfo;
 
         std::vector<Node> nodes;
         std::vector<Road*> inputRoads;
