@@ -61,5 +61,20 @@ void IntersectNode::Update() {
 
     //if no car left on intersection, and new cars are available, continue
     // Get the car closest to this node
-    // Car* closestCar
+    Car* closestCar = cars[0].first;
+    float closest = cars[0].second;
+    int choosenIdx = 0;
+    for (int i = 1; i < (int) cars.size(); i++) {
+        if (cars[i].second < closest) {
+            closestCar = cars[i].first;
+            closest = cars[i].second;
+            choosenIdx = i;
+        }
+    }
+
+    //set the car as accepted
+    this->currentAcceptedCar = closestCar;
+    this->currentlyAcceptedRoad = choosenIdx;
+
+    //block all other roads
 }
