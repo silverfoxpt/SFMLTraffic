@@ -40,8 +40,9 @@ void IntersectNode::Update() {
     if (this->currentlyAcceptedRoad >= 0) {
         auto road = this->myRoads[this->currentlyAcceptedRoad];
 
-        if (std::find(road->carOnNode.begin(), road->carOnNode.end(), this->currentAcceptedCar) != road->carOnNode.end() &&
-                this->currentAcceptedCar->getCarBottom() >= this->displacements[this->currentlyAcceptedRoad]) {
+        //if that car is still passing by the intersection, do nothing and return
+        if ((std::find(road->currentCars.begin(), road->currentCars.end(), this->currentAcceptedCar) != road->currentCars.end()) &&
+                (this->currentAcceptedCar->getCarBottom() >= this->displacements[this->currentlyAcceptedRoad])) {
             return;
         }
 
@@ -77,4 +78,10 @@ void IntersectNode::Update() {
     this->currentlyAcceptedRoad = choosenIdx;
 
     //block all other roads
+    for (int i = 0; i < (int) this->myRoads.size(); i++) {
+        if (i == currentlyAcceptedRoad) {continue;}
+
+        Road* blocky = this->myRoads[i];
+        blocky->roadBlockedInfo[this->UIUD] = std::pair<Car*, float>(closestCar, this->displacements[i]);
+    }
 }
