@@ -23,6 +23,7 @@
 #include "IMGui Stuffs/imgui-SFML.h"
 
 #include "drawshapes.h"
+#include "threading.h"
 
 #include "json.hpp"
 
@@ -184,6 +185,8 @@ void InitializeTileFromJson() {
 }
 
 void InitializeTest() {
+    //Threading::WaitThread(2);
+
     //test
     c = 0;
     cars.clear();
