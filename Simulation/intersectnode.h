@@ -16,6 +16,7 @@
 #include "../drawshapes.h"
 #include "gameManager.h"
 #include "randomsfml.h"
+#include "carInfo.h"
 
 class Node;
 class Road;
@@ -84,6 +85,12 @@ class IntersectManager {
             //draw position of intersections
             for (auto &inter: intersections) {
                 DrawUtils::drawCircle(rend, sf::Vector2f(inter.posX, inter.posY), 5, sf::Color::Red); 
+            }
+        }
+
+        void Update() {
+            for (auto &inter: intersections) {
+                inter.Update();
             }
         }
 

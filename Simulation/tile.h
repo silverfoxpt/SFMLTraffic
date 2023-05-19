@@ -61,6 +61,7 @@ class Road {
         sf::Vector2f getVectorBetweenTwoNodes(int startNodeIdx);
         sf::Vector2f getNodePos(int nodeIdx);
         std::pair<Car*, float> getFarthestCarBeforeDisplace(float dis);
+        int findCarIdxOnRoad(Car* carToFind);
         float getTotalCarDisplace(int carIdx);
         float getLengthBetweenTwoNodes(int startNodeIdx);
         float getLengthFromStartToNode(int endNodeIdx);

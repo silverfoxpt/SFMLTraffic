@@ -4,7 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "D:\\SFML-2.5.1\\include"
+                "D:\\SFML-2.5.1\\include",
+                "D:\\boost_1_82_0"
             ],
             "defines": [
                 "_DEBUG",

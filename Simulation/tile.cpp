@@ -349,7 +349,8 @@ float Road::getTotalCarDisplace(int carIdx) {
 }
 
 std::pair<Car*, float> Road::getFarthestCarBeforeDisplace(float dis) {
-    if (this->currentCars.size() <= 0) {return std::pair<Car*, float>(nullptr, -1);}
+    if (this->currentCars.size() <= 0) {return std::pair<Car*, float>(nullptr, -1);} //if no car
+    if (this->getTotalCarDisplace(0) > dis) {return std::pair<Car*, float>(nullptr, -1);} //if first car already passed the displacement point
 
     Car* resultSearch = this->currentCars[0];
     float currentDisplace = this->getTotalCarDisplace(0);
@@ -359,6 +360,14 @@ std::pair<Car*, float> Road::getFarthestCarBeforeDisplace(float dis) {
         currentDisplace = this->getTotalCarDisplace(i);
     }
     return std::pair<Car*, float>(resultSearch, currentDisplace);
+}
+
+int Road::findCarIdxOnRoad(Car* carToFind) {
+    auto iter = std::find(this->currentCars.begin(), this->currentCars.end(), carToFind);
+    if (iter != this->currentCars.end()) {
+        return iter - this->currentCars.begin();
+    }
+    return -1;
 }
 
 float Road::getLengthBetweenTwoNodes(int startNodeIdx) {

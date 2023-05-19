@@ -255,6 +255,7 @@ void MainUpdateAndTest() {
     tilemap.Update();
 
     intersectManager.Visualize(&window);
+    intersectManager.Update();
      
     UpdateTest();
 }
@@ -433,7 +434,7 @@ void SFMLAction() {
 }
 
 void SFMLDragTest() {
-    static bool isDragging = false;
+    /*static bool isDragging = false;
     static ImVec2 dragStartPos;
 
     // Begin the parent window
@@ -467,7 +468,7 @@ void SFMLDragTest() {
     }
 
     // End the parent window
-    ImGui::End();
+    ImGui::End();*/
 
 }
 
@@ -618,8 +619,7 @@ void MainSFML() {
     MainSFMLSetting();
 }
 
-int main()
-{
+void MainFunc() {
     ImGui::SFML::Init(mapmaker);
     ImGui::GetIO().IniFilename = "mapmaker.ini";
 
@@ -677,5 +677,10 @@ int main()
     }
     ImGui::SFML::Shutdown(mapmaker);
     ImGui::SFML::Shutdown(window);
+}
+
+int main()
+{
+    MainFunc();
     return 0;
 }

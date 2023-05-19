@@ -33,7 +33,10 @@ void IntersectNode::Update() {
     // Find all cars on all roads which are closest to the intersection
     std::vector<std::pair<Car*, float>> cars;
     for (int i = 0; i < (int) this->myRoads.size(); i++) {
-        cars.push_back(this->myRoads[i]->getFarthestCarBeforeDisplace(this->displacements[i]));
+        auto compute = this->myRoads[i]->getFarthestCarBeforeDisplace(this->displacements[i]);
+        if (compute.first != nullptr) {
+            cars.push_back(compute);
+        }
     }
 
     // If a car has already been accepted for intersection and it hasn't passed yet, do nothing
@@ -41,8 +44,9 @@ void IntersectNode::Update() {
         auto road = this->myRoads[this->currentlyAcceptedRoad];
 
         //if that car is still passing by the intersection, do nothing and return
-        if ((std::find(road->currentCars.begin(), road->currentCars.end(), this->currentAcceptedCar) != road->currentCars.end()) &&
-                (this->currentAcceptedCar->getCarBottom() >= this->displacements[this->currentlyAcceptedRoad])) {
+        int carIdx = road->findCarIdxOnRoad(this->currentAcceptedCar);
+        if (carIdx != -1 && //car still on road
+                (road->getTotalCarDisplace(carIdx) - CarInfo::carHalfLength < this->displacements[this->currentlyAcceptedRoad])) { //car hasn't passed yet
             return;
         }
 
@@ -50,6 +54,8 @@ void IntersectNode::Update() {
         for (int i = 0; i < (int) this->myRoads.size(); i++) {
             this->myRoads[i]->roadBlockedInfo.erase(this->UIUD);
         }
+
+        this->currentAcceptedCar->SetColor(sf::Color::Red);
 
         this->currentAcceptedCar = nullptr;
         this->currentlyAcceptedRoad = -1;
@@ -72,6 +78,8 @@ void IntersectNode::Update() {
             choosenIdx = i;
         }
     }
+
+    closestCar->SetColor(sf::Color::Green);
 
     //set the car as accepted
     this->currentAcceptedCar = closestCar;
