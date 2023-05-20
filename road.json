@@ -613,5 +613,186 @@
                 ]
             }
         ]
+    },
+    {
+        "interConnections": [
+            {
+                "inputOrOutput": 0,
+                "portIdx": 5,
+                "roadIdx": 0,
+                "sideIdx": 3
+            },
+            {
+                "inputOrOutput": 1,
+                "portIdx": 15,
+                "roadIdx": 0,
+                "sideIdx": 1
+            },
+            {
+                "inputOrOutput": 0,
+                "portIdx": 15,
+                "roadIdx": 1,
+                "sideIdx": 3
+            },
+            {
+                "inputOrOutput": 1,
+                "portIdx": 5,
+                "roadIdx": 1,
+                "sideIdx": 1
+            }
+        ],
+        "intersections": [
+            {
+                "intersectingRoadIndex": [
+                    0,
+                    1
+                ],
+                "posNode": {
+                    "mapPos": [
+                        247.0,
+                        250.0
+                    ],
+                    "relativePos": [
+                        0.4925000071525574,
+                        0.5
+                    ]
+                },
+                "startNodeIdx": [
+                    0,
+                    0
+                ]
+            }
+        ],
+        "intraConnections": [],
+        "roads": [
+            {
+                "nodes": [
+                    {
+                        "mapPos": [
+                            50.0,
+                            145.0
+                        ],
+                        "relativePos": [
+                            0.0,
+                            0.23749999701976776
+                        ]
+                    },
+                    {
+                        "mapPos": [
+                            450.0,
+                            335.0
+                        ],
+                        "relativePos": [
+                            1.0,
+                            0.7124999761581421
+                        ]
+                    }
+                ]
+            },
+            {
+                "nodes": [
+                    {
+                        "mapPos": [
+                            50.0,
+                            335.0
+                        ],
+                        "relativePos": [
+                            0.0,
+                            0.7124999761581421
+                        ]
+                    },
+                    {
+                        "mapPos": [
+                            450.0,
+                            145.0
+                        ],
+                        "relativePos": [
+                            1.0,
+                            0.23749999701976776
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interConnections": [
+            {
+                "inputOrOutput": 0,
+                "portIdx": 5,
+                "roadIdx": 0,
+                "sideIdx": 3
+            },
+            {
+                "inputOrOutput": 1,
+                "portIdx": 10,
+                "roadIdx": 0,
+                "sideIdx": 1
+            },
+            {
+                "inputOrOutput": 0,
+                "portIdx": 15,
+                "roadIdx": 1,
+                "sideIdx": 3
+            },
+            {
+                "inputOrOutput": 1,
+                "portIdx": 10,
+                "roadIdx": 1,
+                "sideIdx": 1
+            }
+        ],
+        "intersections": [],
+        "intraConnections": [],
+        "roads": [
+            {
+                "nodes": [
+                    {
+                        "mapPos": [
+                            50.0,
+                            145.0
+                        ],
+                        "relativePos": [
+                            0.0,
+                            0.23749999701976776
+                        ]
+                    },
+                    {
+                        "mapPos": [
+                            450.0,
+                            240.0
+                        ],
+                        "relativePos": [
+                            1.0,
+                            0.4749999940395355
+                        ]
+                    }
+                ]
+            },
+            {
+                "nodes": [
+                    {
+                        "mapPos": [
+                            50.0,
+                            335.0
+                        ],
+                        "relativePos": [
+                            0.0,
+                            0.7124999761581421
+                        ]
+                    },
+                    {
+                        "mapPos": [
+                            450.0,
+                            240.0
+                        ],
+                        "relativePos": [
+                            1.0,
+                            0.4749999940395355
+                        ]
+                    }
+                ]
+            }
+        ]
     }
 ]

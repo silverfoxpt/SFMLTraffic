@@ -208,6 +208,7 @@ void UpdateTest() {
         window.draw(car.user);
 
         if (testClock.getElapsedTime().asSeconds() >= 0.2 && c == counter) {
+            //put cars into two road One By One
             /*if (c % 2 == 0 && !tile->roads[0].inputJammed) {
                 tile->roads[0].acceptCar(&car);
                 testClock.restart();
@@ -217,8 +218,21 @@ void UpdateTest() {
                 testClock.restart();
                 c++;
             }*/
-            if (!tile->roads[0].inputJammed) {
+
+            //put cars into one road
+            /*if (!tile->roads[0].inputJammed) {
                 tile->roads[0].acceptCar(&car);
+                testClock.restart();
+                c++;
+            }*/
+
+            //put cars into two road SIMULTANEOUSLY
+            if (c % 2 == 0 && !tile->roads[0].inputJammed) {
+                tile->roads[0].acceptCar(&car);
+                //testClock.restart();
+                c++;
+            } else if (c % 2 == 1 && !tile->roads[1].inputJammed) {
+                tile->roads[1].acceptCar(&car);
                 testClock.restart();
                 c++;
             }
