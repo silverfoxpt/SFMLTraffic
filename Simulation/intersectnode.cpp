@@ -67,12 +67,12 @@ void IntersectNode::Update() {
     }
 
     //if no car left on intersection, and new cars are available, continue
-    // Get the car closest to this node
+    // Get the car closest to this node -> THIS IS SCUFFED, NEED REVISE IN FUTURE
     Car* closestCar = cars[0].first;
     float closest = cars[0].second;
     int choosenIdx = 0;
     for (int i = 1; i < (int) cars.size(); i++) {
-        if (cars[i].second < closest) {
+        if (cars[i].second > closest) {
             closestCar = cars[i].first;
             closest = cars[i].second;
             choosenIdx = i;
