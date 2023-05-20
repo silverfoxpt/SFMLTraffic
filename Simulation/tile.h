@@ -79,6 +79,7 @@ class Road {
         void CheckIfOutputBlocked();
         void CheckIfInputJammed();
         void UpdateCarVelocity();
+        void CheckIntersectionBlockades();
 
         Road(std::vector<Node> nodes);
         Road() { } //default constructor

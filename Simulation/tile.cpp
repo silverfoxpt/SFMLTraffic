@@ -406,7 +406,7 @@ void Road::removeCar() {
     this->carOnNode.pop_back();
 }
 
-//NEED REVISITING FOR RANDOMLY SELECTING ROAD OUTPUT LATER
+//probably finished
 void Road::updateCars() {
     int c = 0;
     for (Car* myCar: this->currentCars) {
@@ -548,6 +548,26 @@ void Road::UpdateCarVelocity() {
     }
 }
 
+void Road::CheckIntersectionBlockades() {
+    //loop through all stoppoint of intersections currently active
+    for (auto it = this->roadBlockedInfo.begin(); it != this->roadBlockedInfo.end(); it++) {
+        std::pair<Car*, float> acceptedCar = it->second;
+        
+        auto firstCarBefore = this->getFarthestCarBeforeDisplace(acceptedCar.second);
+        if (firstCarBefore.first == nullptr) { return; } // the road is empty
+        if (firstCarBefore.first == acceptedCar.first) { continue; }
+
+        //stop that car
+        float lengthLeft = std::max((float) 0, acceptedCar.second - (firstCarBefore.second + CarInfo::carHalfLength + CarInfo::safetyIntersectionBlockadeRange));
+        if (lengthLeft <= CarInfo::safetyIntersectionBlockadeRange) {
+            if (lengthLeft <= 0.00001) { return; } //no devide by 0
+
+            Car* myCar = firstCarBefore.first;
+            myCar->SetAcceleration((-myCar->velocity * myCar->velocity) / (2 * (lengthLeft)));
+        }
+    }
+}
+
 void Road::Update() {
     for (Node &node: this->nodes) {
         node.Update();
@@ -557,4 +577,5 @@ void Road::Update() {
     this->UpdateCarVelocity();
     this->CheckIfOutputBlocked();
     this->CheckIfInputJammed();
+    this->CheckIntersectionBlockades();
 }   
