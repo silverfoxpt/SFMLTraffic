@@ -448,42 +448,32 @@ void SFMLAction() {
 }
 
 void SFMLDragTest() {
-    /*static bool isDragging = false;
-    static ImVec2 dragStartPos;
+    ImGui::Begin("Test drag drop");
+    ImGui::Button("Drag Source");
+    std::string myPayload = "Hello world";
+    if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+    {
+        // Set payload to carry the index of our item (could be anything)
+        ImGui::SetDragDropPayload("DEMO_CELL", &myPayload, myPayload.size());
 
-    // Begin the parent window
-    ImGui::Begin("Parent Window");
+        // Display preview 
+        ImGui::Text("Dragging da payload");
+        ImGui::EndDragDropSource();
+    }
 
-    // Begin the child window with a specified size
-    ImGui::SetNextWindowSize(ImVec2(200, 200), ImGuiCond_Always);
-    ImGui::BeginChild("Child Window", ImVec2(200, 200), true);
+    ImGui::Button("Drag Target");
+    if (ImGui::BeginDragDropTarget())
+    {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DEMO_CELL"))
+        {
+            IM_ASSERT(payload->DataSize == myPayload.size());
+            std::string payload_output = *(const std::string*)payload->Data;
 
-    // Draw the box to drop items into
-    ImGui::Text("Drop items here:");
-    ImGui::SameLine();
-    ImGui::TextColored(ImVec4(1,1,0,1), "###drop_box");
-    ImGui::Dummy(ImVec2(200, 200));
-    if (ImGui::BeginDragDropTarget()) {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("MyPayload")) {
-            // Do something with the payload data
-            const std::string* myData = reinterpret_cast<const std::string*>(payload->Data);
-            std::cout << myData << '\n';
+            std::cout << "Received : " << payload_output << '\n';
         }
         ImGui::EndDragDropTarget();
     }
-
-    // End the child window
-    ImGui::EndChild();
-
-    // Create a draggable item
-    std::string myData = "Hi!";
-    if (ImGui::Button("Drag me")) {
-        ImGui::SetDragDropPayload("MyPayload", &myData, sizeof(myData));
-    }
-
-    // End the parent window
-    ImGui::End();*/
-
+    ImGui::End();
 }
 
 void SFMLUpdate() {
@@ -536,7 +526,7 @@ void SFMLUpdate() {
     SFMLConnection();
     SFMLRoad();
     SFMLAction();
-    //SFMLDragTest();
+    SFMLDragTest();
 }
 
 void InitTest() {
