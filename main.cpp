@@ -461,7 +461,7 @@ void SFMLDragTest() {
         ImGui::EndDragDropSource();
     }
 
-    ImGui::Button("Drag Target");
+    ImGui::Button("##dragtarget");
     if (ImGui::BeginDragDropTarget())
     {
         if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DEMO_CELL"))
