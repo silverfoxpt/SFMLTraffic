@@ -473,7 +473,28 @@ void SFMLDragTest() {
         }
         ImGui::EndDragDropTarget();
     }
+
+    //test
+    float buttonWidth = 100.0f; // Width of each button
+    float regionWidth = 0.0f; // Accumulated width of buttons
+
+    ImGui::BeginChild("ScrollingRegion", ImVec2(0, ImGui::GetTextLineHeightWithSpacing()), true);
+
+    // Begin the scrollable region
+    ImGui::Columns(1, nullptr, false);
+    while (regionWidth < ImGui::GetWindowWidth())
+    {
+        ImGui::Button("Button", ImVec2(buttonWidth, 0));
+        ImGui::SameLine();
+        regionWidth += buttonWidth;
+    }
+
+    // End the scrollable region
+    ImGui::Columns(1);
+    ImGui::EndChild();
+
     ImGui::End();
+
 }
 
 void SFMLUpdate() {
