@@ -475,22 +475,25 @@ void SFMLDragTest() {
     }
 
     //test
-    float buttonWidth = 100.0f; // Width of each button
-    float regionWidth = 0.0f; // Accumulated width of buttons
+    ImGui::BeginChild("ScrollingRegion", ImVec2(300, 50), true, ImGuiWindowFlags_HorizontalScrollbar);
+    bool draggedInto = false;
+    if (ImGui::BeginDragDropTarget()) {
+        std::cout << "Hello?";
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DEMO_CELL"))
+        {
+            draggedInto = true;
+            IM_ASSERT(payload->DataSize == myPayload.size());
+            std::string payload_output = *(const std::string*)payload->Data;
 
-    ImGui::BeginChild("ScrollingRegion", ImVec2(0, ImGui::GetTextLineHeightWithSpacing()), true);
-
-    // Begin the scrollable region
-    ImGui::Columns(1, nullptr, false);
-    while (regionWidth < ImGui::GetWindowWidth())
-    {
-        ImGui::Button("Button", ImVec2(buttonWidth, 0));
-        ImGui::SameLine();
-        regionWidth += buttonWidth;
+            std::cout << "Received : " << payload_output << '\n';
+        }
+        ImGui::EndDragDropTarget();
     }
 
-    // End the scrollable region
-    ImGui::Columns(1);
+    for (int i = 0; i < 10; i++) {
+        ImGui::Button((draggedInto) ? "Received!" : "Hello!"); ImGui::SameLine();
+    }
+
     ImGui::EndChild();
 
     ImGui::End();
