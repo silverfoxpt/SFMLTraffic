@@ -461,7 +461,7 @@ void SFMLDragTest() {
         ImGui::EndDragDropSource();
     }
 
-    ImGui::Button("##dragtarget");
+    /*ImGui::Button("##dragtarget");
     if (ImGui::BeginDragDropTarget())
     {
         if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DEMO_CELL"))
@@ -472,7 +472,7 @@ void SFMLDragTest() {
             std::cout << "Received : " << payload_output << '\n';
         }
         ImGui::EndDragDropTarget();
-    }
+    }*/
 
     //test
     ImGui::BeginChild("ScrollingRegion", ImVec2(300, 50), true, ImGuiWindowFlags_HorizontalScrollbar);
@@ -550,7 +550,7 @@ void SFMLUpdate() {
     SFMLConnection();
     SFMLRoad();
     SFMLAction();
-    SFMLDragTest();
+    //SFMLDragTest();
 }
 
 void InitTest() {
