@@ -30,6 +30,9 @@ class TrafficMap {
         void Visualize(sf::Event event);
         void Initialize(Map* map, IntersectMap* intersectMap);
         void Update();
+
+        TrafficMap(sf::RenderWindow* rend);
+        TrafficMap() {} //default constructor
 };
 
 #endif

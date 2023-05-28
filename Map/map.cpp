@@ -8,7 +8,8 @@ Map::Map() {
 
 }
 
-void Map::Initialize(Drawmap* myDrawmap, DrawBezier* myDrawBezier, IntersectMap* myIntersectMap, MapIntraConnect* myIntraconnectMap, MapInterConnect* myInterconnectMap) {
+void Map::Initialize(Drawmap* myDrawmap, DrawBezier* myDrawBezier, IntersectMap* myIntersectMap, MapIntraConnect* myIntraconnectMap, 
+        MapInterConnect* myInterconnectMap, TrafficMap* myTrafficMap) {
     this->rect = sf::RectangleShape(sf::Vector2f(this->size, this->size));
 
     this->rect.setFillColor(sf::Color(255, 255, 255, 0));
@@ -23,11 +24,13 @@ void Map::Initialize(Drawmap* myDrawmap, DrawBezier* myDrawBezier, IntersectMap*
     this->myIntersectMap = myIntersectMap;
     this->myIntraconnectMap = myIntraconnectMap;
     this->myInterconnectMap = myInterconnectMap;
+    this->myTrafficMap = myTrafficMap;
 }
 
 void Map::Update() {
     //other updates from children
     this->myIntersectMap->Update();
+    this->myTrafficMap->Update();
 }
 
 void Map::LateUpdate() {
@@ -43,6 +46,7 @@ void Map::Input(sf::Event event) {
         this->myDrawBezier->Input(event);
     } else if (this->drawStatus == 2) {
         this->myIntersectMap->Input(event);
+        this->myTrafficMap->Input(event);
     } else if (this->drawStatus == 3) {
         this->myIntraconnectMap->Input(event);
         this->myInterconnectMap->Input(event);
@@ -83,6 +87,7 @@ void Map::Visualize(sf::Event event) {
 
     //visualize for sub-map event - postmain for layering purposes
     this->myIntersectMap->Visualize(event);
+    this->myTrafficMap->Visualize(event); //must be after intersectmap
 }
 
 //helper functions

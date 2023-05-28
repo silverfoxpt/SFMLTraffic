@@ -49,6 +49,7 @@ int SETFPS = 300;
 Tilemap             tilemap;
 IntersectManager    intersectManager;
 
+TrafficMap          editorTrafficMap(&mapmaker);
 MapInterConnect     editorInterconnectMap(&mapmaker);
 MapIntraConnect     editorIntraconnectMap(&mapmaker);
 IntersectMap        editorIntersectMap(&mapmaker);
@@ -256,7 +257,8 @@ void Initialize() {
     editorDrawBezier.Initialize(&editor);
     editorIntraconnectMap.Initialize(&editor);
     editorInterconnectMap.Initialize(&editor);
-    editor.Initialize(&editorDrawmap, &editorDrawBezier, &editorIntersectMap, &editorIntraconnectMap, &editorInterconnectMap);
+    editorTrafficMap.Initialize(&editor, &editorIntersectMap);
+    editor.Initialize(&editorDrawmap, &editorDrawBezier, &editorIntersectMap, &editorIntraconnectMap, &editorInterconnectMap, &editorTrafficMap);
 
     window.setPosition(sf::Vector2i(50, 50));
     mapmaker.setPosition(sf::Vector2i(870, 50));
