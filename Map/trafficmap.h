@@ -25,6 +25,10 @@ class TrafficMap {
 
         Map* parent;
         IntersectMap* intersectMap;
+        
+        //important stuff start here
+        bool showWindow = false;
+        int intersectIdx = -1;
 
         void Input(sf::Event event);
         void Visualize(sf::Event event);

@@ -86,6 +86,19 @@ class SaveIntersectingNode {
         }
 };
 
+class SaveRoadParticipantNode {
+    public:
+        int intersectingNodeIdx;
+        int roadInIntersectionIdx;
+        int phaseIdx;
+
+        SaveRoadParticipantNode(int interNodeIdx, int roadIntersectionIdx, int phaseIdx) {
+            this->intersectingNodeIdx = interNodeIdx;
+            this->roadInIntersectionIdx = roadIntersectionIdx;
+            this->phaseIdx = phaseIdx;
+        }
+};
+
 class SaveIntraConnection {
     public:
         int inputRoadIdx;
