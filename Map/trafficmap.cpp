@@ -39,10 +39,9 @@ void TrafficMap::Visualize(sf::Event event) {
     ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
 
     //open the modal popup to configure the traffic node
-    ImGui::OpenPopup("My Popup");
-    if (ImGui::BeginPopupModal("My Popup", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+    ImGui::OpenPopup("Add traffic participants");
+    if (ImGui::BeginPopupModal("Add traffic participants", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
         //important stuff here
-
         //imgui for choosing roads
         std::vector<std::string> up;
         for (int i = 0; i < this->parent->intersections[intersectIdx].intersectingRoadIndex.size(); i++) {
