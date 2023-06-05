@@ -51,15 +51,13 @@ void TrafficMap::Visualize(sf::Event event) {
     //ImGui::CloseCurrentPopup();
     ImGui::End();*/
 
-    if (ImGui::BeginPopupModal("Choose", &this->showWindow, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize)) {
-        if (!ImGui::IsWindowFocused()) {
-            std::cout << "Hello?";
-            this->showWindow = false;
-            this->intersectIdx = -1;
-            ImGui::CloseCurrentPopup();
-        }
+    bool showPopup = true;
+    ImGui::OpenPopup("My Popup");
+    if (ImGui::BeginPopupModal("My Popup", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+        ImGui::Text("All those beautiful files will be deleted.\nThis operation cannot be undone!");
+        ImGui::Separator();
 
-        // Window content here
+        if (ImGui::Button("OK", ImVec2(120, 0))) { std::cout << "What?"; ImGui::CloseCurrentPopup(); }
 
         ImGui::EndPopup();
     }
