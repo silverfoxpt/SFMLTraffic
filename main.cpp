@@ -450,56 +450,7 @@ void SFMLAction() {
 }
 
 void SFMLDragTest() {
-    ImGui::Begin("Test drag drop");
-    ImGui::Button("Drag Source");
-    std::string myPayload = "Hello world";
-    if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
-    {
-        // Set payload to carry the index of our item (could be anything)
-        ImGui::SetDragDropPayload("DEMO_CELL", &myPayload, myPayload.size());
-
-        // Display preview 
-        ImGui::Text("Dragging da payload");
-        ImGui::EndDragDropSource();
-    }
-
-    /*ImGui::Button("##dragtarget");
-    if (ImGui::BeginDragDropTarget())
-    {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DEMO_CELL"))
-        {
-            IM_ASSERT(payload->DataSize == myPayload.size());
-            std::string payload_output = *(const std::string*)payload->Data;
-
-            std::cout << "Received : " << payload_output << '\n';
-        }
-        ImGui::EndDragDropTarget();
-    }*/
-
-    //test
-    ImGui::BeginChild("ScrollingRegion", ImVec2(300, 50), true, ImGuiWindowFlags_HorizontalScrollbar);
-    bool draggedInto = false;
-    if (ImGui::BeginDragDropTarget()) {
-        std::cout << "Hello?";
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DEMO_CELL"))
-        {
-            draggedInto = true;
-            IM_ASSERT(payload->DataSize == myPayload.size());
-            std::string payload_output = *(const std::string*)payload->Data;
-
-            std::cout << "Received : " << payload_output << '\n';
-        }
-        ImGui::EndDragDropTarget();
-    }
-
-    for (int i = 0; i < 10; i++) {
-        ImGui::Button((draggedInto) ? "Received!" : "Hello!"); ImGui::SameLine();
-    }
-
-    ImGui::EndChild();
-
-    ImGui::End();
-
+    
 }
 
 void SFMLUpdate() {
@@ -552,7 +503,7 @@ void SFMLUpdate() {
     SFMLConnection();
     SFMLRoad();
     SFMLAction();
-    //SFMLDragTest();
+    SFMLDragTest();
 }
 
 void InitTest() {

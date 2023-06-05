@@ -39,25 +39,16 @@ void TrafficMap::Visualize(sf::Event event) {
     ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
     ImGui::SetNextWindowFocus();
 
-    /*//open window
-    ImGui::Begin("Choose", &this->showWindow);
-    if (!ImGui::IsWindowFocused()) {
-        std::cout << "Hello?";
-        this->showWindow = false;
-        this->intersectIdx = -1;
-        ImGui::End(); return;
-    }
-
-    //ImGui::CloseCurrentPopup();
-    ImGui::End();*/
-
-    bool showPopup = true;
     ImGui::OpenPopup("My Popup");
     if (ImGui::BeginPopupModal("My Popup", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
         ImGui::Text("All those beautiful files will be deleted.\nThis operation cannot be undone!");
+        
         ImGui::Separator();
-
-        if (ImGui::Button("OK", ImVec2(120, 0))) { std::cout << "What?"; ImGui::CloseCurrentPopup(); }
+        if (ImGui::Button("Close", ImVec2(120, 0))) { 
+            this->showWindow = false; 
+            this->intersectIdx = -1;
+            ImGui::CloseCurrentPopup(); 
+        }
 
         ImGui::EndPopup();
     }
