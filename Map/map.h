@@ -52,7 +52,7 @@ class Map {
         std::vector<SaveIntersectingNode> intersections;
         std::vector<SaveIntraConnection> intraConnections;
         std::vector<SaveInterConnection> interConnections;
-        std::vector<SaveRoadParticipantNode> roadParticpants;
+        std::vector<SaveRoadParticipantNode> roadParticipants;
 
         void Initialize(Drawmap * myDrawmap, DrawBezier* myDrawBezier, IntersectMap* myIntersectMap, MapIntraConnect* myIntraconnectMap, 
             MapInterConnect* myInterconnectMap, TrafficMap* myTrafficMap);

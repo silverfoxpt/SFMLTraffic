@@ -37,12 +37,28 @@ void TrafficMap::Visualize(sf::Event event) {
     //get position of intersection node
     auto pos = this->intersectMap->circles[this->intersectIdx].getPosition();
     ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
-    ImGui::SetNextWindowFocus();
 
+    //open the modal popup to configure the traffic node
     ImGui::OpenPopup("My Popup");
     if (ImGui::BeginPopupModal("My Popup", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-        ImGui::Text("All those beautiful files will be deleted.\nThis operation cannot be undone!");
+        //important stuff here
+
+        //imgui for choosing roads
+        std::vector<std::string> up;
+        for (int i = 0; i < this->parent->intersections[intersectIdx].intersectingRoadIndex.size(); i++) {
+            std::string tmp = "Road " + std::to_string(i);
+            up.push_back(tmp);
+        }
         
+        std::vector<const char*> upChar;
+        upChar.reserve(up.size());
+        for (const auto& str : up) {
+            upChar.push_back(str.c_str());
+        }
+        ImGui::SetNextItemWidth(150); 
+        ImGui::Combo("##roadchoose", this->getChoosenRoadIdx(), upChar.data(), upChar.size()); 
+
+        //close button
         ImGui::Separator();
         if (ImGui::Button("Close", ImVec2(120, 0))) { 
             this->showWindow = false; 

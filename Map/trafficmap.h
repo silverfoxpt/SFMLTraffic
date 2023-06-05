@@ -30,6 +30,8 @@ class TrafficMap {
         bool showWindow = false;
         int intersectIdx = -1;
 
+        int choosenRoadIdx = 0;
+
         void Input(sf::Event event);
         void Visualize(sf::Event event);
         void Initialize(Map* map, IntersectMap* intersectMap);
@@ -37,6 +39,8 @@ class TrafficMap {
 
         TrafficMap(sf::RenderWindow* rend);
         TrafficMap() {} //default constructor
+
+        int* getChoosenRoadIdx() {return &this->choosenRoadIdx;}
 };
 
 #endif

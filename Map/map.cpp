@@ -303,5 +303,5 @@ void Map::clear() {
     intersections.clear();
     intraConnections.clear();
     interConnections.clear();
-    roadParticpants.clear();
+    roadParticipants.clear();
 }
