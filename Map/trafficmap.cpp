@@ -44,7 +44,7 @@ void TrafficMap::Visualize(sf::Event event) {
         //important stuff here
         //imgui for choosing roads
         std::vector<std::string> up;
-        for (int i = 0; i < this->parent->intersections[intersectIdx].intersectingRoadIndex.size(); i++) {
+        for (int i = 0; i < (int) this->parent->intersections[intersectIdx].intersectingRoadIndex.size(); i++) {
             std::string tmp = "Road " + std::to_string(i);
             up.push_back(tmp);
         }

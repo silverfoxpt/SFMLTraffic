@@ -165,8 +165,18 @@ void Map::addRoad(SaveRoad addRoad) {
         bool found = false;
         for (auto& n1 : this->intersections) {
             if (Math::Distance(n1.posNode.mapPos, n2.posNode.mapPos) <= Math::Exponent) {
-                n1.intersectingRoadIndex.insert(n1.intersectingRoadIndex.end(), n2.intersectingRoadIndex.begin(), n2.intersectingRoadIndex.end());
-                n1.startNodeIdx.insert(n1.startNodeIdx.end(), n2.startNodeIdx.begin(), n2.startNodeIdx.end());
+                /*n1.intersectingRoadIndex.insert(n1.intersectingRoadIndex.end(), n2.intersectingRoadIndex.begin(), n2.intersectingRoadIndex.end());
+                n1.startNodeIdx.insert(n1.startNodeIdx.end(), n2.startNodeIdx.begin(), n2.startNodeIdx.end());*/
+
+                //only push when no duplication is found
+                int counter = 0;
+                for (int roadIdx: n2.intersectingRoadIndex) {
+                    if (std::find(n1.intersectingRoadIndex.begin(), n1.intersectingRoadIndex.end(), roadIdx) == n1.intersectingRoadIndex.end()) { //doesn't exist yet
+                        n1.intersectingRoadIndex.push_back(roadIdx);
+                        n1.startNodeIdx.push_back(n2.startNodeIdx[counter]);
+                    }
+                }
+                
                 found = true;
                 break;
             }

@@ -29,7 +29,7 @@ void IntersectMap::Update() {
         int counter = 0;
         for (auto& shape : this->shapes) {
             if (shape.isMouseOver(*this->myRend)) {
-                //if mouse hovering over road, then add the roads to infoRoad vector
+                //if mouse hovering over road, then add the roads to infoRoad vector.
 
                 auto intersection = this->parent->intersections[counter];
                 for (auto& roadIdx : intersection.intersectingRoadIndex) {
