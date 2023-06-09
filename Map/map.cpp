@@ -25,6 +25,9 @@ void Map::Initialize(Drawmap* myDrawmap, DrawBezier* myDrawBezier, IntersectMap*
     this->myIntraconnectMap = myIntraconnectMap;
     this->myInterconnectMap = myInterconnectMap;
     this->myTrafficMap = myTrafficMap;
+
+    //test
+    this->trafficPhases.push_back(SaveTrafficPhase());
 }
 
 void Map::Update() {
@@ -313,5 +316,7 @@ void Map::clear() {
     intersections.clear();
     intraConnections.clear();
     interConnections.clear();
+
     roadParticipants.clear();
+    trafficPhases.clear();
 }

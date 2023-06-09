@@ -99,6 +99,11 @@ class SaveRoadParticipantNode {
         }
 };
 
+class SaveTrafficPhase {
+    public:
+        float duration = 1;
+};
+
 class SaveIntraConnection {
     public:
         int inputRoadIdx;

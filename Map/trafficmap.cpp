@@ -54,8 +54,32 @@ void TrafficMap::Visualize(sf::Event event) {
         for (const auto& str : up) {
             upChar.push_back(str.c_str());
         }
+
+        ImGui::Text("Add"); ImGui::SameLine();
         ImGui::SetNextItemWidth(150); 
         ImGui::Combo("##roadchoose", this->getChoosenRoadIdx(), upChar.data(), upChar.size()); 
+
+        //imgui for choosing phase
+        std::vector<std::string> up2;
+        for (int i = 0; i < (int) this->parent->trafficPhases.size(); i++) {
+            std::string tmp = "Phase " + std::to_string(i);
+            up2.push_back(tmp);
+        }
+
+        std::vector<const char*> upChar2;
+        upChar2.reserve(up2.size());
+        for (const auto& str : up2) {
+            upChar2.push_back(str.c_str());
+        }
+
+        ImGui::Text("to"); ImGui::SameLine();
+        ImGui::SetNextItemWidth(150); 
+        ImGui::Combo("##phasechoose", this->getChoosenPhaseIdx(), upChar2.data(), upChar2.size()); 
+
+        //button to add
+        if (ImGui::Button("Add##trafficphasebuttonadd")) {
+            
+        }
 
         //close button
         ImGui::Separator();
