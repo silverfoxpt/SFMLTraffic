@@ -449,8 +449,37 @@ void SFMLAction() {
     ImGui::End();
 }
 
-void SFMLDragTest() {
-    
+void SFMLTestField() {
+    float restrictedWidth = 200.0f;  // Set the desired restricted width value
+    float restrictedHeight = 150.0f;  // Set the desired restricted height value
+    ImGui::Begin("Test field");
+    ImGui::BeginChild("MyScrollableRegion", ImVec2(restrictedWidth, restrictedHeight), true, ImGuiWindowFlags_HorizontalScrollbar);
+
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));  // Disable spacing between items
+
+    // Calculate the available content size within the region
+    ImVec2 contentSize = ImGui::GetContentRegionAvail();
+
+    // Check if the available content height is less than the restricted height
+    bool needVerticalScrollbar = contentSize.y < restrictedHeight;
+
+    // Adjust the width to accommodate the vertical scrollbar if needed
+    float adjustedWidth = needVerticalScrollbar ? contentSize.x - ImGui::GetStyle().ScrollbarSize : contentSize.x;
+
+    // Content within the region
+    ImGui::BeginChild("ScrollableContent", ImVec2(100, 50), true);
+
+    for (int i = 0; i < 20; i++) {
+        ImGui::Text("Line %d", i);
+    }
+
+    ImGui::EndChild();
+
+    // Reset the style modifications
+    ImGui::PopStyleVar();
+
+    ImGui::EndChild();
+    ImGui::End();
 }
 
 void SFMLUpdate() {
@@ -460,6 +489,53 @@ void SFMLUpdate() {
     //intersection mode
     if (*editor.getStatus() == 2) {
         ImGui::InputInt("Intersection status", editorIntersectMap.getStatus());
+
+        if (*editorIntersectMap.getStatus() == 1) {
+            //phase connection map
+            ImGui::Spacing();
+            ImGui::Text("Current traffic phase");
+            //add more phase
+            if (ImGui::Button("Add phase##addmorephasebutton")) {
+                editor.trafficPhases.push_back(SaveTrafficPhase()); //add empty phase
+            }
+
+            ImGui::BeginChild("ScrollingRegion", ImVec2(600, 80), true, ImGuiWindowFlags_HorizontalScrollbar);
+            for (int i = 0; i < (int) editor.trafficPhases.size(); i++) {
+                std::string text = "Phase " + std::to_string(i);
+                ImGui::Text(text.c_str()); ImGui::SameLine();
+
+                //region to list phases
+                std::string regionName = "ScrollingRegion##" + std::to_string(i);
+                ImGui::BeginChild(regionName.c_str(), ImVec2(350, ImGui::GetTextLineHeight() + 20), true, ImGuiWindowFlags_HorizontalScrollbar);
+
+                //find all road belonging to this phase, and display them as buttons
+                for (int j = 0; j < (int) editor.roadParticipants.size(); j++) { //this is highly unoptimized
+                    auto part = editor.getRoadParticipantNode(j);
+
+                    if (part->phaseIdx == i) { //node belong to current phase
+                        auto intersection = editor.getIntersection(part->intersectingNodeIdx);  //get its corresponding intersection
+
+                        int actualRoadIdx = intersection->intersectingRoadIndex[part->roadInIntersectionIdx];
+                        std::string roadText = "Road " + std::to_string(actualRoadIdx) + "##" + std::to_string(i * editor.trafficPhases.size() + j); //after ## is the text id
+
+                        ImGui::Button(roadText.c_str(), ImVec2(0, ImGui::GetContentRegionAvail().y)); //just a placeholder
+                        if (ImGui::IsItemHovered()) {
+                            editor.infoVisualizeRoad(actualRoadIdx, sf::Color::Yellow);
+                        }
+                        if (j != (int) editor.roadParticipants.size()) {
+                            ImGui::SameLine();
+                        }
+                    }
+                }
+                ImGui::EndChild(); ImGui::SameLine();
+
+                //add duration timer for each phase
+                std::string durationText = "Duration##" + std::to_string(i);
+                ImGui::SetNextItemWidth(50);
+                ImGui::InputFloat(durationText.c_str(), editor.getTrafficPhase(i)->getDuration());
+            }
+            ImGui::EndChild();
+        }
     }
 
     //connection mode
@@ -503,7 +579,7 @@ void SFMLUpdate() {
     SFMLConnection();
     SFMLRoad();
     SFMLAction();
-    SFMLDragTest();
+    //SFMLTestField();
 }
 
 void InitTest() {

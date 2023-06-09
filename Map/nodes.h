@@ -92,8 +92,8 @@ class SaveRoadParticipantNode {
         int roadInIntersectionIdx;
         int phaseIdx;
 
-        SaveRoadParticipantNode(int interNodeIdx, int roadIntersectionIdx, int phaseIdx) {
-            this->intersectingNodeIdx = interNodeIdx;
+        SaveRoadParticipantNode(int intersectingNodeIdx, int roadIntersectionIdx, int phaseIdx) {
+            this->intersectingNodeIdx = intersectingNodeIdx;
             this->roadInIntersectionIdx = roadIntersectionIdx;
             this->phaseIdx = phaseIdx;
         }
@@ -102,6 +102,10 @@ class SaveRoadParticipantNode {
 class SaveTrafficPhase {
     public:
         float duration = 1;
+
+        float* getDuration() {
+            return &this->duration;
+        }
 };
 
 class SaveIntraConnection {

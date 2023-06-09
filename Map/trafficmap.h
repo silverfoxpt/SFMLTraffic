@@ -39,6 +39,8 @@ class TrafficMap {
         void Initialize(Map* map, IntersectMap* intersectMap);
         void Update();
 
+        void AddTrafficPhasePopup();
+
         TrafficMap(sf::RenderWindow* rend);
         TrafficMap() {} //default constructor
 

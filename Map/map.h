@@ -69,6 +69,9 @@ class Map {
         SaveIntersectingNode* getIntersectingNode(int id);
         SaveIntraConnection* getIntraConnection(int id);
         SaveInterConnection* getInterConnection(int id);
+        SaveTrafficPhase* getTrafficPhase(int id);
+        SaveRoadParticipantNode* getRoadParticipantNode(int id);
+        SaveIntersectingNode* getIntersection(int id);
         json getFullJson();
 
         void addRoad(SaveRoad road);

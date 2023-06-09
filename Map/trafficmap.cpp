@@ -31,7 +31,7 @@ void TrafficMap::Input(sf::Event event) {
     }
 }
 
-void TrafficMap::Visualize(sf::Event event) {
+void TrafficMap::AddTrafficPhasePopup() {
     if (!this->showWindow) {return;}
 
     //get position of intersection node
@@ -78,7 +78,12 @@ void TrafficMap::Visualize(sf::Event event) {
 
         //button to add
         if (ImGui::Button("Add##trafficphasebuttonadd")) {
-            
+            SaveRoadParticipantNode newTrafficRoad = SaveRoadParticipantNode(this->intersectIdx, this->choosenRoadIdx, this->choosenPhaseIdx);
+            this->parent->roadParticipants.push_back(newTrafficRoad);
+
+            this->showWindow = false; 
+            this->intersectIdx = -1;
+            ImGui::CloseCurrentPopup(); 
         }
 
         //close button
@@ -91,5 +96,9 @@ void TrafficMap::Visualize(sf::Event event) {
 
         ImGui::EndPopup();
     }
+}
+
+void TrafficMap::Visualize(sf::Event event) {
+    this->AddTrafficPhasePopup();
 }
 

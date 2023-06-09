@@ -118,6 +118,21 @@ SaveIntersectingNode* Map::getIntersectingNode(int id) {
     return &this->intersections[id];
 }
 
+SaveRoadParticipantNode* Map::getRoadParticipantNode(int id) {
+    if (id >= (int) this->roadParticipants.size() || id < 0) {return nullptr;}
+    return &this->roadParticipants[id];
+}
+
+SaveIntersectingNode* Map::getIntersection(int id) {
+    if (id >= (int) this->intersections.size() || id < 0) {return nullptr;}
+    return &this->intersections[id];
+}
+
+SaveTrafficPhase* Map::getTrafficPhase(int id) {
+    if (id >= (int) this->trafficPhases.size() || id < 0) {return nullptr;}
+    return &this->trafficPhases[id];
+}
+
 void Map::infoVisualizeRoad(int roadId, sf::Color color) {
     sf::Vector2f begin; int c = 0;
     auto myRoad = this->getRoad(roadId);
