@@ -60,6 +60,9 @@ void IntersectMap::Input(sf::Event event) {
             if (found) {
                 //delete choosen node
                 this->parent->intersections.erase(this->parent->intersections.begin() + counter);
+
+                //update everything in the SaveRoadParticipants
+                
             }
         }
     }

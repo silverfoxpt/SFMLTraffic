@@ -450,36 +450,7 @@ void SFMLAction() {
 }
 
 void SFMLTestField() {
-    float restrictedWidth = 200.0f;  // Set the desired restricted width value
-    float restrictedHeight = 150.0f;  // Set the desired restricted height value
-    ImGui::Begin("Test field");
-    ImGui::BeginChild("MyScrollableRegion", ImVec2(restrictedWidth, restrictedHeight), true, ImGuiWindowFlags_HorizontalScrollbar);
-
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));  // Disable spacing between items
-
-    // Calculate the available content size within the region
-    ImVec2 contentSize = ImGui::GetContentRegionAvail();
-
-    // Check if the available content height is less than the restricted height
-    bool needVerticalScrollbar = contentSize.y < restrictedHeight;
-
-    // Adjust the width to accommodate the vertical scrollbar if needed
-    float adjustedWidth = needVerticalScrollbar ? contentSize.x - ImGui::GetStyle().ScrollbarSize : contentSize.x;
-
-    // Content within the region
-    ImGui::BeginChild("ScrollableContent", ImVec2(100, 50), true);
-
-    for (int i = 0; i < 20; i++) {
-        ImGui::Text("Line %d", i);
-    }
-
-    ImGui::EndChild();
-
-    // Reset the style modifications
-    ImGui::PopStyleVar();
-
-    ImGui::EndChild();
-    ImGui::End();
+    
 }
 
 void SFMLUpdate() {
@@ -509,6 +480,7 @@ void SFMLUpdate() {
                 ImGui::BeginChild(regionName.c_str(), ImVec2(350, ImGui::GetTextLineHeight() + 20), true, ImGuiWindowFlags_HorizontalScrollbar);
 
                 //find all road belonging to this phase, and display them as buttons
+                int deletePart = -1;
                 for (int j = 0; j < (int) editor.roadParticipants.size(); j++) { //this is highly unoptimized
                     auto part = editor.getRoadParticipantNode(j);
 
@@ -517,8 +489,13 @@ void SFMLUpdate() {
 
                         int actualRoadIdx = intersection->intersectingRoadIndex[part->roadInIntersectionIdx];
                         std::string roadText = "Road " + std::to_string(actualRoadIdx) + "##" + std::to_string(i * editor.trafficPhases.size() + j); //after ## is the text id
+    
+                        if (ImGui::Button(roadText.c_str(), ImVec2(0, ImGui::GetContentRegionAvail().y))) { //delete the participant
+                            deletePart = j;
+                        }
+                        //tooltip
+                        ImGui::SetTooltip("Click to delete");
 
-                        ImGui::Button(roadText.c_str(), ImVec2(0, ImGui::GetContentRegionAvail().y)); //just a placeholder
                         if (ImGui::IsItemHovered()) {
                             editor.infoVisualizeRoad(actualRoadIdx, sf::Color::Yellow);
                         }
@@ -533,6 +510,11 @@ void SFMLUpdate() {
                 std::string durationText = "Duration##" + std::to_string(i);
                 ImGui::SetNextItemWidth(50);
                 ImGui::InputFloat(durationText.c_str(), editor.getTrafficPhase(i)->getDuration());
+
+                //delete participant if needed
+                if (deletePart != -1) {
+                    editor.roadParticipants.erase(editor.roadParticipants.begin() + deletePart);
+                }
             }
             ImGui::EndChild();
         }
