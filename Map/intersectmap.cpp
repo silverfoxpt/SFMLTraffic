@@ -62,7 +62,7 @@ void IntersectMap::Input(sf::Event event) {
                 this->parent->intersections.erase(this->parent->intersections.begin() + counter);
 
                 //update everything in the SaveRoadParticipants
-                
+
             }
         }
     }
@@ -72,7 +72,7 @@ void IntersectMap::LateUpdate() {
 
 }
 
-void IntersectMap::Visualize(sf::Event event) {
+void IntersectMap::Visualize(sf::Event event) {     
     for (auto& myRoad: this->infoRoad) {
         SaveNode cur = myRoad.nodes[0];
         for (int i = 1; i < (int) myRoad.nodes.size(); i++) {
