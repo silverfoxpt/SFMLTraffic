@@ -221,6 +221,20 @@ void Map::deleteRoad(int id) {
     //delete road
     this->roads.erase(this->roads.begin() + id);
 
+    //find from road-participants -> need to be before deleting saveIntersectingNode(s) cause all that stuffs
+    std::vector<int> del; int counter = 0;
+    for (auto &part: this->roadParticipants) {
+        int interRoadIdx = part.roadInIntersectionIdx;
+        int actualIdx = this->intersections[part.intersectingNodeIdx].intersectingRoadIndex[interRoadIdx];
+
+        if (actualIdx == id) { 
+            del.push_back(counter);
+        } else if (actualIdx > id) { 
+            part.roadInIntersectionIdx--;
+        }
+        counter++;
+    }
+
     //delete from saveIntersectingNode(s)
     std::vector<int> delPos;
     for (int i = 0; i < (int) this->intersections.size(); i++) {
@@ -266,6 +280,13 @@ void Map::deleteRoad(int id) {
     std::reverse(delPos.begin(), delPos.end());
     for (int x: delPos) { this->interConnections.erase(this->interConnections.begin() + x); }
     delPos.clear();
+
+    //delete from road participants
+    std::reverse(del.begin(), del.end());
+    for (int x: del) {
+        std::cout << x << " " << this->roadParticipants.size() << '\n';
+        this->roadParticipants.erase(this->roadParticipants.begin() + x);
+    }
 }
 
 SaveNode Map::getSaveNodeFromMousePos(sf::Vector2f mousePos) {

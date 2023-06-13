@@ -62,7 +62,19 @@ void IntersectMap::Input(sf::Event event) {
                 this->parent->intersections.erase(this->parent->intersections.begin() + counter);
 
                 //update everything in the SaveRoadParticipants
-
+                std::vector<int> del; int c = 0;
+                for (auto &part: this->parent->roadParticipants) {
+                    if (part.intersectingNodeIdx == counter) { 
+                        del.push_back(c);
+                    } else if (part.intersectingNodeIdx > counter) { 
+                        part.intersectingNodeIdx--;
+                    }
+                    c++;
+                }
+                std::reverse(del.begin(), del.end());
+                for (int x: del) {
+                    this->parent->roadParticipants.erase(this->parent->roadParticipants.begin() + x);
+                }
             }
         }
     }
