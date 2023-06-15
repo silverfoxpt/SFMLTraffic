@@ -46,6 +46,8 @@ class TrafficMap {
 
         int* getChoosenRoadIdx() {return &this->choosenRoadIdx;}
         int* getChoosenPhaseIdx() {return &this->choosenPhaseIdx;}
+
+        int choosenToActualRoadIdx(int intersectRoadIdx);
 };
 
 #endif

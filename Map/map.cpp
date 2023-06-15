@@ -225,34 +225,34 @@ void Map::deleteRoad(int id) {
     std::vector<int> del; int counter = 0;
     for (auto &part: this->roadParticipants) {
         int interRoadIdx = part.roadInIntersectionIdx;
-        int actualIdx = this->intersections[part.intersectingNodeIdx].intersectingRoadIndex[interRoadIdx];
 
-        if (actualIdx == id) { 
+        if (interRoadIdx == id) { 
             del.push_back(counter);
-        } else if (actualIdx > id) { 
-            //part.roadInIntersectionIdx--;
+        } else if (interRoadIdx > id) { 
+            part.roadInIntersectionIdx--;
         }
         counter++;
     }
 
-    //delete from saveIntersectingNode(s)
-    std::vector<int> delPos;
+    //delete from intersections -> only delete the road from the intersections, don't delete the intersection themselves
     for (int i = 0; i < (int) this->intersections.size(); i++) {
         auto intersect = this->getIntersectingNode(i);
+        std::vector<int> delPos;
 
         for (int j = 0; j < (int) intersect->intersectingRoadIndex.size(); j++) {
             if (intersect->intersectingRoadIndex[j] == id) { //found road
-                delPos.push_back(i); break;
+                delPos.push_back(i); 
             } else if (intersect->intersectingRoadIndex[j] > id) { //found larger size road
                 intersect->intersectingRoadIndex[j]--;
             }
         }
+
+        std::reverse(delPos.begin(), delPos.end());
+        for (int x: delPos) { intersect->intersectingRoadIndex.erase(intersect->intersectingRoadIndex.begin() + x); }
     }
-    std::reverse(delPos.begin(), delPos.end());
-    for (int x: delPos) { this->intersections.erase(this->intersections.begin() + x); }
-    delPos.clear();
 
     //delete from intra-connections
+    std::vector<int> delPos;
     for (int i = 0; i < (int) this->intraConnections.size(); i++) {
         auto intra = this->getIntraConnection(i);
 

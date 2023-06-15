@@ -485,9 +485,7 @@ void SFMLUpdate() {
                     auto part = editor.getRoadParticipantNode(j);
 
                     if (part->phaseIdx == i) { //node belong to current phase
-                        auto intersection = editor.getIntersection(part->intersectingNodeIdx);  //get its corresponding intersection
-
-                        int actualRoadIdx = intersection->intersectingRoadIndex[part->roadInIntersectionIdx];
+                        int actualRoadIdx = part->roadInIntersectionIdx;
                         std::string roadText = "Road " + std::to_string(actualRoadIdx) + "##" + std::to_string(i * editor.trafficPhases.size() + j); //after ## is the text id
 
                         if (ImGui::Button(roadText.c_str(), ImVec2(0, ImGui::GetContentRegionAvail().y))) { //delete the participant

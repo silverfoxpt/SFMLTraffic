@@ -45,7 +45,7 @@ void TrafficMap::AddTrafficPhasePopup() {
         //imgui for choosing roads
         std::vector<std::string> up;
         for (int i = 0; i < (int) this->parent->intersections[intersectIdx].intersectingRoadIndex.size(); i++) {
-            std::string tmp = "Road " + std::to_string(i);
+            std::string tmp = "Road " + std::to_string(this->choosenToActualRoadIdx(i));
             up.push_back(tmp);
         }
         
@@ -78,7 +78,7 @@ void TrafficMap::AddTrafficPhasePopup() {
 
         //button to add
         if (ImGui::Button("Add##trafficphasebuttonadd")) {
-            SaveRoadParticipantNode newTrafficRoad = SaveRoadParticipantNode(this->intersectIdx, this->choosenRoadIdx, this->choosenPhaseIdx);
+            SaveRoadParticipantNode newTrafficRoad = SaveRoadParticipantNode(this->intersectIdx, this->choosenToActualRoadIdx(this->choosenRoadIdx), this->choosenPhaseIdx);
             this->parent->roadParticipants.push_back(newTrafficRoad);
 
             this->showWindow = false; 
@@ -100,5 +100,9 @@ void TrafficMap::AddTrafficPhasePopup() {
 
 void TrafficMap::Visualize(sf::Event event) {
     this->AddTrafficPhasePopup();
+}
+
+int TrafficMap::choosenToActualRoadIdx(int intersectRoadIdx) {
+    return this->parent->intersections[this->intersectIdx].intersectingRoadIndex[intersectRoadIdx];
 }
 
