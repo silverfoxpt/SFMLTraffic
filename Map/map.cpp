@@ -230,7 +230,7 @@ void Map::deleteRoad(int id) {
         if (actualIdx == id) { 
             del.push_back(counter);
         } else if (actualIdx > id) { 
-            part.roadInIntersectionIdx--;
+            //part.roadInIntersectionIdx--;
         }
         counter++;
     }
@@ -284,7 +284,6 @@ void Map::deleteRoad(int id) {
     //delete from road participants
     std::reverse(del.begin(), del.end());
     for (int x: del) {
-        std::cout << x << " " << this->roadParticipants.size() << '\n';
         this->roadParticipants.erase(this->roadParticipants.begin() + x);
     }
 }

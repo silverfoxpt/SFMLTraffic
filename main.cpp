@@ -489,7 +489,7 @@ void SFMLUpdate() {
 
                         int actualRoadIdx = intersection->intersectingRoadIndex[part->roadInIntersectionIdx];
                         std::string roadText = "Road " + std::to_string(actualRoadIdx) + "##" + std::to_string(i * editor.trafficPhases.size() + j); //after ## is the text id
-    
+
                         if (ImGui::Button(roadText.c_str(), ImVec2(0, ImGui::GetContentRegionAvail().y))) { //delete the participant
                             deletePart = j;
                         }
