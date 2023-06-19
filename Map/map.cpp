@@ -355,3 +355,69 @@ void Map::clear() {
     roadParticipants.clear();
     trafficPhases.clear();
 }
+
+//please don't call this too much, the computer will cry
+void Map::RecalculateIntersections() {
+    //find new intersection(s)
+    std::vector<SaveIntersectingNode> newInter;
+    sf::Vector2i nullRoad(-99999, -99999);
+
+    for (int i = 0; i < (int) this->roads.size() - 1; i++) {
+        SaveRoad& road = this->roads[i];
+        for (int j = i+1; j < (int) this->roads.size(); j++) {
+            SaveRoad& road2 = this->roads[j];
+            for (int k = 0; k < (int) road.nodes.size() - 1; k++) {
+                SaveNode a1 = road.nodes[k], a2 = road.nodes[k+1];
+                for (int q = 0; q < (int) road.nodes.size()- 1; q++) {
+                    SaveNode b1 = road2.nodes[q], b2 = road2.nodes[q+1];
+
+                    //calculated intersection
+                    auto intersection = Math::Intersect(a1.mapPos, a2.mapPos, b1.mapPos, b2.mapPos);
+                    if (intersection != nullRoad) {
+                        SaveNode interNode = this->getSaveNodeFromMousePos(Math::convertToFloatVec(intersection));
+                        SaveIntersectingNode newIntersection = {
+                            interNode,
+                            { i, static_cast<int>(this->roads.size()) },
+                            { k, j }
+                        };
+                        newInter.push_back(newIntersection);
+                    }
+                }
+            }
+        }
+    }
+
+    // merge same intersections
+    std::vector<SaveIntersectingNode> newUniqueInter;
+    for (const auto& n2 : newInter) {
+        bool found = false;
+        for (auto& n1 : this->intersections) {
+            if (Math::Distance(n1.posNode.mapPos, n2.posNode.mapPos) <= Math::Exponent) {
+                /*n1.intersectingRoadIndex.insert(n1.intersectingRoadIndex.end(), n2.intersectingRoadIndex.begin(), n2.intersectingRoadIndex.end());
+                n1.startNodeIdx.insert(n1.startNodeIdx.end(), n2.startNodeIdx.begin(), n2.startNodeIdx.end());*/
+
+                //only push when no duplication is found
+                int counter = 0;
+                for (int roadIdx: n2.intersectingRoadIndex) {
+                    if (std::find(n1.intersectingRoadIndex.begin(), n1.intersectingRoadIndex.end(), roadIdx) == n1.intersectingRoadIndex.end()) { //doesn't exist yet
+                        n1.intersectingRoadIndex.push_back(roadIdx);
+                        n1.startNodeIdx.push_back(n2.startNodeIdx[counter]);
+                    }
+                }
+                
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            newUniqueInter.push_back(n2);
+        }
+    }
+
+    // add new unique intersections to map
+    if (this->intersections.empty()) {
+        this->intersections = newInter;
+    } else {
+        this->intersections.insert(this->intersections.end(), newUniqueInter.begin(), newUniqueInter.end());
+    }
+}

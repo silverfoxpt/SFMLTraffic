@@ -78,6 +78,7 @@ class Map {
         void deleteRoad(int id);
         void infoVisualizeRoad(int roadId, sf::Color color);
         void clear();
+        void RecalculateIntersections();
 
         SaveNode getSaveNodeFromMousePos(sf::Vector2f mousePos);
         bool checkInMapFromActualPos(sf::Vector2f actualPos);

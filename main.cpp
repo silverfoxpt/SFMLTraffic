@@ -460,8 +460,19 @@ void SFMLUpdate() {
     //intersection mode
     if (*editor.getStatus() == 2) {
         ImGui::InputInt("Intersection status", editorIntersectMap.getStatus());
+        if (*editorIntersectMap.getStatus() == 0) {
+            //reset intersection button
+            if (ImGui::Button("Recalculate all intersection")) {
+                ImGui::BeginTooltip();
+                ImGui::TextColored(ImVec4(1.0, 0.0, 0.0, 1.0), "Warning: Recalculation will delete all road participants! All intersections will be reseted and recalculated. All phases will be retained");
+                ImGui::EndTooltip();
 
-        if (*editorIntersectMap.getStatus() == 1) {
+                editor.roadParticipants.clear();
+                editor.RecalculateIntersections();
+            }
+        }
+
+        else if (*editorIntersectMap.getStatus() == 1) {
             //phase connection map
             ImGui::Spacing();
             ImGui::Text("Current traffic phase");
@@ -491,11 +502,13 @@ void SFMLUpdate() {
                         if (ImGui::Button(roadText.c_str(), ImVec2(0, ImGui::GetContentRegionAvail().y))) { //delete the participant
                             deletePart = j;
                         }
-                        //tooltip
-                        ImGui::SetTooltip("Click to delete");
 
                         if (ImGui::IsItemHovered()) {
                             editor.infoVisualizeRoad(actualRoadIdx, sf::Color::Yellow);
+
+                            ImGui::BeginTooltip();
+                            ImGui::Text("Delete road participants");
+                            ImGui::EndTooltip();
                         }
                         if (j != (int) editor.roadParticipants.size()) {
                             ImGui::SameLine();
