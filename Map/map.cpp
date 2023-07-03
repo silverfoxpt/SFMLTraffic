@@ -374,6 +374,8 @@ void Map::clear() {
 void Map::RecalculateIntersections() {
     //clear intersections
     this->intersections.clear();
+    this->roadParticipants.clear();
+    this->myTrafficMap->clear();
     
     //find new intersection(s)
     std::vector<SaveIntersectingNode> newInter;
