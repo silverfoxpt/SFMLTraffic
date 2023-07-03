@@ -97,6 +97,20 @@ class SaveRoadParticipantNode {
             this->roadInIntersectionIdx = roadIntersectionIdx;
             this->phaseIdx = phaseIdx;
         }
+
+        json getJson() {
+            json j;
+            j["intersectingNodeIdx"] = intersectingNodeIdx;
+            j["roadInIntersectionIdx"] = roadInIntersectionIdx;
+            j["phaseIdx"] = phaseIdx;
+            return j;
+        }
+
+        SaveRoadParticipantNode(json j) {
+            this->intersectingNodeIdx = j["intersectingNodeIdx"];
+            this->phaseIdx = j["phaseIdx"];
+            this->roadInIntersectionIdx = j["roadInIntersectionIdx"];
+        }
 };
 
 class SaveTrafficPhase {
@@ -105,6 +119,21 @@ class SaveTrafficPhase {
 
         float* getDuration() {
             return &this->duration;
+        }
+
+        json getJson() {
+            json j;
+            j["duration"] = duration;
+
+            return j;
+        }
+
+        SaveTrafficPhase(json j) {
+            this->duration = j["Duration"];
+        }
+
+        SaveTrafficPhase() {
+            this->duration = 1;
         }
 };
 

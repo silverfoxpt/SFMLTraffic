@@ -41,7 +41,9 @@
                     }
                 ]
             }
-        ]
+        ],
+        "roadParticipants" : [],
+        "trafficPhases" : []
     },
     {
         "interConnections": [
@@ -230,7 +232,9 @@
                     }
                 ]
             }
-        ]
+        ],
+        "roadParticipants" : [],
+        "trafficPhases" : []
     },
     {
         "interConnections": [
@@ -523,7 +527,9 @@
                     }
                 ]
             }
-        ]
+        ],
+        "roadParticipants" : [],
+        "trafficPhases" : []
     },
     {
         "interConnections": [
@@ -612,7 +618,9 @@
                     }
                 ]
             }
-        ]
+        ],
+        "roadParticipants" : [],
+        "trafficPhases" : []
     },
     {
         "interConnections": [
@@ -713,7 +721,9 @@
                     }
                 ]
             }
-        ]
+        ],
+        "roadParticipants" : [],
+        "trafficPhases" : []
     },
     {
         "interConnections": [
@@ -793,6 +803,8 @@
                     }
                 ]
             }
-        ]
+        ],
+        "roadParticipants" : [],
+        "trafficPhases" : []
     }
 ]

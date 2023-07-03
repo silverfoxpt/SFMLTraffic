@@ -343,6 +343,20 @@ json Map::getFullJson() {
     }
     myJson["interConnections"] = jsonInterconnect;
 
+    //road participants
+    json roadParts = json::array();
+    for (auto& part: this->roadParticipants) {
+        roadParts.push_back(part.getJson());
+    }
+    myJson["roadParticipants"] = roadParts;
+
+    //phases
+    json phases = json::array();
+    for (auto& phase: this->trafficPhases) {
+        phases.push_back(phase.getJson());
+    }
+    myJson["trafficPhases"] = phases;
+
     return myJson;
 }
 
