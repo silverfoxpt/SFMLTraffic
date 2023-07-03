@@ -435,7 +435,7 @@ void Map::RecalculateIntersections() {
 
     // add new unique intersections to map
     if (this->intersections.empty()) {
-        this->intersections = newInter;
+        this->intersections = newUniqueInter;
     } else {
         this->intersections.insert(this->intersections.end(), newUniqueInter.begin(), newUniqueInter.end());
     }

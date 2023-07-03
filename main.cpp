@@ -482,7 +482,6 @@ void SFMLUpdate() {
         if (*editorIntersectMap.getStatus() == 0) {
             //reset intersection button
             if (ImGui::Button("Recalculate all intersection")) {
-                editor.roadParticipants.clear();
                 editor.RecalculateIntersections();
             }
 
