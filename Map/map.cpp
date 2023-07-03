@@ -358,6 +358,9 @@ void Map::clear() {
 
 //please don't call this too much, the computer will cry
 void Map::RecalculateIntersections() {
+    //clear intersections
+    this->intersections.clear();
+    
     //find new intersection(s)
     std::vector<SaveIntersectingNode> newInter;
     sf::Vector2i nullRoad(-99999, -99999);
@@ -387,11 +390,11 @@ void Map::RecalculateIntersections() {
         }
     }
 
-    // merge same intersections
+    // merge same intersections in newInter
     std::vector<SaveIntersectingNode> newUniqueInter;
-    for (const auto& n2 : newInter) {
+    for (auto n2 : newInter) {
         bool found = false;
-        for (auto& n1 : this->intersections) {
+        for (auto& n1 : newUniqueInter) {
             if (Math::Distance(n1.posNode.mapPos, n2.posNode.mapPos) <= Math::Exponent) {
                 /*n1.intersectingRoadIndex.insert(n1.intersectingRoadIndex.end(), n2.intersectingRoadIndex.begin(), n2.intersectingRoadIndex.end());
                 n1.startNodeIdx.insert(n1.startNodeIdx.end(), n2.startNodeIdx.begin(), n2.startNodeIdx.end());*/

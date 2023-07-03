@@ -463,12 +463,14 @@ void SFMLUpdate() {
         if (*editorIntersectMap.getStatus() == 0) {
             //reset intersection button
             if (ImGui::Button("Recalculate all intersection")) {
+                editor.roadParticipants.clear();
+                editor.RecalculateIntersections();
+            }
+
+            if (ImGui::IsItemHovered()) {
                 ImGui::BeginTooltip();
                 ImGui::TextColored(ImVec4(1.0, 0.0, 0.0, 1.0), "Warning: Recalculation will delete all road participants! All intersections will be reseted and recalculated. All phases will be retained");
                 ImGui::EndTooltip();
-
-                editor.roadParticipants.clear();
-                editor.RecalculateIntersections();
             }
         }
 
