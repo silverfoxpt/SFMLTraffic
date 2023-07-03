@@ -77,15 +77,29 @@ class RoadInterInfo {
 
 };
 
+class RoadParticipant {
+    public:
+        int intersectingNodeIdx;
+        int roadInIntersectionIdx;
+        int phaseIdx;
+
+        RoadParticipant(int intersectingNodeIdx, int roadInIntersectionIdx, int phaseIdx) {
+            this->intersectingNodeIdx = intersectingNodeIdx;
+            this->roadInIntersectionIdx = roadInIntersectionIdx;
+            this->phaseIdx = phaseIdx;
+        }
+};
+
 class TileInfo {
     public:
         static std::map<int, std::vector<Road>> roadInTileMap;
         static std::map<int, std::vector<RoadInterInfo>> roadInterConnection;
         static std::map<int, std::vector<std::pair<int, int>>> roadIntraConnection;
         static std::map<int, std::vector<IntersectNode>> intersections;
+        static std::map<int, std::vector<float>> trafficPhases;
+        static std::map<int, std::vector<RoadParticipant>> roadParticipants;
 
         static int largestId();
         static void clearAll();
 };
-
 #endif

@@ -180,6 +180,25 @@ void InitializeTileFromJson() {
         }
         TileInfo::intersections[id] = intersects;
 
+        //load traffic phase
+        std::vector<json> trafficPhases = tile["trafficPhases"];
+        std::vector<float> phases;
+        for (json p: trafficPhases) {
+            float duration = p["duration"];
+            phases.push_back(duration);
+        }
+        TileInfo::trafficPhases[id] = phases;
+
+        //load road participants
+        std::vector<json> roadParticipants = tile["roadParticipants"];
+        std::vector<RoadParticipant> parts;
+
+        for (json part: roadParticipants) {
+            RoadParticipant newParticipant(part["intersectingNodeIdx"], part["roadInIntersectionIdx"], part["phaseIdx"]);
+            parts.push_back(newParticipant);
+        }
+        TileInfo::roadParticipants[id] = parts;
+
         //increase id
         id++;
     }

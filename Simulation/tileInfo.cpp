@@ -210,6 +210,14 @@ std::map<int, std::vector<IntersectNode>> TileInfo::intersections = {
 
 };
 
+std::map<int, std::vector<float>> TileInfo::trafficPhases = {
+
+};
+
+std::map<int, std::vector<RoadParticipant>> TileInfo::roadParticipants = {
+
+};
+
 int TileInfo::largestId() {
     int maxi = 0;
     for (auto it = roadInTileMap.begin(); it != roadInTileMap.end(); it++) {
