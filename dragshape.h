@@ -50,8 +50,6 @@ public:
     }
 
     void drawShape(sf::RenderWindow& window) {
-        //std::cout << window.getPosition().x << '\n';
-        std::cout << "Drawn? " << window.getSize().x << " " << '\n';
         window.draw(m_shape);
     }
 
