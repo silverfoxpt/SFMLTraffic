@@ -693,6 +693,50 @@ void MainSFML() {
     MainSFMLSetting();
 }
 
+void RenderMainWindow(sf::Clock& deltaTime) {
+    //normal window
+    sf::Event event;
+    ImGui::SFML::SetCurrentWindow(window);
+    while (window.pollEvent(event))
+    {
+        ImGui::SFML::ProcessEvent(window, event);
+        if (event.type == sf::Event::Closed)
+            window.close();
+    }
+    ImGui::SFML::Update(window, deltaTime.restart());
+    
+    window.clear();
+    MainSFML();
+    
+    MainUpdateAndTest(); 
+
+    ImGui::SFML::Render(window);
+}
+
+void RenderMapWindow(sf::Clock& deltaTime2) {
+    //mapmaker
+    //std::cout << "check1" << '\n';
+    ImGui::SFML::SetCurrentWindow(mapmaker);
+    sf::Event event;
+    while(mapmaker.pollEvent(event)) {
+        ImGui::SFML::ProcessEvent(mapmaker, event);
+        editor.Input(event);
+
+        if (event.type == sf::Event::Closed)
+            mapmaker.close();
+    }
+    ImGui::SFML::Update(mapmaker, deltaTime2.restart());
+    mapmaker.clear(sf::Color(60, 60, 60, 255));
+
+    //std::cout << "check2" << '\n';
+    editor.Update(); //std::cout << "check3" << '\n';
+    editor.Visualize(event); //std::cout << "check4" << '\n'; --> This is the culprit
+    SFMLUpdate(); //std::cout << "check5" << '\n';
+    editor.LateUpdate(); //std::cout << "check6" << '\n';
+
+    ImGui::SFML::Render(mapmaker);
+}
+
 void MainFunc() {
     ImGui::SFML::Init(mapmaker);
     ImGui::GetIO().IniFilename = "mapmaker.ini";
@@ -706,47 +750,11 @@ void MainFunc() {
     sf::Clock deltaTime2;
     while (window.isOpen() && mapmaker.isOpen())
     {   
-        //normal window
-        sf::Event event;
-        ImGui::SFML::SetCurrentWindow(window);
-        while (window.pollEvent(event))
-        {
-            ImGui::SFML::ProcessEvent(window, event);
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-        ImGui::SFML::Update(window, deltaTime.restart());
-        
-        window.clear();
-        MainSFML();
-        
-        MainUpdateAndTest(); 
+        RenderMainWindow(deltaTime);
+        RenderMapWindow(deltaTime2);
 
-        ImGui::SFML::Render(window);       
-
-        //mapmaker
-        //std::cout << "check1" << '\n';
-        ImGui::SFML::SetCurrentWindow(mapmaker);
-        while(mapmaker.pollEvent(event)) {
-            ImGui::SFML::ProcessEvent(mapmaker, event);
-            editor.Input(event);
-
-            if (event.type == sf::Event::Closed)
-                mapmaker.close();
-        }
-        ImGui::SFML::Update(mapmaker, deltaTime2.restart());
-        mapmaker.clear(sf::Color(60, 60, 60, 255));
-
-        //std::cout << "check2" << '\n';
-        editor.Update(); //std::cout << "check3" << '\n';
-        editor.Visualize(event); //std::cout << "check4" << '\n'; --> This is the culprit
-        SFMLUpdate(); //std::cout << "check5" << '\n';
-        editor.LateUpdate(); //std::cout << "check6" << '\n';
-
-        ImGui::SFML::Render(mapmaker);
-
-        window.display();
         mapmaker.display();
+        window.display();
 
         //std::cout << 1.0 / deltaTime.getElapsedTime().asSeconds() << '\n';
     }
