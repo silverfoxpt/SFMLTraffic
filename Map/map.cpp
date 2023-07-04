@@ -99,22 +99,22 @@ int* Map::getStatus() {
 }
 
 SaveRoad* Map::getRoad(int id) {
-    if (id >= (int) this->roads.size() || id < 0) {return nullptr;}
+    if (id >= (int) this->roads.size() || id < 0) {std::cerr << "Error idx"; return nullptr;}
     return &this->roads[id];
 }
 
 SaveIntraConnection* Map::getIntraConnection(int id) {
-    if (id >= (int) this->intraConnections.size() || id < 0) {return nullptr;}
+    if (id >= (int) this->intraConnections.size() || id < 0) {std::cerr << "Error idx"; return nullptr;}
     return &this->intraConnections[id];
 }
 
 SaveInterConnection* Map::getInterConnection(int id) {
-    if (id >= (int) this->interConnections.size() || id < 0) {return nullptr;}
+    if (id >= (int) this->interConnections.size() || id < 0) {std::cerr << "Error idx"; return nullptr;}
     return &this->interConnections[id];
 }
 
 SaveIntersectingNode* Map::getIntersectingNode(int id) {
-    if (id >= (int) this->intersections.size() || id < 0) {return nullptr;}
+    if (id >= (int) this->intersections.size() || id < 0) {std::cerr << "Error idx"; return nullptr;}
     return &this->intersections[id];
 }
 
@@ -414,8 +414,6 @@ void Map::RecalculateIntersections() {
         bool found = false;
         for (auto& n1 : newUniqueInter) {
             if (Math::Distance(n1.posNode.mapPos, n2.posNode.mapPos) <= Math::Exponent) {
-                std::cout << c << '\n';
-
                 //only push when no duplication is found
                 int counter = 0;
                 for (int roadIdx: n2.intersectingRoadIndex) {
@@ -437,6 +435,7 @@ void Map::RecalculateIntersections() {
 
     // add new unique intersections to map
     if (this->intersections.empty()) {
+        std::cout << "Inserted!" << '\n';
         this->intersections = newUniqueInter;
     } else {
         this->intersections.insert(this->intersections.end(), newUniqueInter.begin(), newUniqueInter.end());

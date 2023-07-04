@@ -589,10 +589,14 @@ void SFMLUpdate() {
 
     ImGui::End();
 
-    SFMLConnection();
-    SFMLRoad();
-    SFMLAction();
-    //SFMLTestField();
+    try {
+        SFMLConnection();
+        SFMLRoad();
+        SFMLAction();
+        //SFMLTestField();
+    } catch (const std::exception& e) {
+        std::cerr << "here" << '\n';
+    };
 }
 
 void InitTest() {
@@ -721,6 +725,7 @@ void MainFunc() {
         ImGui::SFML::Render(window);       
 
         //mapmaker
+        //std::cout << "check1" << '\n';
         ImGui::SFML::SetCurrentWindow(mapmaker);
         while(mapmaker.pollEvent(event)) {
             ImGui::SFML::ProcessEvent(mapmaker, event);
@@ -732,10 +737,11 @@ void MainFunc() {
         ImGui::SFML::Update(mapmaker, deltaTime2.restart());
         mapmaker.clear(sf::Color(60, 60, 60, 255));
 
-        editor.Update();
-        editor.Visualize(event);
-        SFMLUpdate();
-        editor.LateUpdate();
+        //std::cout << "check2" << '\n';
+        editor.Update(); //std::cout << "check3" << '\n';
+        editor.Visualize(event); //std::cout << "check4" << '\n'; --> This is the culprit
+        SFMLUpdate(); //std::cout << "check5" << '\n';
+        editor.LateUpdate(); //std::cout << "check6" << '\n';
 
         ImGui::SFML::Render(mapmaker);
 
