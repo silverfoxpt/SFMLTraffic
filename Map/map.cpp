@@ -408,7 +408,9 @@ void Map::RecalculateIntersections() {
 
     // merge same intersections in newInter
     std::vector<SaveIntersectingNode> newUniqueInter;
+    int c = 0;
     for (auto n2 : newInter) {
+        std::cout << "check" << c << '\n';
         bool found = false;
         for (auto& n1 : newUniqueInter) {
             if (Math::Distance(n1.posNode.mapPos, n2.posNode.mapPos) <= Math::Exponent) {
@@ -428,7 +430,9 @@ void Map::RecalculateIntersections() {
         if (!found) {
             newUniqueInter.push_back(n2);
         }
+        c++;
     }
+    std::cout << "fin1";
 
     // add new unique intersections to map
     if (this->intersections.empty()) {
@@ -436,4 +440,5 @@ void Map::RecalculateIntersections() {
     } else {
         this->intersections.insert(this->intersections.end(), newUniqueInter.begin(), newUniqueInter.end());
     }
+    std::cout << "fin2\n";
 }
