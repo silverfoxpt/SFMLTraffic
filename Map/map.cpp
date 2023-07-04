@@ -410,10 +410,12 @@ void Map::RecalculateIntersections() {
     std::vector<SaveIntersectingNode> newUniqueInter;
     int c = 0;
     for (auto n2 : newInter) {
-        std::cout << "check" << c << '\n';
+        //std::cout << "check" << c << '\n';
         bool found = false;
         for (auto& n1 : newUniqueInter) {
             if (Math::Distance(n1.posNode.mapPos, n2.posNode.mapPos) <= Math::Exponent) {
+                std::cout << c << '\n';
+
                 //only push when no duplication is found
                 int counter = 0;
                 for (int roadIdx: n2.intersectingRoadIndex) {
@@ -432,7 +434,6 @@ void Map::RecalculateIntersections() {
         }
         c++;
     }
-    std::cout << "fin1";
 
     // add new unique intersections to map
     if (this->intersections.empty()) {
@@ -440,5 +441,6 @@ void Map::RecalculateIntersections() {
     } else {
         this->intersections.insert(this->intersections.end(), newUniqueInter.begin(), newUniqueInter.end());
     }
-    std::cout << "fin2\n";
+
+    std::cout << "Recalcted!\n";
 }

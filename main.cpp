@@ -721,7 +721,6 @@ void MainFunc() {
         ImGui::SFML::Render(window);       
 
         //mapmaker
-        //sf::Event mapEvent;
         ImGui::SFML::SetCurrentWindow(mapmaker);
         while(mapmaker.pollEvent(event)) {
             ImGui::SFML::ProcessEvent(mapmaker, event);

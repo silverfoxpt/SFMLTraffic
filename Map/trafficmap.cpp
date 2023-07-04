@@ -17,6 +17,7 @@ void TrafficMap::Update() {
 }
 
 void TrafficMap::Input(sf::Event event) {
+    bool found = false;
     if (this->intersectMap->intersectionStatus == 1) { //traffic node mode  
         int idx = 0;
         for (auto& shape: this->intersectMap->shapes) {
@@ -24,16 +25,23 @@ void TrafficMap::Input(sf::Event event) {
                 if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Right) {
                     this->showWindow = true;
                     this->intersectIdx = idx;
+                    found = true;
                 }
             }
             idx++;
         }
+    }
+    if (!found) {
+        this->showWindow = false;
+        this->intersectIdx = -1;
     }
 }
 
 void TrafficMap::AddTrafficPhasePopup() {
     if (!this->showWindow) {return;}
     if (this->intersectIdx == -1) {return;}
+
+    std::cout << "popup!" << '\n';
 
     //get position of intersection node
     auto pos = this->intersectMap->circles[this->intersectIdx].getPosition();

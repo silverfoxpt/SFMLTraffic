@@ -4,8 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "D:\\SFML-2.5.1\\include",
-                "D:\\boost_1_82_0"
+                "D:\\SFML-2.5.1\\include"
             ],
             "defines": [
                 "_DEBUG",
@@ -16,6 +15,7 @@
             "intelliSenseMode": "windows-gcc-x64",
             "configurationProvider": "ms-vscode.cpptools"
         }
+        
     ],
     "version": 4
 }
