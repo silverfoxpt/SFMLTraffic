@@ -235,13 +235,14 @@ void Map::deleteRoad(int id) {
     }
 
     //delete from intersections -> only delete the road from the intersections, don't delete the intersection themselves
+    //--> delete intersection if no roads remains
     for (int i = 0; i < (int) this->intersections.size(); i++) {
         auto intersect = this->getIntersectingNode(i);
         std::vector<int> delPos;
 
         for (int j = 0; j < (int) intersect->intersectingRoadIndex.size(); j++) {
             if (intersect->intersectingRoadIndex[j] == id) { //found road
-                delPos.push_back(i); 
+                delPos.push_back(j); 
             } else if (intersect->intersectingRoadIndex[j] > id) { //found larger size road
                 intersect->intersectingRoadIndex[j]--;
             }
