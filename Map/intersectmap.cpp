@@ -21,7 +21,7 @@ void IntersectMap::Update() {
 
         this->circles.push_back(a);
 
-        DragShape newShape(&this->circles[this->circles.size()-1]);
+        DragCircleShape newShape(this->circles[this->circles.size()-1]);
         this->shapes.push_back(newShape);
     }
 
@@ -103,7 +103,7 @@ void IntersectMap::Visualize(sf::Event event) {
 
     //conditional appearance
     if (this->parent->drawStatus == 2) {
-        for (auto& shape: this->shapes) {
+        for (auto shape: this->shapes) {
             shape.drawShape(*this->myRend);
         }
     }

@@ -27,7 +27,7 @@ class IntersectMap {
         //important stuff of THIS class
         int intersectionStatus = 0;
         std::vector<sf::CircleShape> circles;
-        std::vector<DragShape> shapes;
+        std::vector<DragCircleShape> shapes;
         std::vector<SaveRoad> infoRoad;
 
         IntersectMap(sf::RenderWindow* rend);

@@ -12,9 +12,9 @@
 #include <memory>
 #include <chrono>
 
-class DragShape {
+class DragCircleShape {
 public:
-    DragShape(sf::Shape* shape) {
+    DragCircleShape(sf::CircleShape shape) {
         m_shape = shape;
         m_isDragging = false;
     }
@@ -24,9 +24,9 @@ public:
         sf::Vector2f mousePosFloat = static_cast<sf::Vector2f>(mousePos);
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            if (m_shape->getGlobalBounds().contains(mousePosFloat)) {
+            if (m_shape.getGlobalBounds().contains(mousePosFloat)) {
                 m_isDragging = true;
-                m_offset = mousePosFloat - m_shape->getPosition();
+                m_offset = mousePosFloat - m_shape.getPosition();
             }
         }
         else {
@@ -39,22 +39,24 @@ public:
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
             sf::Vector2f mousePosFloat = static_cast<sf::Vector2f>(mousePos);
 
-            m_shape->setPosition(mousePosFloat - m_offset);
+            m_shape.setPosition(mousePosFloat - m_offset);
         }
     }
 
     bool isMouseOver(sf::RenderWindow& window) {
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
         sf::Vector2f mousePosFloat = static_cast<sf::Vector2f>(mousePos);
-        return m_shape->getGlobalBounds().contains(mousePosFloat);
+        return m_shape.getGlobalBounds().contains(mousePosFloat);
     }
 
     void drawShape(sf::RenderWindow& window) {
-        window.draw(*this->m_shape);
+        //std::cout << window.getPosition().x << '\n';
+        std::cout << "Drawn? " << window.getSize().x << " " << '\n';
+        window.draw(m_shape);
     }
 
 private:
-    sf::Shape* m_shape;
+    sf::CircleShape m_shape;
     bool m_isDragging;
     sf::Vector2f m_offset;
 };
