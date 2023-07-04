@@ -387,7 +387,7 @@ void Map::RecalculateIntersections() {
             SaveRoad& road2 = this->roads[j];
             for (int k = 0; k < (int) road.nodes.size() - 1; k++) {
                 SaveNode a1 = road.nodes[k], a2 = road.nodes[k+1];
-                for (int q = 0; q < (int) road.nodes.size()- 1; q++) {
+                for (int q = 0; q < (int) road2.nodes.size()- 1; q++) {
                     SaveNode b1 = road2.nodes[q], b2 = road2.nodes[q+1];
 
                     //calculated intersection
@@ -396,8 +396,8 @@ void Map::RecalculateIntersections() {
                         SaveNode interNode = this->getSaveNodeFromMousePos(Math::convertToFloatVec(intersection));
                         SaveIntersectingNode newIntersection = {
                             interNode,
-                            { i, static_cast<int>(this->roads.size()) },
-                            { k, j }
+                            { i, j },
+                            { k, q }
                         };
                         newInter.push_back(newIntersection);
                     }
@@ -412,9 +412,6 @@ void Map::RecalculateIntersections() {
         bool found = false;
         for (auto& n1 : newUniqueInter) {
             if (Math::Distance(n1.posNode.mapPos, n2.posNode.mapPos) <= Math::Exponent) {
-                /*n1.intersectingRoadIndex.insert(n1.intersectingRoadIndex.end(), n2.intersectingRoadIndex.begin(), n2.intersectingRoadIndex.end());
-                n1.startNodeIdx.insert(n1.startNodeIdx.end(), n2.startNodeIdx.begin(), n2.startNodeIdx.end());*/
-
                 //only push when no duplication is found
                 int counter = 0;
                 for (int roadIdx: n2.intersectingRoadIndex) {

@@ -13,7 +13,7 @@ void IntersectMap::Update() {
     this->shapes.clear();
     this->infoRoad.clear();
 
-    for (SaveIntersectingNode &node: this->parent->intersections) {
+    for (SaveIntersectingNode node: this->parent->intersections) {
         sf::CircleShape a(5);
         a.setFillColor(sf::Color::Red);
         a.setOrigin(sf::Vector2f(5, 5));

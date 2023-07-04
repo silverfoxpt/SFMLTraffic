@@ -33,6 +33,7 @@ void TrafficMap::Input(sf::Event event) {
 
 void TrafficMap::AddTrafficPhasePopup() {
     if (!this->showWindow) {return;}
+    if (this->intersectIdx == -1) {return;}
 
     //get position of intersection node
     auto pos = this->intersectMap->circles[this->intersectIdx].getPosition();
@@ -103,6 +104,8 @@ void TrafficMap::Visualize(sf::Event event) {
 }
 
 int TrafficMap::choosenToActualRoadIdx(int intersectRoadIdx) {
+    if (intersectIdx == -1) { std::cerr << "wth?"; return 0; }
+    
     return this->parent->intersections[this->intersectIdx].intersectingRoadIndex[intersectRoadIdx];
 }
 
