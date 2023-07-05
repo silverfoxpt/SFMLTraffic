@@ -71,6 +71,13 @@ class IntersectManager {
             this->intersections.push_back(inter);
         }
 
+        IntersectNode* getIntersectNode(int id) {
+            if (id < 0 || id >= this->intersections.size()) {
+                std::cerr << "idx not found";
+            }
+            return &this->intersections[id];
+        }
+
         void HardReset() {
             intersections.clear();
         }

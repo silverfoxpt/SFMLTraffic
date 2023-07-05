@@ -18,6 +18,7 @@
 #include "Simulation/carInfo.h"
 #include "Simulation/randomsfml.h"
 #include "Simulation/intersectnode.h"
+#include "Simulation/trafficnode.h"
 
 #include "IMGui Stuffs/imgui.h"
 #include "IMGui Stuffs/imgui-SFML.h"
@@ -48,6 +49,7 @@ int SETFPS = 300;
 
 Tilemap             tilemap;
 IntersectManager    intersectManager;
+TrafficManager      trafficManager;
 
 TrafficMap          editorTrafficMap(&mapmaker);
 MapInterConnect     editorInterconnectMap(&mapmaker);
