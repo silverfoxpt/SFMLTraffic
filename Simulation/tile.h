@@ -11,6 +11,7 @@
 #include <random>
 #include <memory>
 #include <chrono>
+#include <stack>
 
 #include "tileInfo.h"
 #include "tilemap.h"
@@ -58,6 +59,11 @@ class Road {
 
         std::vector<int> lengthNodeTo;
 
+        //traffic stuffs
+        std::stack<Car*> blockedCarsAtTraffic;
+        std::stack<Car*> allowedCarsAtTraffic;
+
+        //jumbled bullshit
         sf::Vector2f getVectorBetweenTwoNodes(int startNodeIdx);
         sf::Vector2f getNodePos(int nodeIdx);
         std::pair<Car*, float> getFarthestCarBeforeDisplace(float dis);

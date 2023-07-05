@@ -18,7 +18,7 @@ void IntersectNode::InitializeIntersectNode() {
         myRoads.push_back(road);
     }
 
-    this->roadIdx.clear(); //release unneccessary space
+    //this->roadIdx.clear(); //release unneccessary space
 
     //find current displacement of the intersection on each node, compared to the beginning
     for (int i = 0; i < (int) this->myRoads.size(); i++) {

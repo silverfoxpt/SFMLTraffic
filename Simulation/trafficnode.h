@@ -30,8 +30,11 @@ class TrafficNode {
 
         std::vector<Road*> myRoad; //taken from intersect node
         std::vector<int> roadToPhase;
+        std::vector<bool> allowedToProceed;
+        std::vector<int> indexOfRoadInIntersectNode;
 
         void Initialize(Tile* parentTile, IntersectNode* parentIntersectNode, TileTrafficManager* parentTrafficManager);
+        void Update();
 };
 
 class TileTrafficManager {
@@ -45,13 +48,18 @@ class TileTrafficManager {
         Tile* parentTile;
 
         void Initialize(Tile* parentTile, IntersectManager* intersectManager, int tileId);
+
+        void Update();
 };
 
 class TrafficManager {
     public:
+        sf::Clock mainClock;
         std::vector<std::vector<TileTrafficManager>> managers;
 
         void Initialize(Tilemap* tilemap, IntersectManager* intersectManager);
+
+        void Update();
 };
 
 #endif

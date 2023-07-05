@@ -32,7 +32,7 @@ class IntersectNode {
         std::vector<int> roadIdx; //only used temporarily
         std::vector<int> startNodeIdx;
 
-        std::vector<int> displacements;
+        std::vector<int> displacements; //length from start of each road to the intersect node
         std::string UIUD;
 
         //TODO: UPDATE THIS SOMEWHERE!
