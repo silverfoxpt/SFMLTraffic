@@ -1,10 +1,10 @@
 #include "trafficnode.h"
 
 void TrafficManager::Initialize(Tilemap* tilemap, IntersectManager* intersectManager) {
-    for (int i = 0 ; i < tilemap->rows; i++) {
+    for (int i = 0 ; i < (int) tilemap->rows; i++) {
         std::vector<TileTrafficManager> row; this->managers.push_back(row);
 
-        for (int j = 0; j < tilemap->cols; j++) {
+        for (int j = 0; j < (int) tilemap->cols; j++) {
             TileTrafficManager newManager;
             newManager.Initialize(tilemap->GetTile(i, j), intersectManager, tilemap->tileIds[i][j]);
             this->managers[i].push_back(newManager);
@@ -69,8 +69,8 @@ void TrafficNode::Initialize(Tile* parentTile, IntersectNode* parentIntersectNod
 
     //initialize index in intersect node
     for (int i = 0; i < (int) this->myRoad.size(); i++) {
-        int idx = std::find(this->parentIntersectNode->roadIdx.begin(), this->parentIntersectNode->roadIdx.end(), this->myRoad[i]) - this->parentIntersectNode->roadIdx.begin();
-        if (idx < 0 || idx >= this->parentIntersectNode->roadIdx.size()) {
+        int idx = (std::find(this->parentIntersectNode->roadIdx.begin(), this->parentIntersectNode->roadIdx.end(), this->myRoad[i]) - this->parentIntersectNode->roadIdx.begin());
+        if (idx < 0 || idx >= (int) this->parentIntersectNode->roadIdx.size()) {
             std::cerr << "Abort! Abort! Something drastically wrong happened!";
             return;
         }
@@ -79,5 +79,26 @@ void TrafficNode::Initialize(Tile* parentTile, IntersectNode* parentIntersectNod
 }
 
 void TrafficNode::Update() {
-    
+    int counter = 0;
+    for (auto& road: this->myRoad) {
+        //get displacement until 
+        int displacement = this->parentIntersectNode->displacements[this->indexOfRoadInIntersectNode[counter]];
+
+        //check if this road is allowed in this phase
+        bool allowed = this->allowedToProceed[counter];
+
+        //find the car farthest before the intersection + a safety length + half the car's length (cause im stupid)
+        auto farthest = road->getFarthestCarBeforeDisplace(displacement + CarInfo::safetyUntilTrafficStop + CarInfo::carHalfLength);
+
+        //allow/disallow to continue based on if road is closed due to traffic light(s) or not
+        if (farthest.first != nullptr) {
+            Car* car = farthest.first;
+            
+            if (allowed) {
+                road->allowedCarsAtTraffic.push(car);
+            } else {
+                road->blockedCarsAtTraffic.push(car);
+            }
+        }
+    }
 }

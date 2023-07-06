@@ -32,6 +32,7 @@ class IntersectNode {
         std::vector<int> roadIdx; //only used temporarily
         std::vector<int> startNodeIdx;
 
+        //displacements are also use to calculate traffic lights stoppage. Don't mess with this
         std::vector<int> displacements; //length from start of each road to the intersect node
         std::string UIUD;
 
@@ -72,7 +73,7 @@ class IntersectManager {
         }
 
         IntersectNode* getIntersectNode(int id) {
-            if (id < 0 || id >= this->intersections.size()) {
+            if (id < 0 || id >= (int) this->intersections.size()) {
                 std::cerr << "idx not found";
             }
             return &this->intersections[id];

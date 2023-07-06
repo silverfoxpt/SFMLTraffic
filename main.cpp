@@ -272,6 +272,7 @@ void Initialize() {
 
     //update intersect manager
     intersectManager.Initialize();
+    trafficManager.Initialize(&tilemap, &intersectManager);
 
     editorIntersectMap.Initialize(&editor);
     editorDrawmap.Initialize(&editor);
@@ -293,6 +294,8 @@ void MainUpdateAndTest() {
 
     intersectManager.Visualize(&window);
     intersectManager.Update();
+
+    trafficManager.Update();
      
     UpdateTest();
 }
