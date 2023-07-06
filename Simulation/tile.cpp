@@ -568,6 +568,27 @@ void Road::CheckIntersectionBlockades() {
     }
 }
 
+void Road::CheckTrafficLightBlockades() {   
+    //allowed cars 
+    while(this->allowedCarsAtTraffic.size() > 0) {
+        Car* myCar = this->allowedCarsAtTraffic.top().first;
+        this->allowedCarsAtTraffic.pop();
+
+        //-> set maximum gas
+        myCar->SetAcceleration(CarInfo::maxAccel);
+    }
+
+    //disallowed cars
+    while(this->blockedCarsAtTraffic.size() > 0) {
+        Car* myCar = this->allowedCarsAtTraffic.top().first;
+        float lengthLeft = this->allowedCarsAtTraffic.top().second;
+        this->allowedCarsAtTraffic.pop();
+
+        //-> set acceleration to decrease based on length left
+        myCar->SetAcceleration((-myCar->velocity * myCar->velocity) / (2 * (lengthLeft)));
+    }
+}
+
 void Road::Update() {
     for (Node &node: this->nodes) {
         node.Update();
@@ -577,5 +598,8 @@ void Road::Update() {
     this->UpdateCarVelocity();
     this->CheckIfOutputBlocked();
     this->CheckIfInputJammed();
+
+    //problematic
+    this->CheckTrafficLightBlockades();
     this->CheckIntersectionBlockades();
 }   

@@ -60,8 +60,8 @@ class Road {
         std::vector<int> lengthNodeTo;
 
         //traffic stuffs
-        std::stack<Car*> blockedCarsAtTraffic;
-        std::stack<Car*> allowedCarsAtTraffic;
+        std::stack<std::pair<Car*, float>> blockedCarsAtTraffic;
+        std::stack<std::pair<Car*, float>> allowedCarsAtTraffic;
 
         //jumbled bullshit
         sf::Vector2f getVectorBetweenTwoNodes(int startNodeIdx);
@@ -86,6 +86,7 @@ class Road {
         void CheckIfInputJammed();
         void UpdateCarVelocity();
         void CheckIntersectionBlockades();
+        void CheckTrafficLightBlockades();
 
         Road(std::vector<Node> nodes);
         Road() { } //default constructor

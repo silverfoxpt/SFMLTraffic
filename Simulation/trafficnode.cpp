@@ -88,16 +88,18 @@ void TrafficNode::Update() {
         bool allowed = this->allowedToProceed[counter];
 
         //find the car farthest before the intersection + a safety length + half the car's length (cause im stupid)
-        auto farthest = road->getFarthestCarBeforeDisplace(displacement + CarInfo::safetyUntilTrafficStop + CarInfo::carHalfLength);
+        float stopPos = displacement + CarInfo::safetyUntilTrafficStop + CarInfo::carHalfLength;
+        auto farthest = road->getFarthestCarBeforeDisplace(stopPos);
 
         //allow/disallow to continue based on if road is closed due to traffic light(s) or not
         if (farthest.first != nullptr) {
             Car* car = farthest.first;
             
+            //push in the car + length left of that car until the stop light
             if (allowed) {
-                road->allowedCarsAtTraffic.push(car);
+                road->allowedCarsAtTraffic.push(std::pair<Car*, float>(car, std::max((float) 0, stopPos - farthest.second)));
             } else {
-                road->blockedCarsAtTraffic.push(car);
+                road->blockedCarsAtTraffic.push(std::pair<Car*, float>(car, std::max((float) 0, stopPos - farthest.second)));
             }
         }
     }
