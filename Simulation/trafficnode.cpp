@@ -50,7 +50,7 @@ void TileTrafficManager::Update() {
     if (this->currentTimer >= this->phaseTimes[this->currentPhase]) {
         this->currentPhase++;
 
-        if (currentPhase >= this->phaseTimes.size()) {currentPhase = 0;}
+        if (currentPhase >= (int) this->phaseTimes.size()) {currentPhase = 0;}
     }
 
     //update traffic light for each road here
@@ -69,7 +69,7 @@ void TrafficNode::Initialize(Tile* parentTile, IntersectNode* parentIntersectNod
 
     //initialize index in intersect node
     for (int i = 0; i < (int) this->myRoad.size(); i++) {
-        int idx = (std::find(this->parentIntersectNode->roadIdx.begin(), this->parentIntersectNode->roadIdx.end(), this->myRoad[i]) - this->parentIntersectNode->roadIdx.begin());
+        int idx = (std::find(this->parentIntersectNode->myRoads.begin(), this->parentIntersectNode->myRoads.end(), this->myRoad[i]) - this->parentIntersectNode->myRoads.begin());
         if (idx < 0 || idx >= (int) this->parentIntersectNode->roadIdx.size()) {
             std::cerr << "Abort! Abort! Something drastically wrong happened!";
             return;

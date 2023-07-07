@@ -600,6 +600,6 @@ void Road::Update() {
     this->CheckIfInputJammed();
 
     //problematic
-    this->CheckTrafficLightBlockades();
+    //this->CheckTrafficLightBlockades();
     this->CheckIntersectionBlockades();
 }   
