@@ -251,7 +251,7 @@ void Tile::Update() {
 }
 
 Road* Tile::getRoad(int id) {
-    if (id < 0 || id >= (int) this->roads.size()) { std::cerr << "Road not found!\n"; return nullptr;}
+    if (id < 0 || id >= (int) this->roads.size()) { std::cout << "Road not found!\n"; return nullptr;}
     return &this->roads[id];
 }
 
@@ -350,10 +350,11 @@ float Road::getTotalCarDisplace(int carIdx) {
 
 std::pair<Car*, float> Road::getFarthestCarBeforeDisplace(float dis) {
     if (this->currentCars.size() <= 0) {return std::pair<Car*, float>(nullptr, -1);} //if no car
-    if (this->getTotalCarDisplace(0) > dis) {return std::pair<Car*, float>(nullptr, -1);} //if first car already passed the displacement point
+    if (this->getTotalCarDisplace(0) > dis) {return std::pair<Car*, float>(nullptr, -1);} //if last car car already passed the displacement point
 
     Car* resultSearch = this->currentCars[0];
     float currentDisplace = this->getTotalCarDisplace(0);
+
     for (int i = 1; i < (int) this->currentCars.size(); i++) {
         if (this->getTotalCarDisplace(i) > dis) { break; }
         resultSearch = this->currentCars[i];

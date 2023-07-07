@@ -16,6 +16,7 @@
         ],
         "intersections": [],
         "intraConnections": [],
+        "roadParticipants": [],
         "roads": [
             {
                 "nodes": [
@@ -42,8 +43,7 @@
                 ]
             }
         ],
-        "roadParticipants" : [],
-        "trafficPhases" : []
+        "trafficPhases": []
     },
     {
         "interConnections": [
@@ -87,6 +87,7 @@
                 "outputRoadIdx": 3
             }
         ],
+        "roadParticipants": [],
         "roads": [
             {
                 "nodes": [
@@ -233,8 +234,7 @@
                 ]
             }
         ],
-        "roadParticipants" : [],
-        "trafficPhases" : []
+        "trafficPhases": []
     },
     {
         "interConnections": [
@@ -270,6 +270,7 @@
                 "outputRoadIdx": 3
             }
         ],
+        "roadParticipants": [],
         "roads": [
             {
                 "nodes": [
@@ -528,8 +529,7 @@
                 ]
             }
         ],
-        "roadParticipants" : [],
-        "trafficPhases" : []
+        "trafficPhases": []
     },
     {
         "interConnections": [
@@ -569,6 +569,7 @@
             }
         ],
         "intraConnections": [],
+        "roadParticipants": [],
         "roads": [
             {
                 "nodes": [
@@ -619,8 +620,7 @@
                 ]
             }
         ],
-        "roadParticipants" : [],
-        "trafficPhases" : []
+        "trafficPhases": []
     },
     {
         "interConnections": [
@@ -672,6 +672,7 @@
             }
         ],
         "intraConnections": [],
+        "roadParticipants": [],
         "roads": [
             {
                 "nodes": [
@@ -722,8 +723,7 @@
                 ]
             }
         ],
-        "roadParticipants" : [],
-        "trafficPhases" : []
+        "trafficPhases": []
     },
     {
         "interConnections": [
@@ -754,6 +754,7 @@
         ],
         "intersections": [],
         "intraConnections": [],
+        "roadParticipants": [],
         "roads": [
             {
                 "nodes": [
@@ -804,7 +805,127 @@
                 ]
             }
         ],
-        "roadParticipants" : [],
-        "trafficPhases" : []
+        "trafficPhases": []
+    },
+    {
+        "interConnections": [
+            {
+                "inputOrOutput": 0,
+                "portIdx": 5,
+                "roadIdx": 0,
+                "sideIdx": 3
+            },
+            {
+                "inputOrOutput": 0,
+                "portIdx": 15,
+                "roadIdx": 1,
+                "sideIdx": 3
+            },
+            {
+                "inputOrOutput": 1,
+                "portIdx": 5,
+                "roadIdx": 1,
+                "sideIdx": 1
+            },
+            {
+                "inputOrOutput": 1,
+                "portIdx": 15,
+                "roadIdx": 0,
+                "sideIdx": 1
+            }
+        ],
+        "intersections": [
+            {
+                "intersectingRoadIndex": [
+                    0,
+                    1
+                ],
+                "posNode": {
+                    "mapPos": [
+                        250.0,
+                        240.0
+                    ],
+                    "relativePos": [
+                        0.5,
+                        0.4749999940395355
+                    ]
+                },
+                "startNodeIdx": [
+                    0,
+                    0
+                ]
+            }
+        ],
+        "intraConnections": [],
+        "roadParticipants": [
+            {
+                "intersectingNodeIdx": 0,
+                "phaseIdx": 0,
+                "roadInIntersectionIdx": 0
+            },
+            {
+                "intersectingNodeIdx": 0,
+                "phaseIdx": 1,
+                "roadInIntersectionIdx": 1
+            }
+        ],
+        "roads": [
+            {
+                "nodes": [
+                    {
+                        "mapPos": [
+                            50.0,
+                            145.0
+                        ],
+                        "relativePos": [
+                            0.0,
+                            0.23749999701976776
+                        ]
+                    },
+                    {
+                        "mapPos": [
+                            450.0,
+                            335.0
+                        ],
+                        "relativePos": [
+                            1.0,
+                            0.7124999761581421
+                        ]
+                    }
+                ]
+            },
+            {
+                "nodes": [
+                    {
+                        "mapPos": [
+                            50.0,
+                            335.0
+                        ],
+                        "relativePos": [
+                            0.0,
+                            0.7124999761581421
+                        ]
+                    },
+                    {
+                        "mapPos": [
+                            450.0,
+                            145.0
+                        ],
+                        "relativePos": [
+                            1.0,
+                            0.23749999701976776
+                        ]
+                    }
+                ]
+            }
+        ],
+        "trafficPhases": [
+            {
+                "duration": 5.0
+            },
+            {
+                "duration": 5.0
+            }
+        ]
     }
 ]

@@ -23,13 +23,23 @@ void TrafficManager::Update() {
     mainClock.restart();
 }
 
+void TrafficManager::HardReset() {
+    this->managers.clear();
+    this->mainClock.restart();
+}
+
+
 void TileTrafficManager::Initialize(Tile* parentTile, IntersectManager* intersectManager, int tileId) {
+    this->parentTile = parentTile;
+
     this->currentPhase = 0;
     this->currentTimer = 0;
     
     //get data from tileinfo.cpp
     this->phaseTimes = TileInfo::trafficPhases[tileId];
     auto parts = TileInfo::roadParticipants[tileId];
+
+    std::cout << "Hello: " << parts.size() << '\n';
 
     //set data for each traffic node, mapped from road participants
     for (int i = 0; i < (int) parts.size(); i++) {
@@ -38,6 +48,7 @@ void TileTrafficManager::Initialize(Tile* parentTile, IntersectManager* intersec
 
         TrafficNode newTrafficNode;
         newTrafficNode.Initialize(parentTile, intersectManager->getIntersectNode(part.intersectingNodeIdx), this);
+
         newTrafficNode.myRoad.push_back(this->parentTile->getRoad(part.roadInIntersectionIdx));
         newTrafficNode.roadToPhase.push_back(part.phaseIdx);
         newTrafficNode.allowedToProceed.push_back(false);
@@ -65,6 +76,7 @@ void TileTrafficManager::Update() {
     }
 }
 
+
 void TrafficNode::Initialize(Tile* parentTile, IntersectNode* parentIntersectNode, TileTrafficManager* parentTrafficManager) {
     this->parentTile = parentTile;
     this->parentIntersectNode = parentIntersectNode;
@@ -74,16 +86,19 @@ void TrafficNode::Initialize(Tile* parentTile, IntersectNode* parentIntersectNod
     for (int i = 0; i < (int) this->myRoad.size(); i++) {
         int idx = (std::find(this->parentIntersectNode->myRoads.begin(), this->parentIntersectNode->myRoads.end(), this->myRoad[i]) - this->parentIntersectNode->myRoads.begin());
         if (idx < 0 || idx >= (int) this->parentIntersectNode->roadIdx.size()) {
-            std::cerr << "Abort! Abort! Something drastically wrong happened!";
+            std::cout << "Abort! Abort! Something drastically wrong happened!";
             return;
         }
         this->indexOfRoadInIntersectNode.push_back(idx);
     }
+
+    //shut off the intersect node updates
+    this->parentIntersectNode->detecting = false;
 }
 
 void TrafficNode::Update() {
     int counter = 0;
-    for (auto& road: this->myRoad) {
+    for (auto road: this->myRoad) {
         //get displacement until 
         int displacement = this->parentIntersectNode->displacements[this->indexOfRoadInIntersectNode[counter]];
 
@@ -91,8 +106,9 @@ void TrafficNode::Update() {
         bool allowed = this->allowedToProceed[counter];
 
         //find the car farthest before the intersection + a safety length + half the car's length (cause im stupid)
-        float stopPos = displacement + CarInfo::safetyUntilTrafficStop + CarInfo::carHalfLength;
-        auto farthest = road->getFarthestCarBeforeDisplace(stopPos);
+        //float stopPos = displacement + CarInfo::safetyUntilTrafficStop + CarInfo::carHalfLength; std::cout << "Stoppos:" << stopPos << '\n';
+        float stopPos = displacement + 0 + 5;
+        /*auto farthest = road->getFarthestCarBeforeDisplace(stopPos);
 
         //allow/disallow to continue based on if road is closed due to traffic light(s) or not
         if (farthest.first != nullptr) {
@@ -104,6 +120,7 @@ void TrafficNode::Update() {
             } else {
                 road->blockedCarsAtTraffic.push(std::pair<Car*, float>(car, std::max((float) 0, stopPos - farthest.second)));
             }
-        }
+        }*/
+        counter++;
     }
 }

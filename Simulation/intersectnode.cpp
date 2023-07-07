@@ -27,9 +27,17 @@ void IntersectNode::InitializeIntersectNode() {
 
         this->displacements.push_back(this->myRoads[i]->getLengthFromStartToNode(this->startNodeIdx[i]) + Math::Length(lastStretch));
     }
+
+    //for detection
+    this->detecting = true;
 }
 
 void IntersectNode::Update() {
+    //if shouldn't be detecting, stop!
+    if (!this->detecting) {
+        return;
+    }
+
     // Find all cars on all roads which are closest to the intersection
     std::vector<std::pair<Car*, float>> cars;
     for (int i = 0; i < (int) this->myRoads.size(); i++) {

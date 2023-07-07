@@ -31,17 +31,11 @@ void TrafficMap::Input(sf::Event event) {
             idx++;
         }
     }
-    if (!found) {
-        this->showWindow = false;
-        this->intersectIdx = -1;
-    }
 }
 
 void TrafficMap::AddTrafficPhasePopup() {
     if (!this->showWindow) {return;}
     if (this->intersectIdx == -1) {return;}
-
-    std::cout << "popup!" << '\n';
 
     //get position of intersection node
     auto pos = this->intersectMap->circles[this->intersectIdx].getPosition();

@@ -13,6 +13,7 @@
 #include <chrono>
 
 #include "tile.h"
+#include "carInfo.h"
 
 //forward declarations
 class Tile;
@@ -60,6 +61,7 @@ class TrafficManager {
         void Initialize(Tilemap* tilemap, IntersectManager* intersectManager);
 
         void Update();
+        void HardReset();
 };
 
 #endif

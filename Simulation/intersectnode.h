@@ -42,6 +42,9 @@ class IntersectNode {
         Car* currentAcceptedCar = nullptr;
         int currentlyAcceptedRoad = -1;
 
+        //for traffic node
+        bool detecting = true;
+
         IntersectNode(sf::Vector2i pos) {
             this->posX = pos.x;
             this->posY = pos.y;

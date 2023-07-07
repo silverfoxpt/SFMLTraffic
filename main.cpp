@@ -625,8 +625,11 @@ void MainSFMLAction() {
         InitializeTileFromJson();
 
         intersectManager.HardReset();
+        trafficManager.HardReset();
         tilemap.ClearAndReset(&intersectManager);
+
         intersectManager.Initialize();
+        trafficManager.Initialize(&tilemap, &intersectManager);
         InitializeTest();
     }
 

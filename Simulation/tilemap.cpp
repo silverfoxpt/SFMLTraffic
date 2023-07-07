@@ -59,7 +59,7 @@ bool Tilemap::TileExist(int row, int col) {
 }
 
 Tile* Tilemap::GetTile(int row, int col) {
-    if (!this->TileExist(row, col)) {
+    if (!this->TileExist(row, col) || (&this->tilemap[row][col] == nullptr)) {
         std::cerr << "Tile not found";
         return nullptr;
     }
