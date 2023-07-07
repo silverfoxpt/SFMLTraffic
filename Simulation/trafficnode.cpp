@@ -47,6 +47,9 @@ void TileTrafficManager::Initialize(Tile* parentTile, IntersectManager* intersec
 }
 
 void TileTrafficManager::Update() {
+    if (this->phaseTimes.size() <= 0) {return;} //no phase
+    if (this->nodes.size() == 0) {return; } //no traffic node
+
     if (this->currentTimer >= this->phaseTimes[this->currentPhase]) {
         this->currentPhase++;
 

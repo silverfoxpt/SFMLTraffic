@@ -756,12 +756,12 @@ void MainFunc() {
     while (window.isOpen() && mapmaker.isOpen())
     {   
         RenderMainWindow(deltaTime);
-        //RenderMapWindow(deltaTime2);
+        RenderMapWindow(deltaTime2);
 
         mapmaker.display();
         window.display();
 
-        std::cout << 1.0 / deltaTime.getElapsedTime().asSeconds() << '\n';
+        //std::cout << 1.0 / deltaTime.getElapsedTime().asSeconds() << '\n';
     }
     ImGui::SFML::Shutdown(mapmaker);
     ImGui::SFML::Shutdown(window);
