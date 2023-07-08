@@ -48,7 +48,7 @@ class TileTrafficManager {
         //need to be updated somewhere
         Tile* parentTile;
 
-        void Initialize(Tile* parentTile, IntersectManager* intersectManager, int tileId);
+        void Initialize(Tile* parentTile, IntersectManager* intersectManager, int tileId, int row, int col);
 
         void Update();
 };

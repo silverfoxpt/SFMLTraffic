@@ -116,6 +116,14 @@ void Tilemap::ClearAndReset(IntersectManager* interManager) {
     }
 }
 
+void Tilemap::SetUpAllTileIntersections() {
+    for (int i = 0; i < this->rows; i++) {
+        for (int j = 0; j < this->cols; j++) {
+            this->tilemap[i][j].SetUpRoadIntersection();
+        }
+    }
+}
+
 int* Tilemap::getTileID(int i, int j) {
     if (!this->TileExist(i, j)) {
         std::cerr << "Tile ID not found";

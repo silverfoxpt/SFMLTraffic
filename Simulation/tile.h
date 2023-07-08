@@ -116,6 +116,7 @@ class Tile {
         void Debug(int &c);
         void Update();
         void SetUpRoadConnection(); 
+        void SetUpRoadIntersection();
 
         std::vector<Road*> GetInterRoad(int side, int idx, bool isInputRoad);
 

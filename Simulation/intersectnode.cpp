@@ -1,7 +1,7 @@
 #include "intersectnode.h"
 
 void IntersectNode::InitializeIntersectNode() {
-    if (residentTile == nullptr) {std::cerr << "Need Tile!\n"; return;}
+    if (residentTile == nullptr) {std::cout << "Need Tile!\n"; return;}
 
     //update position
     sf::Vector2f corner = this->residentTile->getCornerPos();

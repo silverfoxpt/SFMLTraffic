@@ -37,6 +37,7 @@ class Tilemap {
         void Debug();
         void Update();
         void ClearAndReset(IntersectManager* interManager);
+        void SetUpAllTileIntersections();
 
         int* getTileID(int i, int j);
 

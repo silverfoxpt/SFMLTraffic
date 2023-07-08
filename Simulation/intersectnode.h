@@ -64,44 +64,83 @@ class IntersectNode {
         void InitializeIntersectNode();
 };
 
+class TileIntersectManager {
+    public:
+        std::vector<IntersectNode> nodes;
+};
+
 class IntersectManager {
     public:
-        std::vector<IntersectNode> intersections;
+        std::vector<std::vector<TileIntersectManager>> managers;
 
         IntersectManager() {} //default
 
-        void addNode(IntersectNode inter) {
-            //std::cout << "Hello?\n";
-            this->intersections.push_back(inter);
+        void addNode(IntersectNode inter, int row, int col) {
+            if (managers.size() == 0 || row < 0 || col < 0 || row >= (int) managers.size() || col >= (int) managers[0].size()) {
+                std::cout << "Error: Manager not exist";
+                return;
+            }
+            this->managers[row][col].nodes.push_back(inter);
         }
 
-        IntersectNode* getIntersectNode(int id) {
-            if (id < 0 || id >= (int) this->intersections.size()) {
-                std::cerr << "idx not found";
+        IntersectNode* getIntersectNode(int row, int col, int id) {
+            if (managers.size() == 0 || row < 0 || col < 0 || row >= (int) managers.size() || col >= (int) managers[0].size()) {
+                std::cout << "Error: Manager not exist";
+                return nullptr;
             }
-            return &this->intersections[id];
+            auto &manager = this->managers[row][col];
+            if (id < 0 || id >= (int) manager.nodes.size()) {
+                std::cout << "Error: Intersect idx not found";
+                return nullptr;
+            }
+            return &manager.nodes[id];
         }
 
         void HardReset() {
-            intersections.clear();
+            managers.clear();
         }
 
-        void Initialize() {
-            for (auto &inter: intersections) {
-                inter.InitializeIntersectNode();
+        void Initialize(int rows, int cols) {
+            for (int i = 0; i < rows; i++) {
+                std::vector<TileIntersectManager> tileman; this->managers.push_back(tileman);
+                for (int j = 0; j < cols; j++) {
+                    TileIntersectManager interMan;
+                    this->managers[i].push_back(interMan);
+                }
+            }    
+        }
+
+
+        //this must be called after Initialize()
+        void InitializeNodes() {
+            for (auto &row: this->managers) {
+                for (auto& manager: row) {
+                    for (auto& node: manager.nodes) {
+                        node.InitializeIntersectNode();
+                    }
+                }
             }
         }
 
         void Visualize(sf::RenderWindow* rend) {
             //draw position of intersections
-            for (auto &inter: intersections) {
-                DrawUtils::drawCircle(rend, sf::Vector2f(inter.posX, inter.posY), 5, sf::Color::Red); 
+            for (auto &row: this->managers) {
+                for (auto& manager: row) {
+                    for (auto& node: manager.nodes) {
+                        DrawUtils::drawCircle(rend, sf::Vector2f(node.posX, node.posY), 5, sf::Color::Red); 
+                        //std::cout << node.posX << " " << node.posY << '\n';
+                    }
+                }
             }
         }
 
         void Update() {
-            for (auto &inter: intersections) {
-                inter.Update();
+           for (auto &row: this->managers) {
+                for (auto& manager: row) {
+                    for (auto& node: manager.nodes) {
+                        node.Update();
+                    }
+                }
             }
         }
 

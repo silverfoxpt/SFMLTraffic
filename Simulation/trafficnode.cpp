@@ -6,7 +6,7 @@ void TrafficManager::Initialize(Tilemap* tilemap, IntersectManager* intersectMan
 
         for (int j = 0; j < (int) tilemap->cols; j++) {
             TileTrafficManager newManager;
-            newManager.Initialize(tilemap->GetTile(i, j), intersectManager, tilemap->tileIds[i][j]);
+            newManager.Initialize(tilemap->GetTile(i, j), intersectManager, tilemap->tileIds[i][j], i, j);
             this->managers[i].push_back(newManager);
         }
     }
@@ -29,7 +29,7 @@ void TrafficManager::HardReset() {
 }
 
 
-void TileTrafficManager::Initialize(Tile* parentTile, IntersectManager* intersectManager, int tileId) {
+void TileTrafficManager::Initialize(Tile* parentTile, IntersectManager* intersectManager, int tileId, int row, int col) {
     this->parentTile = parentTile;
 
     this->currentPhase = 0;
@@ -39,7 +39,8 @@ void TileTrafficManager::Initialize(Tile* parentTile, IntersectManager* intersec
     this->phaseTimes = TileInfo::trafficPhases[tileId];
     auto parts = TileInfo::roadParticipants[tileId];
 
-    std::cout << "Hello: " << parts.size() << '\n';
+    //initialize traffic node for each intersect node IN THIS TILE
+    
 
     //set data for each traffic node, mapped from road participants
     for (int i = 0; i < (int) parts.size(); i++) {
@@ -47,7 +48,7 @@ void TileTrafficManager::Initialize(Tile* parentTile, IntersectManager* intersec
         RoadParticipant part = parts[i];
 
         TrafficNode newTrafficNode;
-        newTrafficNode.Initialize(parentTile, intersectManager->getIntersectNode(part.intersectingNodeIdx), this);
+        newTrafficNode.Initialize(parentTile, intersectManager->getIntersectNode(row, col, part.intersectingNodeIdx), this);
 
         newTrafficNode.myRoad.push_back(this->parentTile->getRoad(part.roadInIntersectionIdx));
         newTrafficNode.roadToPhase.push_back(part.phaseIdx);

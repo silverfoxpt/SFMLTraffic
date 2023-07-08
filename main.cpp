@@ -270,10 +270,15 @@ void MainInitialize() {
     //update new tilemap
     tilemap = Tilemap(5, 7, 50, 50, GameManager::tileSize, GameManager::tileSize, &window, &intersectManager);
 
-    //update intersect manager
-    intersectManager.Initialize();
+    //initialize intersect manager
+    //code flow: TileIntersectManager(s) created -> tilemap insert IntersectNode(s) into TileIntersectManager(s) -> ONLY THEN TileIntersectManager(s) initialize IntersectNode(s)
+    intersectManager.Initialize(tilemap.rows, tilemap.cols);
+    tilemap.SetUpAllTileIntersections(); //important that this is here
+    intersectManager.InitializeNodes();
+
     trafficManager.Initialize(&tilemap, &intersectManager);
 
+    //other stuff that I don't care
     editorIntersectMap.Initialize(&editor);
     editorDrawmap.Initialize(&editor);
     editorDrawBezier.Initialize(&editor);
@@ -628,7 +633,12 @@ void MainSFMLAction() {
         trafficManager.HardReset();
         tilemap.ClearAndReset(&intersectManager);
 
-        intersectManager.Initialize();
+        //initialize intersect manager
+        //code flow: TileIntersectManager(s) created -> tilemap insert IntersectNode(s) into TileIntersectManager(s) -> ONLY THEN TileIntersectManager(s) initialize IntersectNode(s)
+        intersectManager.Initialize(tilemap.rows, tilemap.cols); 
+        tilemap.SetUpAllTileIntersections(); //important that this is here
+        intersectManager.InitializeNodes(); //also important that this is here
+
         trafficManager.Initialize(&tilemap, &intersectManager);
         InitializeTest();
     }

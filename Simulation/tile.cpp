@@ -171,13 +171,6 @@ std::vector<Road*> Tile::GetInterRoad(int side, int idx, bool isInputRoad) {
 }
 
 void Tile::SetUpRoadConnection() {
-    //set up road intersection
-    std::vector<IntersectNode> nodes = TileInfo::intersections[this->tileId];
-    for (auto node: nodes) {
-        node.residentTile = this;
-        this->intersectManager->addNode(node);
-    }
-
     std::vector<RoadInterInfo> info = TileInfo::roadInterConnection[this->tileId];
 
     //up, right, down, left
@@ -242,6 +235,15 @@ void Tile::SetUpRoadConnection() {
         this->roads[p.first].addOutputRoad(&this->roads[p.second]);
         this->roads[p.second].addInputRoad(&this->roads[p.first]);
     } 
+}
+
+void Tile::SetUpRoadIntersection() {
+    //set up road intersection
+    std::vector<IntersectNode> intersectNodes = TileInfo::intersections[this->tileId];
+    for (auto node: intersectNodes) {
+        node.residentTile = this;
+        this->intersectManager->addNode(node, this->rowIdx, this->colIdx);
+    }
 }
 
 void Tile::Update() {
