@@ -54,7 +54,7 @@ void IntersectNode::Update() {
         //if that car is still passing by the intersection, do nothing and return
         int carIdx = road->findCarIdxOnRoad(this->currentAcceptedCar);
         if (carIdx != -1 && //car still on road
-                (road->getTotalCarDisplace(carIdx) - CarInfo::carHalfLength < this->displacements[this->currentlyAcceptedRoad])) { //car hasn't passed yet
+                (road->getTotalCarDisplace(carIdx) - CarInfo::carHalfLength - 10 < this->displacements[this->currentlyAcceptedRoad])) { //car hasn't passed yet + buffer zone
             return;
         }
 
