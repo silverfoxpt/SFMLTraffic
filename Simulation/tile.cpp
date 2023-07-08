@@ -583,9 +583,11 @@ void Road::CheckTrafficLightBlockades() {
 
     //disallowed cars
     while(this->blockedCarsAtTraffic.size() > 0) {
-        Car* myCar = this->allowedCarsAtTraffic.top().first;
-        float lengthLeft = this->allowedCarsAtTraffic.top().second;
-        this->allowedCarsAtTraffic.pop();
+        Car* myCar = this->blockedCarsAtTraffic.top().first;
+        float lengthLeft = this->blockedCarsAtTraffic.top().second;
+        this->blockedCarsAtTraffic.pop();
+
+        if (lengthLeft <= 0.01) { myCar->SetAcceleration(0); continue;; } //no devide by 0
 
         //-> set acceleration to decrease based on length left
         myCar->SetAcceleration((-myCar->velocity * myCar->velocity) / (2 * (lengthLeft)));
@@ -599,10 +601,12 @@ void Road::Update() {
 
     this->updateCars();
     this->UpdateCarVelocity();
+    
+    //checkers
     this->CheckIfOutputBlocked();
     this->CheckIfInputJammed();
 
     //problematic
-    //this->CheckTrafficLightBlockades();
+    this->CheckTrafficLightBlockades();
     this->CheckIntersectionBlockades();
 }   

@@ -96,6 +96,14 @@ class IntersectManager {
             return &manager.nodes[id];
         }
 
+        TileIntersectManager* getIntersectManagerTile(int row, int col) {
+            if (managers.size() == 0 || row < 0 || col < 0 || row >= (int) managers.size() || col >= (int) managers[0].size()) {
+                std::cout << "Error: Manager not exist";
+                return nullptr;
+            }
+            return &this->managers[row][col];
+        }
+
         void HardReset() {
             managers.clear();
         }
@@ -128,7 +136,7 @@ class IntersectManager {
                 for (auto& manager: row) {
                     for (auto& node: manager.nodes) {
                         DrawUtils::drawCircle(rend, sf::Vector2f(node.posX, node.posY), 5, sf::Color::Red); 
-                        //std::cout << node.posX << " " << node.posY << '\n';
+                        //
                     }
                 }
             }
@@ -139,6 +147,7 @@ class IntersectManager {
                 for (auto& manager: row) {
                     for (auto& node: manager.nodes) {
                         node.Update();
+                        //std::cout << node.posX << " " << node.posY << '\n';
                     }
                 }
             }

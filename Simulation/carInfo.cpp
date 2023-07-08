@@ -10,7 +10,7 @@ float CarInfo::minDesiredDistance = 7;
 float CarInfo::safetyInputJammedRoad = 17;
 float CarInfo::safetyIntersectionBlockadeRange = 10;
 
-float CarInfo::safetyUntilTrafficStop = 0;
+float CarInfo::safetyUntilTrafficStop = 10;
 
 float CarInfo::accelExponent = 4;
 float CarInfo::reactionTime = 1.5; //seconds;
