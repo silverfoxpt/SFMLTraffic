@@ -40,10 +40,12 @@ void IntersectNode::Update() {
 
     // Find all cars on all roads which are closest to the intersection
     std::vector<std::pair<Car*, float>> cars;
+    std::vector<int> carsRoadIdx;
     for (int i = 0; i < (int) this->myRoads.size(); i++) {
         auto compute = this->myRoads[i]->getFarthestCarBeforeDisplace(this->displacements[i] - 2); //buffer zone
         if (compute.first != nullptr) {
             cars.push_back(compute);
+            carsRoadIdx.push_back(i); //vector holds idx of road of car(s)
         }
     }
 
@@ -80,16 +82,33 @@ void IntersectNode::Update() {
     float closest = cars[0].second;
     int choosenIdx = 0;
     for (int i = 1; i < (int) cars.size(); i++) {
+        bool found = false;
+        for (auto& carInfo: this->myRoads[carsRoadIdx[i]]->blockedCarsAtTraffic) {
+            if (carInfo.first == closestCar) {
+                //std::cout << "Hello?" << '\n';
+                found = true; break;
+            }
+        }
+        if (found) {continue;}
+
         if (cars[i].second > closest) {
             closestCar = cars[i].first;
             closest = cars[i].second;
             choosenIdx = i;
         }
     }
+    if (choosenIdx == 0) { //only the first car hasn't been checked
+        for (auto& carInfo: this->myRoads[carsRoadIdx[choosenIdx]]->blockedCarsAtTraffic) {
+            if (carInfo.first == closestCar) {
+                //need to block all road here guys
 
-    closestCar->SetColor(sf::Color::Green);
+                return; //all car has been stopped by traffic, no point
+            }
+        }
+    }
 
     //set the car as accepted
+    closestCar->SetColor(sf::Color::Green);
     this->currentAcceptedCar = closestCar;
     this->currentlyAcceptedRoad = choosenIdx;
 

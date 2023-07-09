@@ -563,9 +563,13 @@ void Road::CheckIntersectionBlockades() {
 
         //stop that car
         float lengthLeft = std::max((float) 0, acceptedCar.second - (firstCarBefore.second + CarInfo::carHalfLength + CarInfo::safetyIntersectionBlockadeRange));
-        if (lengthLeft <= CarInfo::safetyIntersectionBlockadeRange) {
-            if (lengthLeft <= 0.00001) { return; } //no devide by 0
+        if (lengthLeft <= 0.00001) { 
+            Car* myCar = firstCarBefore.first;
+            myCar->SetAcceleration((-myCar->velocity * myCar->velocity) / (2 * (0.00001)));
+            return;
+        }
 
+        if (lengthLeft <= CarInfo::safetyIntersectionBlockadeRange) { //why this?
             Car* myCar = firstCarBefore.first;
             myCar->SetAcceleration((-myCar->velocity * myCar->velocity) / (2 * (lengthLeft)));
         }
@@ -575,8 +579,8 @@ void Road::CheckIntersectionBlockades() {
 void Road::CheckTrafficLightBlockades() {   
     //allowed cars 
     while(this->allowedCarsAtTraffic.size() > 0) {
-        Car* myCar = this->allowedCarsAtTraffic.top().first;
-        this->allowedCarsAtTraffic.pop();
+        Car* myCar = this->allowedCarsAtTraffic.back().first;
+        this->allowedCarsAtTraffic.pop_back();
 
         //-> set maximum gas
         myCar->SetAcceleration(CarInfo::maxAccel);
@@ -584,11 +588,11 @@ void Road::CheckTrafficLightBlockades() {
 
     //disallowed cars
     while(this->blockedCarsAtTraffic.size() > 0) {
-        Car* myCar = this->blockedCarsAtTraffic.top().first;
-        float lengthLeft = this->blockedCarsAtTraffic.top().second;
-        this->blockedCarsAtTraffic.pop();
+        Car* myCar = this->blockedCarsAtTraffic.back().first;
+        float lengthLeft = this->blockedCarsAtTraffic.back().second;
+        this->blockedCarsAtTraffic.pop_back();
 
-        if (lengthLeft <= 0.01) { myCar->SetAcceleration(0); continue;; } //no devide by 0
+        if (lengthLeft <= 0.01) { myCar->SetAcceleration(0); myCar->SetVelocity(0); continue;; } //no devide by 0 -> im not taking any chance
 
         //-> set acceleration to decrease based on length left
         myCar->SetAcceleration((-myCar->velocity * myCar->velocity) / (2 * (lengthLeft)));
@@ -608,6 +612,7 @@ void Road::Update() {
     this->CheckIfInputJammed();
 
     //problematic
-    this->CheckTrafficLightBlockades();
+    
     this->CheckIntersectionBlockades();
+    this->CheckTrafficLightBlockades();
 }   

@@ -26,6 +26,14 @@ class Tilemap;
 class IntersectNode;
 class IntersectManager;
 
+//helper class
+/*class TrafficCarStopInfo {
+    public:
+        Car* myCar;
+        float lengthLeft;
+
+};*/
+
 class Node {
     public:
         std::pair<float, float> relativePos;
@@ -60,8 +68,8 @@ class Road {
         std::vector<int> lengthNodeTo;
 
         //traffic stuffs
-        std::stack<std::pair<Car*, float>> blockedCarsAtTraffic;
-        std::stack<std::pair<Car*, float>> allowedCarsAtTraffic;
+        std::vector<std::pair<Car*, float>> blockedCarsAtTraffic;
+        std::vector<std::pair<Car*, float>> allowedCarsAtTraffic;
 
         //jumbled bullshit
         sf::Vector2f getVectorBetweenTwoNodes(int startNodeIdx);
