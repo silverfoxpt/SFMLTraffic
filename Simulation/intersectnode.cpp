@@ -41,7 +41,7 @@ void IntersectNode::Update() {
     // Find all cars on all roads which are closest to the intersection
     std::vector<std::pair<Car*, float>> cars;
     for (int i = 0; i < (int) this->myRoads.size(); i++) {
-        auto compute = this->myRoads[i]->getFarthestCarBeforeDisplace(this->displacements[i]);
+        auto compute = this->myRoads[i]->getFarthestCarBeforeDisplace(this->displacements[i] - 2); //buffer zone
         if (compute.first != nullptr) {
             cars.push_back(compute);
         }

@@ -551,6 +551,7 @@ void Road::UpdateCarVelocity() {
     }
 }
 
+//this is stupid, wtf was I thinking?
 void Road::CheckIntersectionBlockades() {
     //loop through all stoppoint of intersections currently active
     for (auto it = this->roadBlockedInfo.begin(); it != this->roadBlockedInfo.end(); it++) {
