@@ -63,8 +63,6 @@ void IntersectNode::Update() {
         { 
             //this->currentAcceptedCar->SetAcceleration(CarInfo::maxAccel);
             return;
-        } else if (carIdx == -1) {
-            std::cout << "WTF? " << this->currentlyAcceptedRoad << " " << '\n';
         } 
 
         // Release blockade from all roads related to this node 
@@ -86,6 +84,7 @@ void IntersectNode::Update() {
 
     //filtered out all cars of which are NOT BLOCKED BY TRAFFIC LIGHTS
     std::vector<std::pair<Car*, float>> allowedThroughTrafficCars;
+    std::vector<int> newCarsRoadIdx;
     for (int i = 0; i < (int) cars.size(); i++) {
         bool found = false;
         for (auto& carInfo: this->myRoads[carsRoadIdx[i]]->blockedCarsAtTraffic) {
@@ -95,6 +94,7 @@ void IntersectNode::Update() {
         }
         if (!found) {
             allowedThroughTrafficCars.push_back(cars[i]);
+            newCarsRoadIdx.push_back(carsRoadIdx[i]);
         }
     }
 
@@ -110,6 +110,7 @@ void IntersectNode::Update() {
         return;
     }
     cars = allowedThroughTrafficCars;
+    carsRoadIdx = newCarsRoadIdx;
 
     // Get the car closest to this node -> THIS IS SCUFFED, NEED REVISE IN FUTURE
     Car* closestCar = cars[0].first;
