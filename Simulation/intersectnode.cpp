@@ -61,10 +61,11 @@ void IntersectNode::Update() {
             //car hasn't passed yet + buffer zone
             (road->getTotalCarDisplace(carIdx) - CarInfo::carHalfLength - 5 < this->displacements[this->currentlyAcceptedRoad])) 
         { 
-            this->currentAcceptedCar->SetColor(sf::Color::Yellow);
-            this->currentAcceptedCar->SetAcceleration(CarInfo::maxAccel);
+            //this->currentAcceptedCar->SetAcceleration(CarInfo::maxAccel);
             return;
-        }
+        } else if (carIdx == -1) {
+            std::cout << "WTF? " << this->currentlyAcceptedRoad << " " << '\n';
+        } 
 
         // Release blockade from all roads related to this node 
         for (int i = 0; i < (int) this->myRoads.size(); i++) {
