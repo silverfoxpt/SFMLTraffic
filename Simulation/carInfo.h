@@ -33,6 +33,8 @@ class CarInfo {
         static float safetyInputJammedRoad;
         static float safetyIntersectionBlockadeRange;
 
+        static float safetyBuffer;
+
         static float safetyUntilTrafficStop;
         static float safetySkipTrafficLight;
 };

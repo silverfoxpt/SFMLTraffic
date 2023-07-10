@@ -17,7 +17,6 @@ void TrafficMap::Update() {
 }
 
 void TrafficMap::Input(sf::Event event) {
-    bool found = false;
     if (this->intersectMap->intersectionStatus == 1) { //traffic node mode  
         int idx = 0;
         for (auto& shape: this->intersectMap->shapes) {
@@ -25,7 +24,6 @@ void TrafficMap::Input(sf::Event event) {
                 if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Right) {
                     this->showWindow = true;
                     this->intersectIdx = idx;
-                    found = true;
                 }
             }
             idx++;

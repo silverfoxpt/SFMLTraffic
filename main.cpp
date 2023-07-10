@@ -299,9 +299,7 @@ void MainUpdateAndTest() {
     intersectManager.Visualize(&window);
 
     trafficManager.Update();
-    intersectManager.Update();    
-
-    //std::cout << "Update" << '\n';
+    intersectManager.Update();
      
     UpdateTest();
 }
@@ -733,7 +731,6 @@ void RenderMainWindow(sf::Clock& deltaTime) {
 
 void RenderMapWindow(sf::Clock& deltaTime2) {
     //mapmaker
-    //std::cout << "check1" << '\n';
     ImGui::SFML::SetCurrentWindow(mapmaker);
     sf::Event event;
     while(mapmaker.pollEvent(event)) {
@@ -746,11 +743,10 @@ void RenderMapWindow(sf::Clock& deltaTime2) {
     ImGui::SFML::Update(mapmaker, deltaTime2.restart());
     mapmaker.clear(sf::Color(60, 60, 60, 255));
 
-    //std::cout << "check2" << '\n';
-    editor.Update(); //std::cout << "check3" << '\n';
-    editor.Visualize(event); //std::cout << "check4" << '\n'; --> This is the culprit
-    SFMLUpdate(); //std::cout << "check5" << '\n';
-    editor.LateUpdate(); //std::cout << "check6" << '\n';
+    editor.Update(); 
+    editor.Visualize(event);
+    SFMLUpdate(); 
+    editor.LateUpdate(); 
 
     ImGui::SFML::Render(mapmaker);
 }

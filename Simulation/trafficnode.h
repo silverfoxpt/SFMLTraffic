@@ -32,7 +32,6 @@ class TrafficNode {
         std::vector<Road*> myRoad; //taken from intersect node
         std::vector<int> roadToPhase;
         std::vector<bool> allowedToProceed;
-        std::vector<int> indexOfRoadInIntersectNode;
 
         void Initialize(Tile* parentTile, IntersectNode* parentIntersectNode, TileTrafficManager* parentTrafficManager);
         void Update();

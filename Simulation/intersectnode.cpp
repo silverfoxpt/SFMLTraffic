@@ -42,7 +42,7 @@ void IntersectNode::Update() {
     std::vector<std::pair<Car*, float>> cars;
     std::vector<int> carsRoadIdx;
     for (int i = 0; i < (int) this->myRoads.size(); i++) {
-        auto compute = this->myRoads[i]->getFarthestCarBeforeDisplace(this->displacements[i] - 2); //buffer zone
+        auto compute = this->myRoads[i]->getFarthestCarBeforeDisplace(this->displacements[i] - CarInfo::safetyBuffer); //buffer zone
         if (compute.first != nullptr) {
             cars.push_back(compute);
             carsRoadIdx.push_back(i); //vector holds idx of road of car(s)
@@ -59,7 +59,7 @@ void IntersectNode::Update() {
 
         if (carIdx != -1 && //car still on road
             //car hasn't passed yet + buffer zone
-            (road->getTotalCarDisplace(carIdx) - CarInfo::carHalfLength - 5 < this->displacements[this->currentlyAcceptedRoad])) 
+            (road->getTotalCarDisplace(carIdx) - CarInfo::carHalfLength - CarInfo::safetyBuffer < this->displacements[this->currentlyAcceptedRoad])) 
         { 
             //check if enough space for car to go -> yes then accelerate
             int dis = this->displacements[this->currentlyAcceptedRoad];
@@ -104,12 +104,9 @@ void IntersectNode::Update() {
 
     if (allowedThroughTrafficCars.size() <= 0) {
         //need to block all road with cars on them
-        int counter = 0;
-        for (auto closestCars: cars) {
+        for (size_t counter = 0; counter < cars.size(); counter++) {
             Road* blocky = this->myRoads[carsRoadIdx[counter]];
             blocky->roadBlockedInfo[this->UIUD] = std::pair<Car*, float>(nullptr, this->displacements[carsRoadIdx[counter]]);
-
-            counter++;
         }
         return;
     }
@@ -135,9 +132,9 @@ void IntersectNode::Update() {
 
     //block all other roads
     for (int i = 0; i < (int) this->myRoads.size(); i++) {
-        //if (i == currentlyAcceptedRoad) {continue;}
+        //if (i == currentlyAcceptedRoad) {continue;} // :)
 
         Road* blocky = this->myRoads[i];
-        blocky->roadBlockedInfo[this->UIUD] = std::pair<Car*, float>(closestCar, std::max(0, this->displacements[i] - 5));
+        blocky->roadBlockedInfo[this->UIUD] = std::pair<Car*, float>(closestCar, std::max((float) 0, this->displacements[i] - CarInfo::carHalfLength));
     }
 }

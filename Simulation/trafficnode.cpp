@@ -41,7 +41,7 @@ void TileTrafficManager::Initialize(Tile* parentTile, IntersectManager* intersec
 
     //initialize traffic node for each intersect node IN THIS TILE
     TileIntersectManager* tileIntersectManager = intersectManager->getIntersectManagerTile(row, col);
-    for (IntersectNode &node: tileIntersectManager->nodes) {
+    for (size_t i = 0; i < tileIntersectManager->nodes.size(); i++) {
         TrafficNode newTrafficNode;
         this->nodes.push_back(newTrafficNode);
     }
@@ -76,7 +76,6 @@ void TileTrafficManager::Update() {
         if (currentPhase >= (int) this->phaseTimes.size()) {currentPhase = 0;}
         this->currentTimer = 0;
     }
-    //std::cout << currentPhase << '\n';
 
     //update traffic light for each road here
     for (auto &trafficNode: this->nodes) {
@@ -93,17 +92,7 @@ void TrafficNode::Initialize(Tile* parentTile, IntersectNode* parentIntersectNod
     this->parentIntersectNode = parentIntersectNode;
     this->parentTrafficManager = parentTrafficManager;
 
-    //initialize index in intersect node
-    for (int i = 0; i < (int) this->myRoad.size(); i++) {
-        int idx = (std::find(this->parentIntersectNode->myRoads.begin(), this->parentIntersectNode->myRoads.end(), this->myRoad[i]) - this->parentIntersectNode->myRoads.begin());
-        if (idx < 0 || idx >= (int) this->parentIntersectNode->roadIdx.size()) {
-            std::cout << "Abort! Abort! Something drastically wrong happened!";
-            return;
-        }
-        this->indexOfRoadInIntersectNode.push_back(idx); //this doesn't matter anymore
-    }
-
-    //shut off the intersect node updates if this traffic node control smth
+    //optional: shut off the intersect node updates if this traffic node control smth
     if (this->myRoad.size() > 0) {
         //this->parentIntersectNode->detecting = false;
     }
@@ -120,7 +109,7 @@ void TrafficNode::Update() {
 
         //find the car farthest before the intersection - a safety length - half the car's length (cause im stupid)
         float stopPos = displacement - CarInfo::safetyUntilTrafficStop - CarInfo::carHalfLength;
-        auto farthest = road->getFarthestCarBeforeDisplace(stopPos + 3); //buffer
+        auto farthest = road->getFarthestCarBeforeDisplace(stopPos + CarInfo::safetyBuffer); //buffer
 
         //allow/disallow to continue based on if road is closed due to traffic light(s) or not
         if (farthest.first != nullptr) {
