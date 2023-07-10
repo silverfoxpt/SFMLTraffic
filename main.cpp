@@ -297,9 +297,11 @@ void MainUpdateAndTest() {
     tilemap.Update();
 
     intersectManager.Visualize(&window);
-    intersectManager.Update();
 
     trafficManager.Update();
+    intersectManager.Update();    
+
+    //std::cout << "Update" << '\n';
      
     UpdateTest();
 }
@@ -767,7 +769,7 @@ void MainFunc() {
     while (window.isOpen() && mapmaker.isOpen())
     {   
         RenderMainWindow(deltaTime);
-        RenderMapWindow(deltaTime2);
+        //RenderMapWindow(deltaTime2);
 
         mapmaker.display();
         window.display();

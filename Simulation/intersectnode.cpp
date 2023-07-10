@@ -54,10 +54,19 @@ void IntersectNode::Update() {
         auto road = this->myRoads[this->currentlyAcceptedRoad];
 
         //if that car is still passing by the intersection, do nothing and return
+        //BUT, if that car is blocked by traffic light, things need to be done
         int carIdx = road->findCarIdxOnRoad(this->currentAcceptedCar);
         if (carIdx != -1 && //car still on road
-                (road->getTotalCarDisplace(carIdx) - CarInfo::carHalfLength - 10 < this->displacements[this->currentlyAcceptedRoad])) { //car hasn't passed yet + buffer zone
-            return;
+            //car hasn't passed yet + buffer zone
+            (road->getTotalCarDisplace(carIdx) - CarInfo::carHalfLength < this->displacements[this->currentlyAcceptedRoad])) 
+        { 
+            bool found = false;
+            for (auto& carInfo: this->myRoads[this->currentlyAcceptedRoad]->blockedCarsAtTraffic) {
+                if (carInfo.first == this->currentAcceptedCar) {
+                    found = true; break;
+                }
+            }
+            if (!found) {return;} //if car still allowed on traffic light, THEN do nothing
         }
 
         // Release blockade from all roads related to this node 
@@ -97,15 +106,22 @@ void IntersectNode::Update() {
             choosenIdx = i;
         }
     }
-    if (choosenIdx == 0) { //only the first car hasn't been checked
+    /*if (choosenIdx == 0) { //only the first car hasn't been checked
         for (auto& carInfo: this->myRoads[carsRoadIdx[choosenIdx]]->blockedCarsAtTraffic) {
             if (carInfo.first == closestCar) {
-                //need to block all road here guys
+                //need to block all road with cars on them
+                int counter = 0;
+                for (auto closestCars: cars) {
+                    Road* blocky = this->myRoads[carsRoadIdx[counter]];
+                    blocky->roadBlockedInfo[this->UIUD] = std::pair<Car*, float>(closestCars.first, this->displacements[carsRoadIdx[counter]]);
+
+                    counter++;
+                }
 
                 return; //all car has been stopped by traffic, no point
             }
         }
-    }
+    }*/
 
     //set the car as accepted
     closestCar->SetColor(sf::Color::Green);
@@ -114,7 +130,7 @@ void IntersectNode::Update() {
 
     //block all other roads
     for (int i = 0; i < (int) this->myRoads.size(); i++) {
-        if (i == currentlyAcceptedRoad) {continue;}
+        //if (i == currentlyAcceptedRoad) {continue;}
 
         Road* blocky = this->myRoads[i];
         blocky->roadBlockedInfo[this->UIUD] = std::pair<Car*, float>(closestCar, this->displacements[i]);
