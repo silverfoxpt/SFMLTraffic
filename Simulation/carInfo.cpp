@@ -11,6 +11,7 @@ float CarInfo::safetyInputJammedRoad = 17;
 float CarInfo::safetyIntersectionBlockadeRange = 10;
 
 float CarInfo::safetyUntilTrafficStop = 0;
+float CarInfo::safetySkipTrafficLight = 20;
 
 float CarInfo::accelExponent = 4;
 float CarInfo::reactionTime = 1.5; //seconds;

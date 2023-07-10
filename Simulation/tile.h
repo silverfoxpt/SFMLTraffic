@@ -79,6 +79,7 @@ class Road {
         float getTotalCarDisplace(int carIdx);
         float getLengthBetweenTwoNodes(int startNodeIdx);
         float getLengthFromStartToNode(int endNodeIdx);
+        bool checkCarExistInRange(float start, float end);
 
         void addInputRoad(Road* road);
         void addOutputRoad(Road* road);

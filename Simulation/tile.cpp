@@ -375,6 +375,19 @@ int Road::findCarIdxOnRoad(Car* carToFind) {
     return -1;
 }
 
+bool Road::checkCarExistInRange(float start, float end) {
+    if (start >= end) {
+        return false;
+    }
+
+    for (auto car: this->currentCars) {
+        if (car->currentDisplacement >= start && car->currentDisplacement <= end) {
+            return true;
+        }
+    }
+    return false;
+}
+
 float Road::getLengthBetweenTwoNodes(int startNodeIdx) {
     sf::Vector2f vec = this->getVectorBetweenTwoNodes(startNodeIdx);
     return Math::Length(vec);

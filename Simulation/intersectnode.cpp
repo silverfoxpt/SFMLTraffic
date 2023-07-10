@@ -61,7 +61,11 @@ void IntersectNode::Update() {
             //car hasn't passed yet + buffer zone
             (road->getTotalCarDisplace(carIdx) - CarInfo::carHalfLength - 5 < this->displacements[this->currentlyAcceptedRoad])) 
         { 
-            //this->currentAcceptedCar->SetAcceleration(CarInfo::maxAccel);
+            //check if enough space for car to go -> yes then accelerate
+            int dis = this->displacements[this->currentlyAcceptedRoad];
+            if (!road->checkCarExistInRange(dis, dis + CarInfo::safetySkipTrafficLight)) {
+                this->currentAcceptedCar->SetAcceleration(CarInfo::maxAccel);
+            }
             return;
         } 
 

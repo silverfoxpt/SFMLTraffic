@@ -34,6 +34,7 @@ class CarInfo {
         static float safetyIntersectionBlockadeRange;
 
         static float safetyUntilTrafficStop;
+        static float safetySkipTrafficLight;
 };
 
 #endif
