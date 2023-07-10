@@ -76,6 +76,7 @@ void TileTrafficManager::Update() {
         if (currentPhase >= (int) this->phaseTimes.size()) {currentPhase = 0;}
         this->currentTimer = 0;
     }
+    //std::cout << currentPhase << '\n';
 
     //update traffic light for each road here
     for (auto &trafficNode: this->nodes) {
@@ -119,7 +120,7 @@ void TrafficNode::Update() {
 
         //find the car farthest before the intersection - a safety length - half the car's length (cause im stupid)
         float stopPos = displacement - CarInfo::safetyUntilTrafficStop - CarInfo::carHalfLength;
-        auto farthest = road->getFarthestCarBeforeDisplace(stopPos + 10); //buffer
+        auto farthest = road->getFarthestCarBeforeDisplace(stopPos + 3); //buffer
 
         //allow/disallow to continue based on if road is closed due to traffic light(s) or not
         if (farthest.first != nullptr) {

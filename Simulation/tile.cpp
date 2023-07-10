@@ -345,7 +345,7 @@ sf::Vector2f Road::getNodePos(int nodeIdx) {
 }
 
 float Road::getTotalCarDisplace(int carIdx) {
-    if (carIdx < 0 || carIdx > (int) this->currentCars.size()) {std::cerr << "Car not found!\n"; return -1;}
+    if (carIdx < 0 || carIdx >= (int) this->currentCars.size()) {std::cout << "Car not found!\n"; return -1;}
 
     return this->getLengthFromStartToNode(this->carOnNode[carIdx]) + this->currentCars[carIdx]->currentDisplacement;
 }
