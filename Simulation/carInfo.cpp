@@ -11,7 +11,7 @@ float CarInfo::safetyInputJammedRoad = 17;
 float CarInfo::safetyIntersectionBlockadeRange = 10;
 
 float CarInfo::safetyUntilTrafficStop = 0;
-float CarInfo::safetySkipTrafficLight = 20;
+float CarInfo::safetySkipTrafficLight = 25;
 float CarInfo::safetyBuffer = 3;
 
 float CarInfo::accelExponent = 4;
@@ -19,6 +19,8 @@ float CarInfo::reactionTime = 1.5; //seconds;
 
 float CarInfo::maxAccel = 1.44; //m^2/sec
 float CarInfo::comfortDecel = 4.61; //m^2/sec
+
+float CarInfo::halfAccel = 0.77; //m^2/sec
 
 //need HEAVY REVISION later
 //UPDATE: VERY, VERY HEAVY REVISION

@@ -20,8 +20,8 @@ Tilemap::Tilemap(int rows, int cols, int xPos, int yPos, int tileWidth, int tile
         }
     }
     //custom tileId
-    this->tileIds[0][0] = 4;
-    this->tileIds[0][1] = 5;
+    //this->tileIds[0][0] = 4;
+    //this->tileIds[0][1] = 5;
 
     this->ClearAndReset(interManager);
 }

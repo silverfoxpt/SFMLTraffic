@@ -25,6 +25,7 @@ class CarInfo {
 
         static float maxAccel;
         static float comfortDecel;
+        static float halfAccel;
 
         static float slowDownFactor;
         static float lockSlowdownLength;

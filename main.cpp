@@ -779,8 +779,8 @@ void MainFunc() {
         RenderMainWindow(deltaTime);
         if (openMapEditor) {
             mapmaker.setVisible(true);
+            RenderMapWindow(deltaTime2);
         } 
-        RenderMapWindow(deltaTime2);
 
         mapmaker.display();
         window.display();

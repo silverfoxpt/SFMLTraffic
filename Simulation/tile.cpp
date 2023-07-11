@@ -375,12 +375,15 @@ int Road::findCarIdxOnRoad(Car* carToFind) {
     return -1;
 }
 
-bool Road::checkCarExistInRange(float start, float end) {
+bool Road::checkCarExistInRange(float start, float end, Car* withoutCar) {
     if (start >= end) {
         return false;
     }
 
     for (auto car: this->currentCars) {
+        if (car == withoutCar) {
+            continue;
+        }
         if (car->currentDisplacement >= start && car->currentDisplacement <= end) {
             return true;
         }
@@ -574,7 +577,10 @@ void Road::CheckIntersectionBlockades() {
         
         auto firstCarBefore = this->getFarthestCarBeforeDisplace(acceptedCar.second);
         if (firstCarBefore.first == nullptr) { return; } // the road is empty
-        if (firstCarBefore.first == acceptedCar.first) { continue; }
+        if (firstCarBefore.first == acceptedCar.first) { //full speed ahead then
+            acceptedCar.first->SetAcceleration(CarInfo::maxAccel);
+            continue;
+        }
 
         //stop that car
         float lengthLeft = std::max((float) 0, acceptedCar.second - (firstCarBefore.second + CarInfo::carHalfLength + CarInfo::safetyIntersectionBlockadeRange));

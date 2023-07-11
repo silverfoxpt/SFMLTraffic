@@ -58,16 +58,18 @@ void IntersectNode::Update() {
         int carIdx = road->findCarIdxOnRoad(this->currentAcceptedCar);
 
         if (carIdx != -1 && //car still on road
-            //car hasn't passed yet + buffer zone
-            (road->getTotalCarDisplace(carIdx) - CarInfo::carHalfLength - CarInfo::safetyBuffer < this->displacements[this->currentlyAcceptedRoad])) 
+            //car hasn't passed yet + buffer zone (BUFFER ZONE VERY IMPORTANT)
+            (road->getTotalCarDisplace(carIdx) - CarInfo::carHalfLength - CarInfo::safetyIntersectionBlockadeRange
+                < this->displacements[this->currentlyAcceptedRoad])) 
         { 
             //check if enough space for car to go -> yes then accelerate
             int dis = this->displacements[this->currentlyAcceptedRoad];
-            if (!road->checkCarExistInRange(dis, dis + CarInfo::safetySkipTrafficLight)) {
+            if (!road->checkCarExistInRange(dis, dis + CarInfo::safetySkipTrafficLight, this->currentAcceptedCar)) {
                 this->currentAcceptedCar->SetAcceleration(CarInfo::maxAccel);
+                //this->currentAcceptedCar->SetColor(sf::Color::Cyan);
             }
             return;
-        } 
+        }  
 
         // Release blockade from all roads related to this node 
         for (int i = 0; i < (int) this->myRoads.size(); i++) {
@@ -126,7 +128,7 @@ void IntersectNode::Update() {
     }
 
     //set the car as accepted
-    closestCar->SetColor(sf::Color::Green);
+    //closestCar->SetColor(sf::Color::Green);
     this->currentAcceptedCar = closestCar;
     this->currentlyAcceptedRoad = carsRoadIdx[choosenIdx];
 
