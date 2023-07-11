@@ -23,6 +23,8 @@ class GameManager {
 
         static float deltaTime;
         static int tileSize;
+
+        static int totalNumOfCar;
 };
 
 #endif

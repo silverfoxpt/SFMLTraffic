@@ -45,6 +45,7 @@ float GameManager::windowWidth = window.getSize().x;
 float GameManager::windowHeight = window.getSize().y;
 float GameManager::deltaTime = 1/300.0;
 int GameManager::tileSize = 100;
+int GameManager::totalNumOfCar = 30;
 int SETFPS = 300;
 bool openMapEditor = false;
 
