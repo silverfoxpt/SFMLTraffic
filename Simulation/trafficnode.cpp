@@ -1,12 +1,12 @@
 #include "trafficnode.h"
 
-void TrafficManager::Initialize(Tilemap* tilemap, IntersectManager* intersectManager) {
+void TrafficManager::Initialize(Tilemap* tilemap, IntersectManager* intersectManager, sf::RenderWindow* window) {
     for (int i = 0 ; i < (int) tilemap->rows; i++) {
         std::vector<TileTrafficManager> row; this->managers.push_back(row);
 
         for (int j = 0; j < (int) tilemap->cols; j++) {
             TileTrafficManager newManager;
-            newManager.Initialize(tilemap->GetTile(i, j), intersectManager, tilemap->tileIds[i][j], i, j);
+            newManager.Initialize(tilemap->GetTile(i, j), intersectManager, tilemap->tileIds[i][j], i, j, window);
             this->managers[i].push_back(newManager);
         }
     }
@@ -29,7 +29,7 @@ void TrafficManager::HardReset() {
 }
 
 
-void TileTrafficManager::Initialize(Tile* parentTile, IntersectManager* intersectManager, int tileId, int row, int col) {
+void TileTrafficManager::Initialize(Tile* parentTile, IntersectManager* intersectManager, int tileId, int row, int col, sf::RenderWindow* window) {
     this->parentTile = parentTile;
 
     this->currentPhase = 0;
@@ -61,7 +61,7 @@ void TileTrafficManager::Initialize(Tile* parentTile, IntersectManager* intersec
     //finally, now initialize the traffic nodes
     int counter = 0;
     for (auto& trafficNode: this->nodes) {
-        trafficNode.Initialize(parentTile, intersectManager->getIntersectNode(row, col, counter), this); //same idx for intersectNode and TrafficNode
+        trafficNode.Initialize(parentTile, intersectManager->getIntersectNode(row, col, counter), this, window); //same idx for intersectNode and TrafficNode
         counter++;
     }
 }
@@ -87,10 +87,11 @@ void TileTrafficManager::Update() {
 }
 
 
-void TrafficNode::Initialize(Tile* parentTile, IntersectNode* parentIntersectNode, TileTrafficManager* parentTrafficManager) {
+void TrafficNode::Initialize(Tile* parentTile, IntersectNode* parentIntersectNode, TileTrafficManager* parentTrafficManager, sf::RenderWindow* window) {
     this->parentTile = parentTile;
     this->parentIntersectNode = parentIntersectNode;
     this->parentTrafficManager = parentTrafficManager;
+    this->myWindow = window;
 
     //optional: shut off the intersect node updates if this traffic node control smth
     if (this->myRoad.size() > 0) {
@@ -124,4 +125,8 @@ void TrafficNode::Update() {
         }
         counter++;
     }
+}
+
+void TrafficNode::Visualize() {
+    
 }

@@ -279,7 +279,7 @@ void MainInitialize() {
     intersectManager.Initialize(tilemap.rows, tilemap.cols);
     tilemap.SetUpAllTileIntersections(); //important that this is here
     intersectManager.InitializeNodes();
-    trafficManager.Initialize(&tilemap, &intersectManager);
+    trafficManager.Initialize(&tilemap, &intersectManager, &window);
 
     //other stuff that I don't care
     editorIntersectMap.Initialize(&editor);
@@ -641,7 +641,7 @@ void MainSFMLAction() {
         intersectManager.Initialize(tilemap.rows, tilemap.cols); 
         tilemap.SetUpAllTileIntersections(); //important that this is here
         intersectManager.InitializeNodes(); //also important that this is here
-        trafficManager.Initialize(&tilemap, &intersectManager);
+        trafficManager.Initialize(&tilemap, &intersectManager, &window);
         InitializeTest();
     }
 

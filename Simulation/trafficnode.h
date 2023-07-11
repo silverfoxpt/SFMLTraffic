@@ -28,13 +28,15 @@ class TrafficNode {
         Tile* parentTile;
         IntersectNode* parentIntersectNode;
         TileTrafficManager* parentTrafficManager;
+        sf::RenderWindow* myWindow;
 
         std::vector<Road*> myRoad; //taken from intersect node
         std::vector<int> roadToPhase;
         std::vector<bool> allowedToProceed;
 
-        void Initialize(Tile* parentTile, IntersectNode* parentIntersectNode, TileTrafficManager* parentTrafficManager);
+        void Initialize(Tile* parentTile, IntersectNode* parentIntersectNode, TileTrafficManager* parentTrafficManager, sf::RenderWindow* window);
         void Update();
+        void Visualize();
 };
 
 class TileTrafficManager {
@@ -47,7 +49,7 @@ class TileTrafficManager {
         //need to be updated somewhere
         Tile* parentTile;
 
-        void Initialize(Tile* parentTile, IntersectManager* intersectManager, int tileId, int row, int col);
+        void Initialize(Tile* parentTile, IntersectManager* intersectManager, int tileId, int row, int col, sf::RenderWindow* window);
 
         void Update();
 };
@@ -57,7 +59,7 @@ class TrafficManager {
         sf::Clock mainClock;
         std::vector<std::vector<TileTrafficManager>> managers;
 
-        void Initialize(Tilemap* tilemap, IntersectManager* intersectManager);
+        void Initialize(Tilemap* tilemap, IntersectManager* intersectManager, sf::RenderWindow* window);
 
         void Update();
         void HardReset();
