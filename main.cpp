@@ -46,6 +46,7 @@ float GameManager::windowHeight = window.getSize().y;
 float GameManager::deltaTime = 1/300.0;
 int GameManager::tileSize = 100;
 int SETFPS = 300;
+bool openMapEditor = false;
 
 Tilemap             tilemap;
 IntersectManager    intersectManager;
@@ -264,6 +265,8 @@ void UpdateTest() {
 }
 
 void MainInitialize() {
+    mapmaker.setVisible(false);
+
     //load file from json
     InitializeTileFromJson();
 
@@ -665,6 +668,11 @@ void MainSFMLAction() {
         ImGui::Text("WARNING: This will remove all tile from road.json file. Proceed with caution.");
         ImGui::EndTooltip();
     }
+
+    //open map editor
+    if (ImGui::Button("Open map editor")) {
+        openMapEditor = true;
+    }
     ImGui::End();
 }
 
@@ -737,8 +745,12 @@ void RenderMapWindow(sf::Clock& deltaTime2) {
         ImGui::SFML::ProcessEvent(mapmaker, event);
         editor.Input(event);
 
-        if (event.type == sf::Event::Closed)
-            mapmaker.close();
+        if (event.type == sf::Event::Closed) {
+            mapmaker.setVisible(false);
+            openMapEditor = false;
+            //mapmaker.close();
+        }
+            
     }
     ImGui::SFML::Update(mapmaker, deltaTime2.restart());
     mapmaker.clear(sf::Color(60, 60, 60, 255));
@@ -762,10 +774,13 @@ void MainFunc() {
 
     sf::Clock deltaTime;
     sf::Clock deltaTime2;
-    while (window.isOpen() && mapmaker.isOpen())
+    while (window.isOpen())
     {   
         RenderMainWindow(deltaTime);
-        //RenderMapWindow(deltaTime2);
+        if (openMapEditor) {
+            mapmaker.setVisible(true);
+        } 
+        RenderMapWindow(deltaTime2);
 
         mapmaker.display();
         window.display();

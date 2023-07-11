@@ -78,7 +78,7 @@ std::map<int, std::vector<Road>> TileInfo::roadInTileMap = {
 
 //reclassified
 std::map<int, std::vector<RoadInterInfo>> TileInfo::roadInterConnection = {
-    {
+    /*{
         0, 
         {
             RoadInterInfo(
@@ -165,12 +165,12 @@ std::map<int, std::vector<RoadInterInfo>> TileInfo::roadInterConnection = {
                 5
             )
         }
-    }
+    }*/
 };
 
 //newly classified
 std::map<int, std::vector<std::pair<int, int>>> TileInfo::roadIntraConnection = {
-    {
+    /*{
         0,
         {
 
@@ -203,7 +203,7 @@ std::map<int, std::vector<std::pair<int, int>>> TileInfo::roadIntraConnection = 
             std::pair<int, int>(1, 4),
             std::pair<int, int>(2, 5),
         }
-    }
+    }*/
 };
 
 std::map<int, std::vector<IntersectNode>> TileInfo::intersections = {
