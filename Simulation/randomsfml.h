@@ -45,6 +45,11 @@ class Rand {
             }
             return res;
         }
+
+        template <class element>
+        void shuffle_list(std::vector<element>& list) {
+            std::shuffle(list.begin(), list.end(), this->rng);
+        }
 };
 
 class Randomize {

@@ -46,19 +46,12 @@ void Spawner::Update() {
 
     //shuffle da list
     int left = GameManager::totalNumOfCar - this->currentNumOfCar;
+    Randomize::rand.shuffle_list(unoccupiedRoads);
 
-    //find unused car --> unfinished
-    Car* newCar = nullptr; //default 
-    for (int i = 0; i < GameManager::totalNumOfCar; i++) {
-        if (!carActive[i]) {
-            carActive[i] = true;
-            newCar = this->getCar(i);
-
-            this->currentNumOfCar++;
-        }
+    //not done
+    for (int i = 0; i < std::max(left, (int) unoccupiedRoads.size()); i++) {
+        
     }
-    
-    road->acceptCar(this->getCar(this->cars.size() - 1));
 }
 
 void Spawner::HardReset() {
