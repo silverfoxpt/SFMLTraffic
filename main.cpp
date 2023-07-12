@@ -37,18 +37,21 @@ Rand Randomize::rand;
 //std::vector<IntersectNode> IntersectManager::intersections;
 
 //public variables
-sf::RenderWindow    window(sf::VideoMode(1200, 1200), "Traffic Simulation 2D");
-sf::RenderWindow    mapmaker(sf::VideoMode(1350, 1050), "Map 2D");
+sf::RenderWindow    window(sf::VideoMode(800, 800), "Traffic Simulation 2D");
+sf::RenderWindow    mapmaker(sf::VideoMode(900, 700), "Map 2D");
 
 //initialize some static vars
-sf::RenderWindow* GameManager::rend = &window;
-float GameManager::windowWidth = window.getSize().x;
-float GameManager::windowHeight = window.getSize().y;
-float GameManager::deltaTime = 1/300.0;
-int GameManager::tileSize = 100;
-int GameManager::totalNumOfCar = 30;
-int SETFPS = 300;
-bool openMapEditor = false;
+sf::RenderWindow* GameManager::rend         = &window;
+float GameManager::windowWidth              = window.getSize().x;
+float GameManager::windowHeight             = window.getSize().y;
+float GameManager::deltaTime                = 1/300.0;
+int GameManager::tileSize                   = 100;
+int GameManager::totalNumOfCar              = 30;
+sf::Vector2u GameManager::mainWindowSize    = sf::Vector2u(800, 800);
+sf::Vector2u GameManager::mapWindowSize     = sf::Vector2u(900, 700);
+
+int SETFPS                                  = 300;
+bool openMapEditor                          = false;
 
 Tilemap             tilemap;
 IntersectManager    intersectManager;
@@ -64,11 +67,10 @@ Drawmap             editorDrawmap(&mapmaker);
 Map                 editor(&mapmaker);
     
 //test variables
-std::vector<Car>    cars;
+/*std::vector<Car>    cars;
 int                 c = 0;
 sf::Clock           testClock;
-
-sf::Texture         carTex;
+sf::Texture         carTex;*/
 
 void InitializeTileFromJson() {
     //load the file up
@@ -252,6 +254,10 @@ void UpdateTest() {
 }*/
 
 void MainInitialize() {
+    //initialize resolution
+    window.setPosition(sf::Vector2i(50, 50));
+    GameManager::InitializeWindowWithResolution(&window, &mapmaker);
+
     mapmaker.setVisible(false);
 
     //load file from json
@@ -276,9 +282,6 @@ void MainInitialize() {
     editorInterconnectMap.Initialize(&editor);
     editorTrafficMap.Initialize(&editor, &editorIntersectMap);
     editor.Initialize(&editorDrawmap, &editorDrawBezier, &editorIntersectMap, &editorIntraconnectMap, &editorInterconnectMap, &editorTrafficMap);
-
-    window.setPosition(sf::Vector2i(50, 50));
-    mapmaker.setPosition(sf::Vector2i(870, 50));
 
     //InitializeTest();
 }

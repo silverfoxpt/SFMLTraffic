@@ -18,13 +18,19 @@ class GameManager {
         static float windowWidth;
         static float windowHeight;
 
-        static sf::Vector2f convertWorldToScreen(sf::Vector2f world);
-        static sf::Vector2f convertScreenToWorld(sf::Vector2f screen);
-
         static float deltaTime;
         static int tileSize;
 
         static int totalNumOfCar;
+
+        static sf::Vector2u mainWindowSize;
+        static sf::Vector2u mapWindowSize;
+        static sf::Vector2u originalResolution;
+
+        static sf::Vector2f convertWorldToScreen(sf::Vector2f world);
+        static sf::Vector2f convertScreenToWorld(sf::Vector2f screen);
+
+        static void InitializeWindowWithResolution(sf::RenderWindow* mainWindow, sf::RenderWindow* mapWindow);
 };
 
 #endif
