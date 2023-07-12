@@ -26,12 +26,14 @@ class Spawner {
 
         //from other
         Tilemap* tilemap;
+        sf::RenderWindow* window;
 
         Spawner();
 
-        void Initialize(Tilemap* tilemap);
+        void Initialize(Tilemap* tilemap, sf::RenderWindow* window);
         void Update();
         void HardReset();
+        void Visualize();
 
         Car* getCar(int idx);
 

@@ -19,6 +19,7 @@
 #include "Simulation/randomsfml.h"
 #include "Simulation/intersectnode.h"
 #include "Simulation/trafficnode.h"
+#include "Simulation/spawner.h"
 
 #include "IMGui Stuffs/imgui.h"
 #include "IMGui Stuffs/imgui-SFML.h"
@@ -36,8 +37,8 @@ Rand Randomize::rand;
 //std::vector<IntersectNode> IntersectManager::intersections;
 
 //public variables
-sf::RenderWindow    window(sf::VideoMode(800, 800), "Traffic Simulation 2D");
-sf::RenderWindow    mapmaker(sf::VideoMode(900, 700), "Map 2D");
+sf::RenderWindow    window(sf::VideoMode(1200, 1200), "Traffic Simulation 2D");
+sf::RenderWindow    mapmaker(sf::VideoMode(1350, 1050), "Map 2D");
 
 //initialize some static vars
 sf::RenderWindow* GameManager::rend = &window;
@@ -52,6 +53,7 @@ bool openMapEditor = false;
 Tilemap             tilemap;
 IntersectManager    intersectManager;
 TrafficManager      trafficManager;
+Spawner             spawner;
 
 TrafficMap          editorTrafficMap(&mapmaker);
 MapInterConnect     editorInterconnectMap(&mapmaker);
@@ -208,6 +210,7 @@ void InitializeTileFromJson() {
     }
 }
 
+/*
 void InitializeTest() {
     //Threading::WaitThread(2);
 
@@ -232,23 +235,6 @@ void UpdateTest() {
         window.draw(car.user);
 
         if (testClock.getElapsedTime().asSeconds() >= 0.2 && c == counter) {
-            //put cars into two road One By One
-            /*if (c % 2 == 0 && !tile->roads[0].inputJammed) {
-                tile->roads[0].acceptCar(&car);
-                testClock.restart();
-                c++;
-            } else if (c % 2 == 1 && !tile->roads[1].inputJammed) {
-                tile->roads[1].acceptCar(&car);
-                testClock.restart();
-                c++;
-            }*/
-
-            //put cars into one road
-            /*if (!tile->roads[0].inputJammed) {
-                tile->roads[0].acceptCar(&car);
-                testClock.restart();
-                c++;
-            }*/
 
             //put cars into two road SIMULTANEOUSLY
             if (c % 2 == 0 && !tile->roads[0].inputJammed) {
@@ -263,7 +249,7 @@ void UpdateTest() {
         }
         counter++;
     }
-}
+}*/
 
 void MainInitialize() {
     mapmaker.setVisible(false);
@@ -280,6 +266,7 @@ void MainInitialize() {
     tilemap.SetUpAllTileIntersections(); //important that this is here
     intersectManager.InitializeNodes();
     trafficManager.Initialize(&tilemap, &intersectManager, &window);
+    spawner.Initialize(&tilemap, &window);
 
     //other stuff that I don't care
     editorIntersectMap.Initialize(&editor);
@@ -293,7 +280,7 @@ void MainInitialize() {
     window.setPosition(sf::Vector2i(50, 50));
     mapmaker.setPosition(sf::Vector2i(870, 50));
 
-    InitializeTest();
+    //InitializeTest();
 }
 
 void MainUpdateAndTest() {
@@ -304,8 +291,9 @@ void MainUpdateAndTest() {
 
     trafficManager.Update();
     intersectManager.Update();
+    spawner.Update();
      
-    UpdateTest();
+    //UpdateTest();
 }
 
 void SFMLRoad() {
@@ -635,6 +623,7 @@ void MainSFMLAction() {
         intersectManager.HardReset();
         trafficManager.HardReset();
         tilemap.ClearAndReset(&intersectManager);
+        spawner.HardReset();
 
         //initialize intersect manager
         //code flow: TileIntersectManager(s) created -> tilemap insert IntersectNode(s) into TileIntersectManager(s) -> ONLY THEN TileIntersectManager(s) initialize IntersectNode(s)
@@ -642,7 +631,8 @@ void MainSFMLAction() {
         tilemap.SetUpAllTileIntersections(); //important that this is here
         intersectManager.InitializeNodes(); //also important that this is here
         trafficManager.Initialize(&tilemap, &intersectManager, &window);
-        InitializeTest();
+        spawner.Initialize(&tilemap, &window);
+        //InitializeTest();
     }
 
     if (ImGui::IsItemHovered()) {

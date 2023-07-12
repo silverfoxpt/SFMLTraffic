@@ -66,7 +66,7 @@ void IntersectNode::Update() {
             int dis = this->displacements[this->currentlyAcceptedRoad];
             if (!road->checkCarExistInRange(dis, dis + CarInfo::safetySkipTrafficLight, this->currentAcceptedCar)) {
                 this->currentAcceptedCar->SetAcceleration(CarInfo::maxAccel);
-                //this->currentAcceptedCar->SetColor(sf::Color::Cyan);
+                this->currentAcceptedCar->SetColor(sf::Color::Cyan);
             }
             return;
         }  
