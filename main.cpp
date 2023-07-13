@@ -604,14 +604,17 @@ void SFMLUpdate() {
 }
 
 void InitTest() {
-    json j;
-    j["name"] = "Hung";
-    j["mapPos"] = {0.1, 0.2};
-    std::string jdump = j.dump();
-    std::cout << jdump << '\n';
+    sf::Vector2f a1(50.0, 316.0), a2(450, 318);
+    sf::Vector2f b1(50.0, 316.0), b2(106.173, 304.864);
 
-    float x = j["mapPos"][0], y = j["mapPos"][1];
-    std::cout << x << " " << y << '\n';
+    auto i = Math::Intersect(a1, a2, b1, b2, true);
+    std::cout << "Intersect: " << i.x << " " << i.y << '\n';
+
+    a1 = sf::Vector2f(50, 316); a2 = sf::Vector2f(106.173, 304.864);
+    b1 = sf::Vector2f(50, 316); b2 = sf::Vector2f(79.6296, 322.938);
+
+    i = Math::Intersect(a1, a2, b1, b2, true);
+    std::cout << "Intersect: " << i.x << " " << i.y << '\n';
 }
 
 void MainSFMLAction() {

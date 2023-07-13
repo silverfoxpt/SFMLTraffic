@@ -403,6 +403,14 @@ void Map::RecalculateIntersections() {
                         };
                         newInter.push_back(newIntersection);
                     }
+
+                    //test
+                    /*if (k == 0 && q == 0) {
+                        if (intersection == nullRoad) {
+                            std::cout << "p1 = " << a1.mapPos.x << " " << a1.mapPos.y << " ; p2 = " << a2.mapPos.x << " " << a2.mapPos.y << '\n';
+                            std::cout << "p3 = " << b1.mapPos.x << " " << b1.mapPos.y << " ; p4 = " << b2.mapPos.x << " " << b2.mapPos.y << " end" << '\n';
+                        }
+                    }*/
                 }
             }
         }
