@@ -371,7 +371,7 @@ int Road::findCarIdxOnRoad(Car* carToFind) {
         return iter - this->currentCars.begin();
     }
     
-    std::cout << "Car not found!" << '\n';
+    //std::cout << "Car not found!" << '\n';
     return -1;
 }
 
