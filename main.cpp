@@ -46,7 +46,7 @@ float GameManager::windowWidth              = window.getSize().x;
 float GameManager::windowHeight             = window.getSize().y;
 float GameManager::deltaTime                = 1/300.0;
 int GameManager::tileSize                   = 100;
-int GameManager::totalNumOfCar              = 30;
+int GameManager::totalNumOfCar              = 300;
 sf::Vector2u GameManager::mainWindowSize    = sf::Vector2u(800, 800);
 sf::Vector2u GameManager::mapWindowSize     = sf::Vector2u(900, 700);
 
