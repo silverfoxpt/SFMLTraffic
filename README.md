@@ -5,6 +5,7 @@
 SFMLTraffic is a 2D Microscopic Traffic Simulator that utilizes the Intelligent Driver Model (IDM) and is implemented using the C++ SFML library, along with the ImGui library for the User Interface (UI).
 
 Wiki: [https://en.wikipedia.org/wiki/Intelligent_driver_model](https://en.wikipedia.org/wiki/Intelligent_driver_model)
+
 Reference research: [https://journals.aps.org/pre/abstract/10.1103/PhysRevE.62.1805](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.62.1805)
 
 ## Installation
@@ -50,7 +51,7 @@ To run the simulator, download and execute the `main.exe` file.
                 -   `Connect`: Adds the specified connection.
     -   `Connection Status` window: Displays all intra-connections and inter-connections.
            -   `Intra-connection`: Left-click to merge the end of the first road with the start of the second road, right-click to delete.
-            -   `Inter-connection`: Left-click to merge the start/end of a road with the defined port.
+           -   `Inter-connection`: Left-click to merge the start/end of a road with the defined port.
     -   `Road status` window: Shows all created roads.
     -   `Action` window:
 		   -   `Save tile to map` : Saves the currently created tile to the JSON file.
