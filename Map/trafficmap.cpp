@@ -1,7 +1,7 @@
 #include "trafficmap.h"
 
-#include "../IMGui Stuffs/imgui.h"
-#include "../IMGui Stuffs/imgui-SFML.h"
+#include "../IMGUI/imgui.h"
+#include "../IMGUI/imgui-SFML.h"
 
 TrafficMap::TrafficMap(sf::RenderWindow* rend) {
     this->myRend = rend;

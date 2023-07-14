@@ -21,8 +21,8 @@
 #include "Simulation/trafficnode.h"
 #include "Simulation/spawner.h"
 
-#include "IMGui Stuffs/imgui.h"
-#include "IMGui Stuffs/imgui-SFML.h"
+#include "IMGUI/imgui.h"
+#include "IMGUI/imgui-SFML.h"
 
 #include "drawshapes.h"
 #include "threading.h"
